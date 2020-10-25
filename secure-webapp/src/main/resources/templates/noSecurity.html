@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Index page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css">
+</head>
+
+<body>
+<div class="container">
+    <h2 class="text-info text-center">Springboot Thymeleaf example</h2>
+    <hr/>
+    <div id="welcome">
+        <p><a class="text-primary" href="/welcome">noSecurity endpoint</a></p>
+        <tr th:each="student: ${user}">
+            <td th:text="${student.user_id}"/>
+            <td th:text="${student.username}"/>
+        </tr>
+        <td th:text="${currUser}"/>
+    </div>
+</div>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+
+</html>

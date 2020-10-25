@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Einkausliste</title>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="main">
+
+    <div class="grid">
+        <div class="taskInputContainer" align="center">
+
+<!--            <p th:utext="${testStr}">value</p>-->
+
+            <form action="#" id="itemFormContainer" method="post" th:action="@{/minutes}"
+                  th:object="${inputTask}" th:placeholder="Titel">
+
+                <input th:field="*{taskTitle}"
+                       th:placeholder="Titel" type="text"/><br/>
+
+                <textarea th:field="*{description}"
+                       th:placeholder="Beschreibung" type="text"/><br/>
+
+                <button id="itemSubmin" type="submit">neue Aufgabe hinzufügen</button>
+
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>
