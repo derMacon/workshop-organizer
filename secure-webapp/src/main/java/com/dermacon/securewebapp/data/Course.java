@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Course {
@@ -21,15 +20,19 @@ public class Course {
     private Person host;
 
     private String courseName;
+    private String courseSummary;
     private String courseDescription;
+    private int participantCount;
 
     public Course() {
     }
 
-    public Course(Person host, String courseName, String courseDescription) {
+    public Course(Person host, String courseName, String courseSummary, String courseDescription, int participantCount) {
         this.host = host;
         this.courseName = courseName;
+        this.courseSummary = courseSummary;
         this.courseDescription = courseDescription;
+        this.participantCount = participantCount;
     }
 
     public long getCourseId() {
@@ -56,6 +59,14 @@ public class Course {
         this.courseName = courseName;
     }
 
+    public String getCourseSummary() {
+        return courseSummary;
+    }
+
+    public void setCourseSummary(String courseSummary) {
+        this.courseSummary = courseSummary;
+    }
+
     public String getCourseDescription() {
         return courseDescription;
     }
@@ -64,13 +75,23 @@ public class Course {
         this.courseDescription = courseDescription;
     }
 
+    public int getParticipantCount() {
+        return participantCount;
+    }
+
+    public void setParticipantCount(int participantCount) {
+        this.participantCount = participantCount;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
                 "courseId=" + courseId +
                 ", host=" + host +
                 ", courseName='" + courseName + '\'' +
+                ", summary='" + courseSummary + '\'' +
                 ", courseDescription='" + courseDescription + '\'' +
+                ", participantCount=" + participantCount +
                 '}';
     }
 }

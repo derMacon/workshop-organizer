@@ -11,22 +11,25 @@
 <table>
     <thead>
     <tr>
-        <th> Host </th>
         <th> Name </th>
-        <th> Description </thl>
+        <th> Host </th>
+        <th> Description </th>
+        <th> Participant count </th>
     </tr>
     </thead>
     <tbody>
-<!--    <tr th:if="${allCourses.empty}">-->
-<!--        <td colspan="2"> No Books Available </td>-->
-<!--    </tr>-->
+    <tr th:if="${allCourses.empty}">
+        <td colspan="4"> No Courses Available </td>
+    </tr>
     <tr th:each="course : ${allCourses}">
         <td><a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
-               th:text="${course.host.firstname}">
-            Host </a></td>
-        <td><span th:text="${course.courseName}"> Name </span></td>
-        <td><span th:text="${course.courseDescription}"> Description </span></td>
+               th:text="${course.courseName}">
+            Name </a></td>
+        <td><span th:text="${course.host.firstname}"> Host </span></td>
+        <td><span th:text="${course.courseSummary}"> Description </span></td>
+        <td><span th:text="${course.participantCount}"> Participant count </span></td>
     </tr>
+
     </tbody>
 </table>
 </body>
