@@ -17,11 +17,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${allCourses.empty}">
-        <td colspan="2"> No Books Available </td>
-    </tr>
+<!--    <tr th:if="${allCourses.empty}">-->
+<!--        <td colspan="2"> No Books Available </td>-->
+<!--    </tr>-->
     <tr th:each="course : ${allCourses}">
-        <td><span th:text="${course.host.firstname}"> Host </span></td>
+        <td><a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
+               th:text="${course.host.firstname}">
+            Host </a></td>
         <td><span th:text="${course.courseName}"> Name </span></td>
         <td><span th:text="${course.courseDescription}"> Description </span></td>
     </tr>
