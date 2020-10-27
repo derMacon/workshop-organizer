@@ -35,15 +35,7 @@ public class DefaultController {
         return "main";
     }
 
-    @RequestMapping("/course")
-    public String courses(Model model) {
-        model.addAttribute("selectedDomain", "home");
 
-        Iterable<Course> c = courseRepository.findAll();
-//        model.addAttribute("allCourses", );
-
-        return "main";
-    }
 
     @RequestMapping("/admin")
     public String adminEntry(Model model) {

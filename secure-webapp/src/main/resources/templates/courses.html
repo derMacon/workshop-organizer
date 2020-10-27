@@ -7,7 +7,25 @@
 </head>
 <body>
 
-<p>test</p>
-
+<h3>Courses</h3>
+<table>
+    <thead>
+    <tr>
+        <th> Host </th>
+        <th> Name </th>
+        <th> Description </thl>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${allCourses.empty}">
+        <td colspan="2"> No Books Available </td>
+    </tr>
+    <tr th:each="course : ${allCourses}">
+        <td><span th:text="${course.host.firstname}"> Host </span></td>
+        <td><span th:text="${course.courseName}"> Name </span></td>
+        <td><span th:text="${course.courseDescription}"> Description </span></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
