@@ -134,7 +134,9 @@ public class CourseController {
             return "error";
         }
 
+        LoggerSingleton.getInstance().info("adding new participant to course: " + course);
         course.getParticipants().add(newParticipant);
+        courseRepository.save(course);
 
         return "redirect:/courses/specific?id=" + id;
     }
