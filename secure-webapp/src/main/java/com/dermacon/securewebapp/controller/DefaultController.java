@@ -20,20 +20,14 @@ public class DefaultController {
 
     @RequestMapping("/")
     public String index(Model model) {
+        System.out.println("here");
         model.addAttribute("selectedDomain", "home");
-        Iterable<User> u = userRepository.findAll();
         return "main";
     }
-
-//    @RequestMapping("/noSecurity")
-//    public String noSecurity() {
-//        return "noSecurity";
-//    }
 
     @ModelAttribute
     public void addAttributes(Model model) {
         List<User> users = (List<User>) userRepository.findAll();
-//        List<User> users = new LinkedList<>();
 
         model.addAttribute("users", users);
     }

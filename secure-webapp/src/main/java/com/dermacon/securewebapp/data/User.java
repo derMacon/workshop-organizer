@@ -1,7 +1,7 @@
 package com.dermacon.securewebapp.data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,22 +24,15 @@ public class User {
 
     private String password;
 
-//    @ElementCollection(targetClass=AppRole.class, fetch = FetchType.EAGER)
-//    @Enumerated(EnumType.STRING)
-////    @Column(name = "user_role")
-//private Set<AppRole> roles;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name="role_id")
-    private Set<AppRole> roleId;
+    public User() {}
 
-    protected User() {
-    }
-
-    public User(String username, String password, Set<AppRole> roleId) {
+    public User(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;
-        this.roleId = roleId;
+        this.role = role;
     }
 
     public long getUserId() {
@@ -66,12 +59,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<AppRole> getRoleId() {
-        return roleId;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setRoleId(Set<AppRole> roleId) {
-        this.roleId = roleId;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -80,7 +73,7 @@ public class User {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", roleId=" + roleId +
+                ", role=" + role +
                 '}';
     }
 }

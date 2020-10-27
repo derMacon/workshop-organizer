@@ -15,40 +15,69 @@
 
 <main class="main">
 
+
     <div class="grid" id="groceryListView">
 
-        <div align="center">
-            <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
-                  th:object="${item}" th:placeholder="Produkt">
-                <input id="itemName" list="suggestion_name" th:field="*{itemName}"
-                       th:placeholder="Produkt" type="text"/><br/>
-                <datalist id="suggestion_name">
-                    <option th:value="Küchenrolle">
-                    <option th:value="Klopapier">
-                </datalist>
+        <div class="listContainer">
+            <div align="center">
+            <div id="itemInputBox" align="center">
+
+                <form action="#" id="itemFormContainer" method="post" th:action="@{/groceryList}"
+                      th:object="${item}" th:placeholder="Produkt">
 
 
-                <div id="secondLineSubmit">
-                    <input id="itemCnt" list="suggestion_cnt" th:field="*{itemCount}"
-                           th:value="${item.itemCount}" type="number"/><br/>
-                    <datalist id="suggestion_cnt">
-                        <option th:value="5">
-                    </datalist>
+                    <div id="flexColumn">
 
-                    <div class="flexBtn">
+                        <select class="selectableElement" th:field="*{itemName}">
+                            <option value="">Produktart</option>
+                            <option th:each="preset : ${saved_presets}"
+                                    th:value="${preset.presetName}"
+                                    th:text="${preset.presetName}"></option>
+                        </select>
 
-                        <button id="newProdBtn" type="submit" value="add">
-                            Produkt hinzufügen</button>
-
-<!--                        <button id="itemSubmitBtn" type="submit" value="delete">-->
-<!--                            Produkt hinzufügen</button>-->
+                        <input id="itemCnt" th:field="*{itemCount}"
+                               th:value="${item.itemCount}" type="number"/><br/>
 
                     </div>
 
-<!--                    <a href="/flat-organizer/information">Information</a>-->
-                </div>
+                    <div class="flexBtn">
 
-            </form>
+                        <button id="btnNewProd" class="selectableElement" type="submit" value="add">
+                            Produkt hinzufügen
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+            <div align="center">
+                <form action="#" id="categoryContainer" method="post" th:action="@{/addNewPreset}"
+                      th:object="${new_preset}" th:placeholder="Produkt">
+                    <input id="presetName" th:field="*{presetName}"
+                           th:placeholder="Produkt" type="text"/><br/>
+
+                    <div id="flexColumn">
+
+                        <select class="selectableElement" th:field="*{supplyCategory}">
+                            <option value="">Kategorie</option>
+                            <option th:each="category : ${available_categories}"
+                                    th:value="${category.name()}"
+                                    th:text="${category.getCategoryName()}"></option>
+                        </select>
+
+
+                        <div class="flexBtn">
+
+                            <button class="selectableElement" type="submit" value="add">
+                                Default hinzufügen
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
 
         <br/>
@@ -100,35 +129,37 @@
 
             </div>
 
+            <br>
+
             <div class="gridItem">
                 <h2>Letzter Einkauf</h2>
 
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Produkt</th>
-                            <th>Menge</th>
-                            <th>Zimmer</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Produkt</th>
+                        <th>Menge</th>
+                        <th>Zimmer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                        <tr th:if="${oldItems.empty}">
-                            <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
-                        </tr>
+                    <tr th:if="${oldItems.empty}">
+                        <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
+                    </tr>
 
-                        <tr th:each="item : ${oldItems}">
-<!--                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"-->
-<!--                                       type="checkbox"/></td>-->
-                            <td><input type="checkbox" disabled="disabled" checked/></td>
-                            <td><span th:text="${item.itemName}"> item name </span></td>
-                            <td><span th:text="${item.itemCount}"> item count </span></td>
-                            <td><span
-                                    th:text="${item.destination.roomDescription}"> flatmate name </span>
-                            </td>
-                        </tr>
-                    </table>
+                    <tr th:each="item : ${oldItems}">
+                        <!--                            <td><input th:field="*{checkedItems}" th:value="${item.itemId}"-->
+                        <!--                                       type="checkbox"/></td>-->
+                        <td><input type="checkbox" disabled="disabled" checked/></td>
+                        <td><span th:text="${item.itemName}"> item name </span></td>
+                        <td><span th:text="${item.itemCount}"> item count </span></td>
+                        <td><span
+                                th:text="${item.destination.roomDescription}"> flatmate name </span>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
         </div>

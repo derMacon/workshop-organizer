@@ -187,6 +187,7 @@ a {
 
     .listContainer {
         display: flex;
+        justify-content: space-around;
     }
 
     .gridItem {
@@ -197,6 +198,10 @@ a {
         margin-right: 16px;
     }
 
+}
+
+.itemInputBox {
+    background: blue;
 }
 
 .flexBtn {
@@ -237,7 +242,7 @@ input:focus{
     box-shadow:0 0 3px 0 black;
 }
 
-#itemFormContainer {
+#categoryContainer {
     overlow: hidden;
     width: 300px;
     /*height: */
@@ -245,7 +250,7 @@ input:focus{
 
     padding-top: 10px;
     padding-right: 18px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     padding-left: 18px;
 
     border: 1px #a39485 solid;
@@ -254,12 +259,49 @@ input:focus{
     /*background: #888888;*/
     background: #383838;
     border-radius: 5px;
-    transition-duration: 0.3s;
+
+    height: 110px;
 }
 
-#newProdBtn {
+#itemSet {
+    border-radius: 5px;
+    background: #383838;
+    padding-top: 5px;
+    overlow: hidden;
+    width: 230px;
+
+    border: 1px #a39485 solid;
+    /*font-size: .9em;*/
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    border-radius: 5px;
+}
+
+
+#itemFormContainer {
+    /*display: flex;*/
+    /*overlow: hidden;*/
+    width: 210px;
+    /*border: 1px solid red;*/
+
+    padding-top: 10px;
+    padding-right: 18px;
+    padding-bottom: 10px;
+    padding-left: 18px;
+
+    /*border: 1px #a39485 solid;*/
+    /*font-size: .9em;*/
+    /*box-shadow: 0 2px 5px rgba(0,0,0,.25);*/
+    /*background: #888888;*/
     /*background: #383838;*/
-    background:none;
+    /*border-radius: 5px;*/
+}
+
+.selectableElement {
+    /*overflow: hidden;*/
+    /*width: 600px;*/
+    /*background: #383838;*/
+    /*background:none;*/
+    background: #383838;
     /*border:none;*/
     border: 1px #a39485 solid;
     border-radius: 5px;
@@ -276,16 +318,27 @@ input:focus{
     padding-bottom: 5px;
 }
 
+/*select {*/
+/*    overflow: ;*/
+/*}*/
+
 /*#itemFormContainer:hover {*/
 /*    transform: scale(1.02);*/
 /*}*/
 
-#secondLineSubmit {
+#flexColumn {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
 
+#flexColumn > select {
+    width: 110px;
+}
+
+#flexColumn > input {
+    width: 52px;
+}
 
 #itemName{
     display: inline-block;
@@ -304,7 +357,9 @@ input:focus{
     height: 30px;
 }
 
-
+#btnNewProd {
+    width: 500px;
+}
 
 /* ----------------- footer ---------------------*/
 
