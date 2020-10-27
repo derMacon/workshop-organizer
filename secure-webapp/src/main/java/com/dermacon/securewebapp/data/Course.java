@@ -26,7 +26,7 @@ public class Course {
     private String courseName;
     private String courseSummary;
     private String courseDescription;
-    private int participantCount;
+    private int maxParticipantCount;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
@@ -40,12 +40,12 @@ public class Course {
         this.participants = new HashSet<>();
     }
 
-    public Course(Person host, String courseName, String courseSummary, String courseDescription, int participantCount, Set<Person> participants) {
+    public Course(Person host, String courseName, String courseSummary, String courseDescription, int maxParticipantCount, Set<Person> participants) {
         this.host = host;
         this.courseName = courseName;
         this.courseSummary = courseSummary;
         this.courseDescription = courseDescription;
-        this.participantCount = participantCount;
+        this.maxParticipantCount = maxParticipantCount;
         this.participants = participants;
     }
 
@@ -89,12 +89,12 @@ public class Course {
         this.courseDescription = courseDescription;
     }
 
-    public int getParticipantCount() {
-        return participantCount;
+    public int getMaxParticipantCount() {
+        return maxParticipantCount;
     }
 
-    public void setParticipantCount(int participantCount) {
-        this.participantCount = participantCount;
+    public void setMaxParticipantCount(int maxParticipantCount) {
+        this.maxParticipantCount = maxParticipantCount;
     }
 
     public Set<Person> getParticipants() {
@@ -113,7 +113,7 @@ public class Course {
                 ", courseName='" + courseName + '\'' +
                 ", courseSummary='" + courseSummary + '\'' +
                 ", courseDescription='" + courseDescription + '\'' +
-                ", participantCount=" + participantCount +
+                ", maxParticipantCount=" + maxParticipantCount +
                 ", participants=" + participants +
                 '}';
     }

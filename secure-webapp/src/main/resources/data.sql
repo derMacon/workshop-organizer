@@ -33,13 +33,13 @@ CREATE TABLE meeting
 
 CREATE TABLE course
 (
-    course_id          INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    host_id            INT(6) UNSIGNED NOT NULL,
+    course_id             INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    host_id               INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (host_id) REFERENCES person (person_id),
-    course_name        VARCHAR(500)    NOT NULL,
-    course_summary     VARCHAR(5000)   NOT NULL,
-    course_description VARCHAR(5000)   NOT NULL,
-    participant_count  INT(6) UNSIGNED NOT NULL
+    course_name           VARCHAR(500)    NOT NULL,
+    course_summary        VARCHAR(5000)   NOT NULL,
+    course_description    VARCHAR(5000)   NOT NULL,
+    max_participant_count INT(6) UNSIGNED NOT NULL
 );
 
 CREATE TABLE course_person
@@ -74,11 +74,11 @@ VALUES (102, "firstname3", "surname3", "email3@mail.de", 3);
 
 
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,
-                    participant_count)
+                    max_participant_count)
 VALUES (200, 100, "course1", "summary 1", "description course 1", 5);
 
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,
-                    participant_count)
+                    max_participant_count)
 VALUES (201, 101, "course2", "summary 2", "description course 2", 10);
 
 

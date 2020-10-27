@@ -14,6 +14,8 @@
 <p th:text="${currCourse.getCourseSummary()}"></p>
 <p th:text="${currCourse.getCourseDescription()}"></p>
 
+<a th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}">enrollment</a>
+
 <h3>Information</h3>
 
 <h4>Host</h4>

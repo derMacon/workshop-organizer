@@ -6,5 +6,6 @@ import java.util.Set;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsername(String username);
+    User findByUserId(Long id);
     Set<User> findAllByRole(UserRole role);
 }
