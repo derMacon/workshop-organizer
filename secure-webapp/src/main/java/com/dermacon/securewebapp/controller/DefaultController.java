@@ -1,9 +1,12 @@
 package com.dermacon.securewebapp.controller;
 
+import com.dermacon.securewebapp.data.Course;
+import com.dermacon.securewebapp.data.CourseRepository;
+import com.dermacon.securewebapp.data.Person;
+import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,10 +20,34 @@ public class DefaultController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PersonRepository personRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
+
 
     @RequestMapping("/")
     public String index(Model model) {
         System.out.println("here");
+        model.addAttribute("selectedDomain", "home");
+
+        return "main";
+    }
+
+    @RequestMapping("/course")
+    public String courses(Model model) {
+        model.addAttribute("selectedDomain", "home");
+
+        Iterable<Course> c = courseRepository.findAll();
+//        model.addAttribute("allCourses", );
+
+        return "main";
+    }
+
+    @RequestMapping("/admin")
+    public String adminEntry(Model model) {
+        System.out.println("admin entry");
         model.addAttribute("selectedDomain", "home");
         return "main";
     }
