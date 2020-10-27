@@ -41,6 +41,15 @@ CREATE TABLE course
     participant_count  INT(6) UNSIGNED NOT NULL
 );
 
+CREATE TABLE course_person
+(
+    course_id INT(6) UNSIGNED NOT NULL,
+    person_id INT(6) UNSIGNED NOT NULL,
+    PRIMARY KEY CLUSTERED (course_id, person_id),
+    FOREIGN KEY (course_id) REFERENCES course (course_id),
+    FOREIGN KEY (person_id) REFERENCES person (person_id)
+);
+
 
 
 INSERT INTO user (user_id, username, password, role)
@@ -70,4 +79,14 @@ VALUES (200, 100, "course1", "summary 1", "description course 1", 5);
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,
                     participant_count)
 VALUES (201, 101, "course2", "summary 2", "description course 2", 10);
+
+
+INSERT INTO course_person(course_id, person_id)
+VALUES (200, 100);
+
+INSERT INTO course_person(course_id, person_id)
+VALUES (201, 101);
+
+INSERT INTO course_person(course_id, person_id)
+VALUES (201, 102);
 

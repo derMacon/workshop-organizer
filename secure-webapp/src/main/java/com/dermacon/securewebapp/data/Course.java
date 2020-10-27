@@ -6,7 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -24,15 +27,24 @@ public class Course {
     private String courseDescription;
     private int participantCount;
 
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "Course_Person",
+            joinColumns = { @JoinColumn(name = "course_id")},
+            inverseJoinColumns = { @JoinColumn(name = "person_id")}
+    )
+    private Set<Person> participants;
+
     public Course() {
     }
 
-    public Course(Person host, String courseName, String courseSummary, String courseDescription, int participantCount) {
+    public Course(Person host, String courseName, String courseSummary, String courseDescription, int participantCount, Set<Person> participants) {
         this.host = host;
         this.courseName = courseName;
         this.courseSummary = courseSummary;
         this.courseDescription = courseDescription;
         this.participantCount = participantCount;
+        this.participants = participants;
     }
 
     public long getCourseId() {
@@ -83,15 +95,24 @@ public class Course {
         this.participantCount = participantCount;
     }
 
+    public Set<Person> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Person> participants) {
+        this.participants = participants;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
                 "courseId=" + courseId +
                 ", host=" + host +
                 ", courseName='" + courseName + '\'' +
-                ", summary='" + courseSummary + '\'' +
+                ", courseSummary='" + courseSummary + '\'' +
                 ", courseDescription='" + courseDescription + '\'' +
                 ", participantCount=" + participantCount +
+                ", participants=" + participants +
                 '}';
     }
 }
