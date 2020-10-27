@@ -1,3 +1,4 @@
+DROP DATABASE workshop_app;
 CREATE DATABASE workshop_app;
 
 USE workshop_app;
@@ -90,3 +91,6 @@ VALUES (201, 101);
 INSERT INTO course_person(course_id, person_id)
 VALUES (201, 102);
 
+
+INSERT INTO meeting(meeting_id, meeting_date, address, course_id)
+VALUES (300, '2018-01-12', "test address 1", 200);

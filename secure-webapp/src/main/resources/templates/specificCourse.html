@@ -7,30 +7,28 @@
 </head>
 <body>
 
+<div th:replace="fragments/header :: header"></div>
+
 <h3 th:text="${currCourse.getCourseName()}"> Specific Course </h3>
 
 <p th:text="${currCourse.getCourseSummary()}"></p>
 <p th:text="${currCourse.getCourseDescription()}"></p>
 
-<h4>Participants</h4>
-<table>
-    <thead>
-    <tr>
-        <th> Firstname </th>
-        <th> Surname </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${currCourse.getParticipants().empty}">
-        <td colspan="2"> No members have enrolled </td>
-    </tr>
-    <tr th:each="participant : ${currCourse.getParticipants()}">
-        <td><span th:text="${participant.firstname}"> Participant firstname </span></td>
-        <td><span th:text="${participant.surname}"> Participant surname </span></td>
-    </tr>
+<h3>Information</h3>
 
-    </tbody>
-</table>
+<h4>Host</h4>
+<p th:text="${currCourse.host.firstname} + ${currCourse.host.surname}"></p>
+
+<h4>Meetings</h4>
+<ul th:each="meeting : ${meetings}">
+    <li th:text="${meeting.getMeetingDate()} + ${meeting.getAddress()}">meeting</li>
+</ul>
+
+<h4>Participants</h4>
+<ul th:each="participant : ${currCourse.getParticipants()}">
+    <li th:text="${participant.surname}">surname</li>
+    <li th:text="${participant.firstname}">firstname</li>
+</ul>
 
 
 </body>

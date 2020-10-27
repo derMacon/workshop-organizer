@@ -3,38 +3,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<header class="header sticky sticky--top js-header">
+<header>
 
-    <div class="grid" id="headerDiv">
+    <div>
 
-        <nav class="navigation">
-            <ul class="navigation__list navigation__list--inline">
-
-                <li class="navigation__item">
+        <nav>
+            <ul>
+                <li>
                     <a th:class="${#strings.equals(selectedDomain, 'home')} ? 'is-active' : ''"
-                        class="navigation__item"><a class="is-active" href="/flat-organizer">Home
-                </a></li>
-
-                <li class="navigation__item">
-                    <a th:class="${#strings.equals(selectedDomain, 'groceryList')} ? 'is-active' : ''"
-                        href="/flat-organizer/groceryList">Einkaufsliste</a>
+                       href="/">start</a>
                 </li>
 
-                <li class="navigation__item">
-                    <a th:class="${#strings.equals(selectedDomain, 'noSecurity')} ? 'is-active' : ''"
-                        href="/flat-organizer/noSecurity">noSecurity endpoint</a>
+                <li>
+                    <a th:class="${#strings.equals(selectedDomain, 'courses')} ? 'is-active' : ''"
+                       href="/courses">workshops</a>
                 </li>
 
-                <li class="navigation__item">
-                    <a th:class="${#strings.equals(selectedDomain, 'minutes')} ? 'is-active' : ''"
-                        href="/flat-organizer/minutes">WG-Treffen</a>
-                </li>
-
-                <li class="navigation__item">
+                <li>
                     <a
-                            th:class="${#strings.equals(selectedDomain, 'information')} ? 'is-active' : ''"
-                        href="/flat-organizer/information">Information</a>
+                            th:class="${#strings.equals(selectedDomain, 'createWorkshop')} ? 'is-active' : ''"
+                       href="/createWorkshop">createWorkshop</a>
                 </li>
+
             </ul>
         </nav>
 

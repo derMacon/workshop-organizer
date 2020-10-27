@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,6 +37,7 @@ public class Course {
     private Set<Person> participants;
 
     public Course() {
+        this.participants = new HashSet<>();
     }
 
     public Course(Person host, String courseName, String courseSummary, String courseDescription, int participantCount, Set<Person> participants) {

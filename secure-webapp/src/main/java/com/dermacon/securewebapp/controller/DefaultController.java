@@ -29,10 +29,9 @@ public class DefaultController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        System.out.println("here");
         model.addAttribute("selectedDomain", "home");
 
-        return "main";
+        return "index";
     }
 
 
