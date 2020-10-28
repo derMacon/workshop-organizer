@@ -9,6 +9,9 @@
 
         <nav>
             <ul>
+<!--                <li><p th:text="${loggedInPerson.firstname} + ' ' ${loggedInPerson.surname}">-->
+<!--                    current user-->
+<!--                </p></li>-->
                 <li>
                     <a th:class="${#strings.equals(selectedDomain, 'home')} ? 'is-active' : ''"
                        href="/">start</a>
@@ -20,13 +23,13 @@
                 </li>
 
                 <li>
-                    <a
-                            th:class="${#strings.equals(selectedDomain, 'createWorkshop')} ? 'is-active' : ''"
+                    <a th:class="${#strings.equals(selectedDomain, 'createWorkshop')} ? 'is-active' : ''"
                        href="/createWorkshop">createWorkshop</a>
                 </li>
 
                 <li>
-                    <a href="#" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    <a href="#" th:href="@{/logout}"><span
+                            class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
 
             </ul>

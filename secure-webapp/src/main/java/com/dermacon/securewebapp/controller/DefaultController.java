@@ -1,11 +1,7 @@
 package com.dermacon.securewebapp.controller;
 
-import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
-import com.dermacon.securewebapp.data.Person;
-import com.dermacon.securewebapp.data.PersonRepository;
-import com.dermacon.securewebapp.data.User;
-import com.dermacon.securewebapp.data.UserRepository;
+import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,20 +14,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Controller
 public class DefaultController {
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    PersonRepository personRepository;
+//    @Autowired
+//    UserRepository userRepository;
 
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    PersonService personService;
+
+    @ModelAttribute
+    public void displayLoggedInUser(Model model) {
+        model.addAttribute("loggedInPerson", personService.getLoggedInPerson());
+    }
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -61,12 +60,12 @@ public class DefaultController {
         return "main";
     }
 
-    @ModelAttribute
-    public void addAttributes(Model model) {
-        List<User> users = (List<User>) userRepository.findAll();
-
-        model.addAttribute("users", users);
-    }
+//    @ModelAttribute
+//    public void addAttributes(Model model) {
+//        List<User> users = (List<User>) userRepository.findAll();
+//
+//        model.addAttribute("users", users);
+//    }
 
 
 }

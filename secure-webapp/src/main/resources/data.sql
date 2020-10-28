@@ -64,13 +64,13 @@ VALUES (3, "user", "p", "ROLE_USER");
 
 
 INSERT INTO person (person_id, firstname, surname, email, user_id)
-VALUES (100, "firstname1", "surname1", "email1@mail.de", 1);
+VALUES (100, "firstname1", "surname1", "workshop1234@gmx.de", 1);
 
 INSERT INTO person (person_id, firstname, surname, email, user_id)
-VALUES (101, "firstname2", "surname2", "email2@mail.de", 2);
+VALUES (101, "firstname2", "surname2", "workshop1234@gmx.de", 2);
 
 INSERT INTO person (person_id, firstname, surname, email, user_id)
-VALUES (102, "firstname3", "surname3", "email3@mail.de", 3);
+VALUES (102, "firstname3", "surname3", "workshop1234@gmx.de", 3);
 
 
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,

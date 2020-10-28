@@ -105,6 +105,10 @@ public class Course {
         this.participants = participants;
     }
 
+    public void addNewParticipant(Person person) {
+        this.participants.add(person);
+    }
+
     @Override
     public String toString() {
         return "Course{" +

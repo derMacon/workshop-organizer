@@ -4,21 +4,16 @@ import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.MeetingRepository;
 import com.dermacon.securewebapp.data.Person;
-import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
-import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
+import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Controller for view displayed to users with Role: ROLE_MANAGER

@@ -3,6 +3,7 @@ package com.dermacon.securewebapp.service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
@@ -36,6 +37,15 @@ public class MailService {
     @Autowired
     public MailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
+    }
+
+    public void sendGreeting(Person person, Course course) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(person.getEmail());
+        mail.setSubject("Welcome to " + course.getCourseName() + " workshop");
+        mail.setText(course.toString());
+
+        javaMailSender.send(mail);
     }
 
     /**

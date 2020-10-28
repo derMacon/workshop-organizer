@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp.controller;
+package com.dermacon.securewebapp.service;
 
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
@@ -39,6 +39,8 @@ public class PersonService {
         return userRepository.findByUsername(username);
     }
 
+
+    // todo check if needed
     /**
      * list of hosts to pick from while creating new course
      * @return list of hosts to pick from while creating new course

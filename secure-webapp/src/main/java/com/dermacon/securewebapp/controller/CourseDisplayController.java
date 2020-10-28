@@ -5,6 +5,8 @@ import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.MeetingRepository;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
+import com.dermacon.securewebapp.service.MailService;
+import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class CourseDisplayController {
 
     @Autowired
     PersonService personService;
+
+    @Autowired
+    MailService mailService;
 
     @RequestMapping("/courses")
     public String displayCourseOverview(Model model) {
@@ -69,8 +74,9 @@ public class CourseDisplayController {
         }
 
         LoggerSingleton.getInstance().info("adding new participant to course: " + course);
-        course.getParticipants().add(newParticipant);
+        course.addNewParticipant(newParticipant);
         courseRepository.save(course);
+        mailService.sendGreeting(newParticipant, course);
 
         return "redirect:/courses/specific?id=" + id;
     }
