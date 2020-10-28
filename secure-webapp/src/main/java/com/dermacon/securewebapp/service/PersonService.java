@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,20 @@ public class PersonService {
 
     @Autowired
     UserRepository userRepository;
+
+    /**
+     * Checks if the currently logged in user has at least one of
+     * the required permissions
+     * @param role roles to check
+     * @return true if the currently logged in user has at least one of
+     * the required permissions
+     */
+    public boolean matchesAtLeastOneRole(UserRole... role) {
+        UserRole currUser_role = getLoggedInUser().getRole();
+        return Arrays.asList(role).stream()
+                .filter(e -> e == currUser_role)
+                .findAny().isPresent();
+    }
 
     /**
      * Determines the currently logged in user

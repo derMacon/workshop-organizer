@@ -1,6 +1,7 @@
 package com.dermacon.securewebapp.data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Announcement {
@@ -9,7 +10,12 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long announcementId;
 
+    private String title;
+
     private String content;
+
+    @Temporal(TemporalType.DATE)
+    private Date publishingDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
@@ -18,8 +24,10 @@ public class Announcement {
 
     public Announcement() {}
 
-    public Announcement(String content, Course course) {
+    public Announcement(String title, String content, Date publishingDate, Course course) {
+        this.title = title;
         this.content = content;
+        this.publishingDate = publishingDate;
         this.course = course;
     }
 
@@ -31,12 +39,28 @@ public class Announcement {
         this.announcementId = announcementId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getPublishingDate() {
+        return publishingDate;
+    }
+
+    public void setPublishingDate(Date publishingDate) {
+        this.publishingDate = publishingDate;
     }
 
     public Course getCourse() {
@@ -51,7 +75,9 @@ public class Announcement {
     public String toString() {
         return "Announcement{" +
                 "announcementId=" + announcementId +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", publishingDate=" + publishingDate +
                 ", course=" + course +
                 '}';
     }

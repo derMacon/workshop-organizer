@@ -2,6 +2,7 @@ package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.AnnouncementRepository;
+import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,10 @@ public class DefaultController {
     @Autowired
     AnnouncementRepository announcementRepository;
 
+
     @ModelAttribute
     public void displayLoggedInUser(Model model) {
-        // todo why is this not working... not able to display in header template
+//         todo why is this not working... not able to display in header template
         model.addAttribute("loggedInPerson", personService.getLoggedInPerson());
     }
 

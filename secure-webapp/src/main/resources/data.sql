@@ -45,7 +45,9 @@ CREATE TABLE course
 CREATE TABLE announcement
 (
     announcement_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(5000)   NOT NULL,
     content VARCHAR(5000)   NOT NULL,
+    publishing_date DATE            NOT NULL,
     course_id INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (course_id) REFERENCES course (course_id)
 );
@@ -104,13 +106,13 @@ INSERT INTO meeting(meeting_id, meeting_date, address, course_id)
 VALUES (300, '2018-01-12', "test address 1", 200);
 
 
-INSERT INTO announcement(announcement_id, content, course_id)
-VALUES (400, "test content 1", 200);
+INSERT INTO announcement(announcement_id, title, content, publishing_date, course_id)
+VALUES (400, "title 1", "test content 1", '2018-01-12', 200);
 
-INSERT INTO announcement(announcement_id, content, course_id)
-VALUES (401, "test content 2", 200);
+INSERT INTO announcement(announcement_id, title, content, publishing_date, course_id)
+VALUES (401, "title 2", "test content 2", '2018-01-12', 200);
 
-INSERT INTO announcement(announcement_id, content, course_id)
-VALUES (402, "test content 3", 201);
+INSERT INTO announcement(announcement_id, title, content, publishing_date, course_id)
+VALUES (402, "title 3", "test content 3", '2018-01-12', 201);
 
 

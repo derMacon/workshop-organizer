@@ -1,14 +1,6 @@
 package com.dermacon.securewebapp.data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +14,10 @@ public class Course {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "host_id")
     private Person host;
+
+
+    @OneToMany(mappedBy="course")
+    private Set<Announcement> announcements;
 
     private String courseName;
     private String courseSummary;
@@ -40,8 +36,9 @@ public class Course {
         this.participants = new HashSet<>();
     }
 
-    public Course(Person host, String courseName, String courseSummary, String courseDescription, int maxParticipantCount, Set<Person> participants) {
+    public Course(Person host, Set<Announcement> announcements, String courseName, String courseSummary, String courseDescription, int maxParticipantCount, Set<Person> participants) {
         this.host = host;
+        this.announcements = announcements;
         this.courseName = courseName;
         this.courseSummary = courseSummary;
         this.courseDescription = courseDescription;
@@ -63,6 +60,14 @@ public class Course {
 
     public void setHost(Person host) {
         this.host = host;
+    }
+
+    public Set<Announcement> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(Set<Announcement> announcements) {
+        this.announcements = announcements;
     }
 
     public String getCourseName() {
@@ -118,6 +123,7 @@ public class Course {
         return "Course{" +
                 "courseId=" + courseId +
                 ", host=" + host +
+                ", announcements=" + announcements +
                 ", courseName='" + courseName + '\'' +
                 ", courseSummary='" + courseSummary + '\'' +
                 ", courseDescription='" + courseDescription + '\'' +

@@ -16,6 +16,7 @@
 
 <a th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}}">enrollment</a>
 <a th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">dropout</a>
+<a th:href="@{'/courses/createAnnouncement?id=' + ${currCourse.courseId}}">create announcement</a>
 
 <h3>Information</h3>
 
@@ -31,6 +32,12 @@
 <ul th:each="participant : ${currCourse.getParticipants()}">
     <li th:text="${participant.surname}">surname</li>
     <li th:text="${participant.firstname}">firstname</li>
+</ul>
+
+<h3>Announcements</h3>
+
+<ul th:each="announcement : ${currCourse.announcements}">
+    <li th:text="${announcement.content}">content</li>
 </ul>
 
 
