@@ -54,7 +54,7 @@ public class CourseDisplayController {
 
 
     @RequestMapping("/courses/enroll")
-    public String courses(Model model, @RequestParam String id) {
+    public String enroll(Model model, @RequestParam String id) {
         Course course = courseRepository.findByCourseId(Long.parseLong(id));
         Person newParticipant = personService.getLoggedInPerson();
 

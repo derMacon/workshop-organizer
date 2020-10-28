@@ -1,5 +1,7 @@
 package com.dermacon.securewebapp.controller;
 
+import com.dermacon.securewebapp.data.Announcement;
+import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class DefaultController {
 
-//    @Autowired
-//    UserRepository userRepository;
-
     @Autowired
     CourseRepository courseRepository;
 
     @Autowired
     PersonService personService;
 
+    @Autowired
+    AnnouncementRepository announcementRepository;
+
     @ModelAttribute
     public void displayLoggedInUser(Model model) {
+        // todo why is this not working... not able to display in header template
         model.addAttribute("loggedInPerson", personService.getLoggedInPerson());
     }
 
@@ -59,13 +62,5 @@ public class DefaultController {
         model.addAttribute("selectedDomain", "home");
         return "main";
     }
-
-//    @ModelAttribute
-//    public void addAttributes(Model model) {
-//        List<User> users = (List<User>) userRepository.findAll();
-//
-//        model.addAttribute("users", users);
-//    }
-
 
 }

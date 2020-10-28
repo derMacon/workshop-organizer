@@ -45,7 +45,8 @@ public class MailService {
         mail.setSubject("Welcome to " + course.getCourseName() + " workshop");
         mail.setText(course.toString());
 
-        javaMailSender.send(mail);
+        System.out.println("sending mail: " + mail.toString());
+//        javaMailSender.send(mail);
     }
 
     /**

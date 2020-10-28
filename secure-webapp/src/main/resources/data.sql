@@ -42,6 +42,14 @@ CREATE TABLE course
     max_participant_count INT(6) UNSIGNED NOT NULL
 );
 
+CREATE TABLE announcement
+(
+    announcement_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    content VARCHAR(5000)   NOT NULL,
+    course_id INT(6) UNSIGNED NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES course (course_id)
+);
+
 CREATE TABLE course_person
 (
     course_id INT(6) UNSIGNED NOT NULL,
@@ -94,3 +102,15 @@ VALUES (201, 102);
 
 INSERT INTO meeting(meeting_id, meeting_date, address, course_id)
 VALUES (300, '2018-01-12', "test address 1", 200);
+
+
+INSERT INTO announcement(announcement_id, content, course_id)
+VALUES (400, "test content 1", 200);
+
+INSERT INTO announcement(announcement_id, content, course_id)
+VALUES (401, "test content 2", 200);
+
+INSERT INTO announcement(announcement_id, content, course_id)
+VALUES (402, "test content 3", 201);
+
+
