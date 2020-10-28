@@ -6,9 +6,11 @@ import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -35,5 +37,21 @@ public class PersonService {
                 .getPrincipal()).getUsername();
 
         return userRepository.findByUsername(username);
+    }
+
+    /**
+     * list of hosts to pick from while creating new course
+     * @return list of hosts to pick from while creating new course
+     */
+    public Iterable<Person> getPossibleHosts() {
+        Set<User> users = userRepository.findAllByRole(UserRole.ROLE_ADMIN);
+        users.addAll(userRepository.findAllByRole(UserRole.ROLE_MANAGER));
+
+        // list of hosts to pick from while creating new course
+        Iterable<Person> possible_hosts = users.stream()
+                .map(personRepository::findByUser)
+                .collect(Collectors.toList());
+
+        return possible_hosts;
     }
 }

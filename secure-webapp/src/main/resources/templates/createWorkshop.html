@@ -36,11 +36,14 @@
            th:placeholder="count"
            type="number"/>
 
-    <select th:field="*{host}">
-        <option value=""></option>
-        <option th:each="host : ${hosts}"
-                th:value="${host.personId}"
-                th:text="${host.firstname} + ${host.surname}"></option>
+    <p th:text="${inputCourse.host.firstname} + ' ' + ${inputCourse.host.surname}">host</p>
+
+<!--    <select th:field="*{host}">-->
+<!--        <option value=""></option>-->
+<!--        <option th:each="host : ${hosts}"-->
+<!--                th:value="${host.personId}"-->
+<!--                th:text="${host.firstname} + ${host.surname}"></option>-->
+
     </select>
 
 

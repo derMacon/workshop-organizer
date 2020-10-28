@@ -30,12 +30,6 @@ public class CourseManagerController {
     CourseRepository courseRepository;
 
     @Autowired
-    PersonRepository personRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     MeetingRepository meetingRepository;
 
     @Autowired
@@ -52,17 +46,10 @@ public class CourseManagerController {
         }
 
         // course instance that will be filled in form
-        model.addAttribute("inputCourse", new Course());
+        Course inputCourse = new Course();
+        inputCourse.setHost(personService.getLoggedInPerson());
 
-        // list of hosts to pick from while creating new course
-        Set<User> users = userRepository.findAllByRole(UserRole.ROLE_ADMIN);
-        users.addAll(userRepository.findAllByRole(UserRole.ROLE_MANAGER));
-
-        Iterable<Person> possible_hosts = users.stream()
-                .map(personRepository::findByUser)
-                .collect(Collectors.toList());
-
-        model.addAttribute("hosts", possible_hosts);
+        model.addAttribute("inputCourse", inputCourse);
 
         return "createWorkshop";
     }
@@ -79,7 +66,5 @@ public class CourseManagerController {
 
         return "redirect:/createWorkshop";
     }
-
-
 
 }
