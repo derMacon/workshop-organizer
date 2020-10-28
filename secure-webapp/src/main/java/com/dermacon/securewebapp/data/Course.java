@@ -109,6 +109,10 @@ public class Course {
         this.participants.add(person);
     }
 
+    public void removeParticipant(Person person) {
+        this.participants.remove(person);
+    }
+
     @Override
     public String toString() {
         return "Course{" +

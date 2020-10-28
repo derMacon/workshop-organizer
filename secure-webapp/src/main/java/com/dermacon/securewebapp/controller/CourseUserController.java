@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Controller for view displayed to users with Role: ROLE_USER
  */
 @Controller
-public class CourseDisplayController {
+public class CourseUserController {
 
     @Autowired
     CourseRepository courseRepository;
@@ -79,5 +79,28 @@ public class CourseDisplayController {
         mailService.sendGreeting(newParticipant, course);
 
         return "redirect:/courses/specific?id=" + id;
+    }
+
+    @RequestMapping("/courses/dropout")
+    public String dropout(Model model, @RequestParam String id) {
+        Course course = courseRepository.findByCourseId(Long.parseLong(id));
+        Person participant = personService.getLoggedInPerson();
+
+        if (course == null) {
+            model.addAttribute("error_message", "no course with id: " + id);
+            return "error";
+        }
+
+        if (!course.getParticipants().contains(participant)) {
+            model.addAttribute("error_message", "user is not enrolled in course");
+            return "error";
+        }
+
+        LoggerSingleton.getInstance().info("removing participant from course: " + course);
+        course.removeParticipant(participant);
+        courseRepository.save(course);
+        mailService.sendDropoutConfirmation(participant, course);
+
+        return "redirect:/courses";
     }
 }

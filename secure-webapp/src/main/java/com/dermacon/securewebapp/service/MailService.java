@@ -45,9 +45,22 @@ public class MailService {
         mail.setSubject("Welcome to " + course.getCourseName() + " workshop");
         mail.setText(course.toString());
 
-        System.out.println("sending mail: " + mail.toString());
+        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        // todo uncomment
 //        javaMailSender.send(mail);
     }
+
+    public void sendDropoutConfirmation(Person person, Course course) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(person.getEmail());
+        mail.setSubject("Confirmation for checkout");
+        mail.setText("leaving course:\n" + course.toString());
+
+        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        // todo uncomment
+//        javaMailSender.send(mail);
+    }
+
 
     /**
      *
