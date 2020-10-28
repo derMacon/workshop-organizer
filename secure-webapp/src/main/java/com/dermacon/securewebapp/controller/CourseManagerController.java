@@ -16,13 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for view displayed to users with Role: ROLE_MANAGER
+ */
 @Controller
-public class CourseController {
+public class CourseManagerController {
 
     @Autowired
     CourseRepository courseRepository;
@@ -36,31 +38,13 @@ public class CourseController {
     @Autowired
     MeetingRepository meetingRepository;
 
-    @RequestMapping("/courses")
-    public String displayCourseOverview(Model model) {
-        model.addAttribute("selectedDomain", "home");
-
-        model.addAttribute("allCourses", courseRepository.findAll());
-
-        return "courses";
-    }
-
-    @RequestMapping("/courses/specific")
-    public String displaySingleCourse(Model model, @RequestParam String id) {
-
-        Long id_long = Long.parseLong(id);
-        Course course = courseRepository.findByCourseId(id_long);
-
-        model.addAttribute("currCourse", course);
-        model.addAttribute("meetings", meetingRepository.findAllByCourse(course));
-
-        return "specificCourse";
-    }
+    @Autowired
+    PersonService personService;
 
     @RequestMapping("/createWorkshop")
     public String createNewWorkshop_get(Model model) {
 
-        User user = getLoggedInUser();
+        User user = personService.getLoggedInUser();
         if (user.getRole() != UserRole.ROLE_MANAGER
                 && user.getRole() != UserRole.ROLE_ADMIN) {
             model.addAttribute("error_message", "no access - invalid permissions");
@@ -86,7 +70,7 @@ public class CourseController {
     @RequestMapping(value = "/createWorkshop", method = RequestMethod.POST)
     public String createNewWorkshop_post(@ModelAttribute(value="inputCourse") Course course) {
         // update course with current user
-        Person loggedInPerson = getLoggedInPerson();
+        Person loggedInPerson = personService.getLoggedInPerson();
         course.setHost(loggedInPerson);
 
         // save in database
@@ -96,48 +80,6 @@ public class CourseController {
         return "redirect:/createWorkshop";
     }
 
-    private User getLoggedInUser() {
-        // for some reason the id is always 0
-        String username = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
 
-        return userRepository.findByUsername(username);
-    }
 
-    /**
-     * Determines the currently logged in user
-     * @return the currently logged in user
-     */
-    private Person getLoggedInPerson() {
-        return personRepository.findByUser(getLoggedInUser());
-    }
-
-    @RequestMapping("/courses/enroll")
-    public String courses(Model model, @RequestParam String id) {
-        Course course = courseRepository.findByCourseId(Long.parseLong(id));
-        Person newParticipant = getLoggedInPerson();
-
-        if (course.getParticipants().contains(newParticipant)) {
-            model.addAttribute("error_message", "user already enrolled in course");
-            return "error";
-        }
-
-        if (course.getHost().equals(newParticipant)) {
-            model.addAttribute("error_message", "host cannot enroll in own course");
-            return "error";
-        }
-
-        if (course.getParticipants().size() >= course.getMaxParticipantCount()) {
-            model.addAttribute("error_message", "cannot enroll, course already full");
-            return "error";
-        }
-
-        LoggerSingleton.getInstance().info("adding new participant to course: " + course);
-        course.getParticipants().add(newParticipant);
-        courseRepository.save(course);
-
-        return "redirect:/courses/specific?id=" + id;
-    }
 }
