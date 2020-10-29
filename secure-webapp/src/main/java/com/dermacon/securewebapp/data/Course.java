@@ -16,7 +16,7 @@ public class Course {
     private Person host;
 
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private Set<Announcement> announcements;
 
     private String courseName;

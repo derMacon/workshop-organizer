@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Time;
+import java.util.Date;
+
 import static com.dermacon.securewebapp.data.UserRole.ROLE_ADMIN;
 import static com.dermacon.securewebapp.data.UserRole.ROLE_MANAGER;
 
@@ -45,16 +48,14 @@ public class CourseManagerController {
         }
 
         // course instance that will be filled in form
-        Course inputCourse = new Course();
-        inputCourse.setHost(personService.getLoggedInPerson());
-
-        model.addAttribute("inputCourse", inputCourse);
+        model.addAttribute("inputCourse", new Course());
 
         return "createWorkshop";
     }
 
     @RequestMapping(value = "/createWorkshop", method = RequestMethod.POST)
     public String createNewWorkshop_post(@ModelAttribute(value="inputCourse") Course course) {
+        course.setHost(personService.getLoggedInPerson());
         // save in database
         LoggerSingleton.getInstance().info("save course: " + course);
         courseRepository.save(course);
@@ -64,21 +65,31 @@ public class CourseManagerController {
     @RequestMapping("/courses/createAnnouncement")
     public String createNewAnnouncement_get(Model model, @RequestParam String id) {
 
-        if (courseRepository.findByCourseId(Long.parseLong(id)) == null) {
-            return errorService.displayErrorPage(model, ERROR_CODE.INVALID_COURSE);
-        }
-
         if (!personService.matchesAtLeastOneRole(ROLE_MANAGER, ROLE_ADMIN)) {
             return errorService.displayErrorPage(model, ERROR_CODE.INVALID_ROLE);
         }
 
-        model.addAttribute("inputAnnouncement", new Announcement());
+        Course course = courseRepository.findByCourseId(Long.parseLong(id));
+        if (course == null) {
+            return errorService.displayErrorPage(model, ERROR_CODE.INVALID_COURSE);
+        }
+
+        Announcement inputAnnouncement = new Announcement();
+
+        model.addAttribute("currCourse", course);
+        model.addAttribute("inputAnnouncement", inputAnnouncement);
         return "createAnnouncement";
     }
 
-    @RequestMapping(value = "/createAnnouncement", method = RequestMethod.POST)
-    public String createNewAnnouncement_post(@ModelAttribute(value="inputAnnouncement") Announcement announcement) {
-        LoggerSingleton.getInstance().info("save announcement: " + announcement);
+    @RequestMapping(value = "/courses/createAnnouncement", method = RequestMethod.POST)
+    public String createNewAnnouncement_post(@ModelAttribute(value="inputAnnouncement") Announcement announcement, @RequestParam String id) {
+        // update announcement fields
+        Course course = courseRepository.findByCourseId(Long.parseLong(id));
+        announcement.setCourse(course);
+        announcement.setPublishingDate(new Date(System.currentTimeMillis()));
+
+        // save in database
+        LoggerSingleton.getInstance().info("save announcement: " + announcement.getAnnouncementId());
         announcementRepository.save(announcement);
         return "redirect:/createAnnouncement";
     }

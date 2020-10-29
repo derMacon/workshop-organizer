@@ -12,7 +12,7 @@
 <h3>create</h3>
 
 <form action="#" method="post"
-      th:action="@{/createAnnouncement}"
+      th:action="@{/courses/createAnnouncement?id=} + ${currCourse.courseId}"
       th:object="${inputAnnouncement}"
       th:placeholder="Workshop">
 
@@ -27,7 +27,7 @@
            type="text"/>
 
     <button type="submit" value="add">
-        Add Workshop
+        create announcement
     </button>
 
 </form>
