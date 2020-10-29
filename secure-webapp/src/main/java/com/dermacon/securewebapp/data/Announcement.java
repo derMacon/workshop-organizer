@@ -78,7 +78,6 @@ public class Announcement {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", publishingDate=" + publishingDate +
-                ", course=" + course +
                 '}';
     }
 }

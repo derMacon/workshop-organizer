@@ -3,6 +3,7 @@ package com.dermacon.securewebapp.service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
@@ -14,6 +15,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  *
@@ -39,6 +42,11 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
+    /**
+     * Send greeting mail to person who entered a course
+     * @param person person new to the course
+     * @param course course to which a the user subscribed
+     */
     public void sendGreeting(Person person, Course course) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(person.getEmail());
@@ -50,6 +58,11 @@ public class MailService {
 //        javaMailSender.send(mail);
     }
 
+    /**
+     * Sends a mail to confirm the user he unsubscribed from the course
+     * @param person person to which the mail will be send
+     * @param course course he left
+     */
     public void sendDropoutConfirmation(Person person, Course course) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(person.getEmail());
@@ -59,6 +72,24 @@ public class MailService {
         LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
         // todo uncomment
 //        javaMailSender.send(mail);
+    }
+
+    /**
+     * Send announcement to a given set of persons
+     * @param persons set of people
+     * @param announcement announcement to send per mail
+     */
+    public void sendAnnouncement(Set<Person> persons, Announcement announcement) {
+        for (Person person : persons) {
+            SimpleMailMessage mail = new SimpleMailMessage();
+            mail.setTo(person.getEmail());
+            mail.setSubject("Announcement: " + announcement.getTitle());
+            mail.setText(announcement.getContent());
+
+            LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+            // todo uncomment
+//        javaMailSender.send(mail);
+        }
     }
 
 

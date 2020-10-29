@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
@@ -71,4 +72,5 @@ public class PersonService {
 
         return possible_hosts;
     }
+
 }

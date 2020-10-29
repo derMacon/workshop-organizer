@@ -4,6 +4,7 @@ import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.MeetingRepository;
 import com.dermacon.securewebapp.data.Person;
+import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import com.dermacon.securewebapp.service.MailService;
 import com.dermacon.securewebapp.service.PersonService;
@@ -45,6 +46,12 @@ public class CourseUserController {
 
         Long id_long = Long.parseLong(id);
         Course course = courseRepository.findByCourseId(id_long);
+
+        boolean isEnrolled = course.getParticipants().contains(personService.getLoggedInPerson());
+        model.addAttribute("isEnrolled", isEnrolled);
+
+        // decide if manager options should be displayed
+        model.addAttribute("currUserRole", personService.getLoggedInUser().getRole());
 
         model.addAttribute("currCourse", course);
         model.addAttribute("meetings", meetingRepository.findAllByCourse(course));

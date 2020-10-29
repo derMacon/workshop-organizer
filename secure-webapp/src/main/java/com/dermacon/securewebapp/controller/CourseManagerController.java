@@ -4,6 +4,7 @@ import com.dermacon.securewebapp.data.*;
 import com.dermacon.securewebapp.service.ErrorService.ERROR_CODE;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import com.dermacon.securewebapp.service.ErrorService;
+import com.dermacon.securewebapp.service.MailService;
 import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,9 @@ public class CourseManagerController {
 
     @Autowired
     AnnouncementRepository announcementRepository;
+
+    @Autowired
+    MailService mailService;
 
     @RequestMapping("/createWorkshop")
     public String createNewWorkshop_get(Model model) {
@@ -91,6 +95,7 @@ public class CourseManagerController {
         // save in database
         LoggerSingleton.getInstance().info("save announcement: " + announcement.getAnnouncementId());
         announcementRepository.save(announcement);
+        mailService.sendAnnouncement(course.getParticipants(), announcement);
         return "redirect:/createAnnouncement";
     }
 
