@@ -13,7 +13,7 @@
     <artifactId>secure-webapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>flat-organizer</name>
+    <name>workshop-manager</name>
     <description>spring-webapp</description>
 
     <properties>

@@ -14,17 +14,17 @@
 <!--                </p></li>-->
                 <li>
                     <a th:class="${#strings.equals(selectedDomain, 'home')} ? 'is-active' : ''"
-                       href="/">start</a>
+                       th:href="@{/}">start</a>
                 </li>
 
                 <li>
                     <a th:class="${#strings.equals(selectedDomain, 'courses')} ? 'is-active' : ''"
-                       href="/courses">workshops</a>
+                       th:href="@{/courses}">workshops</a>
                 </li>
 
                 <li>
                     <a th:class="${#strings.equals(selectedDomain, 'createWorkshop')} ? 'is-active' : ''"
-                       href="/createWorkshop">createWorkshop</a>
+                       th:href="@{/createWorkshop}">createWorkshop</a>
                 </li>
 
                 <li>
