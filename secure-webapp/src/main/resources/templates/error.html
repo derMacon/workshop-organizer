@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>title</title>
-    <!--    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>-->
+    <title>error</title>
 </head>
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
-<p th:text="${error_message}">message</p>
+<div th:switch="${error_message == null}">
+    <p th:case="${true}">error - something went wrong</p>
+    <p th:case="*" th:text="${error_message}">error</p>
+</div>
 
 </body>
 </html>

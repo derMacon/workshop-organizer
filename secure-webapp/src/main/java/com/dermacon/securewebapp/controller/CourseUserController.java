@@ -4,7 +4,6 @@ import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.MeetingRepository;
 import com.dermacon.securewebapp.data.Person;
-import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
 import com.dermacon.securewebapp.service.MailService;
 import com.dermacon.securewebapp.service.PersonService;
