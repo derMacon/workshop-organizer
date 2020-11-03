@@ -70,7 +70,7 @@ INSERT INTO user (user_id, username, password, role)
 VALUES (2, "manager", "p", "ROLE_MANAGER");
 
 INSERT INTO user (user_id, username, password, role)
-VALUES (3, "user", "p", "ROLE_USER");
+VALUES (3, "silas", "hoffmann1706", "ROLE_USER");
 
 
 INSERT INTO person (person_id, firstname, surname, email, user_id)

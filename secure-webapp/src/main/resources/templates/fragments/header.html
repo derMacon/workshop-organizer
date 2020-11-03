@@ -46,23 +46,49 @@
 
 <!--</header>-->
 
-<header class="header sticky sticky--top js-header">
 
-    <div class="grid">
 
-        <nav class="navigation">
-            <ul class="navigation__list navigation__list--inline">
-                <li class="navigation__item"><a href="#" class="is-active">Home</a></li>
-                <li class="navigation__item"><a href="#">About Us</a></li>
-                <li class="navigation__item"><a href="#">Work</a></li>
-                <li class="navigation__item"><a href="#">Clients</a></li>
-                <li class="navigation__item"><a href="#">Contact</a></li>
-            </ul>
-        </nav>
 
-    </div>
+<!--<header class="header sticky sticky&#45;&#45;top js-header">-->
 
-</header>
+<!--    <div class="grid">-->
+
+<!--        <nav class="navigation">-->
+<!--            <ul class="navigation__list navigation__list&#45;&#45;inline">-->
+<!--                <li class="navigation__item"><a href="#" class="is-active">Home</a></li>-->
+<!--                <li class="navigation__item"><a href="#">About Us</a></li>-->
+<!--                <li class="navigation__item"><a href="#">Work</a></li>-->
+<!--                <li class="navigation__item"><a href="#">Clients</a></li>-->
+<!--                <li class="navigation__item"><a href="#">Contact</a></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+
+<!--    </div>-->
+
+<!--</header>-->
+
+ <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container pl-4">
+            <a class="navbar-brand" th:href="@{/}">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/courses}">Workshops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/createWorkshop}">Create Workshop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 </body>
 </html>

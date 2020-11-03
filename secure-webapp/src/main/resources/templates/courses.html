@@ -11,28 +11,8 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container pl-4">
-        <a class="navbar-brand" th:href="@{/}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/courses}">Workshops</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/createWorkshop}">Create Workshop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
+
 
 <div class="container pt-5">
 
@@ -55,7 +35,7 @@
                        th:text="${course.courseName}">Name </a></td>
                 <td><span th:text="${course.host.firstname}"> Host </span></td>
                 <td><span th:text="${course.courseSummary}"> Description </span></td>
-                <td><span th:text="${course.participants.size()}
+                <td><span class="text-center" th:text="${course.participants.size()}
                         + ' / ' + ${course.maxParticipantCount}">
                         Max Participantcount
                     </span>
@@ -63,13 +43,13 @@
                 <td>
                     <div th:switch="${course.participants.contains(currPerson)}">
                         <p th:case="${true}">
-                            <a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
-                               th:text="${'sign out '}"></a>
                             <i class="fas fa-sign-out-alt"></i></p>
-                        <p th:case="*">
                             <a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
-                               th:text="${'sign in '}"></a>
+                               th:text="${'  sign out '}"></a>
+                        <p th:case="*">
                             <i class="fas fa-sign-in-alt"></i></p>
+                            <a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
+                               th:text="${'  sign in'}"></a>
                     </div>
                 </td>
             </tr>
@@ -79,22 +59,8 @@
     </div>
 
 </div>
-<!--    <div class="footer fixed-bottom bg-dark">-->
-        <!-- Footer -->
-        <footer class="fixed-bottom page-footer font-small bg-dark">
 
-            <!-- Copyright -->
-            <div class="container pt-5 footer-copyright text-center py-3 text-white">© 2020
-                Copyright:
-                <a class="text-white" href="https://github.com/derMacon"> github.com/derMacon</a>
-            </div>
-            <!-- Copyright -->
-
-        </footer>
-<!--    </div>-->
-
-
-
+<div th:replace="fragments/footer_bootstrap :: footer_bootstrap"></div>
 
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
