@@ -41,15 +41,17 @@
                     </span>
                 </td>
                 <td>
-                    <div th:switch="${course.participants.contains(currPerson)}">
+                    <div class="d-flex" th:switch="${course.participants.contains(currPerson)}">
                         <p th:case="${true}">
-                            <i class="fas fa-sign-out-alt"></i></p>
+                            <i class="fas fa-sign-out-alt"></i>
                             <a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
                                th:text="${'  sign out '}"></a>
+                        </p>
                         <p th:case="*">
-                            <i class="fas fa-sign-in-alt"></i></p>
+                            <i class="fas fa-sign-in-alt"></i>
                             <a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
                                th:text="${'  sign in'}"></a>
+                        </p>
                     </div>
                 </td>
             </tr>
