@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <!--    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>-->
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<h3>create</h3>
+
+<form action="#" method="post"
+      th:action="@{/createWorkshop}"
+      th:object="${inputCourse}"
+      th:placeholder="Workshop">
+
+    <input th:field="*{courseName}"
+           th:value="${inputCourse.courseName}"
+           th:placeholder="name"
+           type="text"/>
+
+    <input th:field="*{courseSummary}"
+           th:value="${inputCourse.courseSummary}"
+           th:placeholder="summary"
+           type="text"/>
+
+    <input th:field="*{courseDescription}"
+           th:value="${inputCourse.courseDescription}"
+           th:placeholder="description"
+           type="text"/>
+
+    <input th:field="*{maxParticipantCount}"
+           th:value="${inputCourse.maxParticipantCount}"
+           th:placeholder="count"
+           type="number"/>
+
+<!--    <select th:field="*{host}">-->
+<!--        <option value=""></option>-->
+<!--        <option th:each="host : ${hosts}"-->
+<!--                th:value="${host.personId}"-->
+<!--                th:text="${host.firstname} + ${host.surname}"></option>-->
+
+    </select>
+
+
+    <button type="submit" value="add">
+        Add Workshop
+    </button>
+
+</form>
+
+</body>
+</html>

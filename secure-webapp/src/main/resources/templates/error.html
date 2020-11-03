@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>error</title>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/header_style.css}"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div th:switch="${error_message == null}">
+    <p th:case="${true}">error - something went wrong</p>
+    <p th:case="*" th:text="${error_message}">error</p>
+</div>
+
+</body>
+</html>
