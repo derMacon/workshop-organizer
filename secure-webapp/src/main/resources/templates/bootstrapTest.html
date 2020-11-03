@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf - Bootstrap WebJars</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container pl-4">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container pt-3">
+
+    <h1>Courses</h1>
+    <p>asdfl;abpoauvdb asd fa cdsvas dfasd fa sdf asdf</p>
+
+    <div class="table-responsive-sm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th> Name</th>
+                <th> Host</th>
+                <th> Description</th>
+                <th> Occupancy</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${allCourses}">
+                <td><a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
+                       th:text="${course.courseName}">Name </a></td>
+                <td><span th:text="${course.host.firstname}"> Host </span></td>
+                <td><span th:text="${course.courseSummary}"> Description </span></td>
+                <td><span th:text="${course.participants.size()}
+                        + ' / ' + ${course.maxParticipantCount}">
+                        Max Participantcount
+                    </span>
+                </td>
+            </tr>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>Column 1</h3>
+            <p>Lorem ipsum dolor..</p>
+        </div>
+        <div class="col-sm-4">
+            <h3>Column 2</h3>
+            <p>Lorem ipsum dolor..</p>
+        </div>
+        <div class="col-sm-4">
+            <h3>Column 3</h3>
+            <p>Lorem ipsum dolor..</p>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
