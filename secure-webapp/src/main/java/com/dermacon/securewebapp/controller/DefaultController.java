@@ -41,8 +41,8 @@ public class DefaultController {
     public String index(Model model) {
         model.addAttribute("selectedDomain", "home");
 
-//        return "index";
-        return "bootstrapTest";
+        return "index";
+//        return "bootstrapTest";
     }
 
     @RequestMapping("/noSecurity")
