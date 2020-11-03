@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Controller for view displayed to users with Role: ROLE_USER
  */
@@ -36,7 +39,14 @@ public class CourseUserController {
         model.addAttribute("selectedDomain", "home");
 
         model.addAttribute("allCourses", courseRepository.findAll());
+        model.addAttribute("currPerson", personService.getLoggedInPerson());
 
+//        boolean b = false;
+//        for (Course c : courseRepository.findAll()) {
+//            b = b || c.getParticipants().contains(personService.getLoggedInPerson());
+//        }
+
+//        return "bootstrapTest";
         return "courses";
     }
 

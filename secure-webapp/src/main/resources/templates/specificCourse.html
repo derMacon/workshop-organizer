@@ -3,51 +3,86 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
-    <!--    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>-->
+        <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
 
-<h3 th:text="${currCourse.getCourseName()}"> Specific Course </h3>
+<div class="container p-3">
 
-<p th:text="${currCourse.getCourseSummary()}"></p>
-<p th:text="${currCourse.getCourseDescription()}"></p>
+    <div class="container">
+        <h4 th:text="${currCourse.getCourseName()}"> Specific Course</h4>
+        <p><em
+                th:text="'by ' + ${currCourse.host.firstname} + ' ' + ${currCourse.host.surname}"></em>
+        </p>
+        <p class="text-justify" th:text="${currCourse.getCourseSummary()}"></p>
+        <p class="text-justify" th:text="${currCourse.getCourseDescription()}"></p>
 
-<ul th:if="${!isEnrolled}">
-    <li><a th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}}">enrollment</a></li>
-</ul>
-<ul th:if="${isEnrolled}">
-    <li><a th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">dropout</a></li>
-</ul>
+        <div class="btn-group">
+            <a th:if="${!isEnrolled}" class="btn btn-secondary"
+               th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}}">
+                enrollment
+            </a>
+
+            <a th:if="${isEnrolled}" class="btn btn-secondary"
+               th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">
+                dropout</a>
+
+            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"
+               th:href="@{'/courses/createAnnouncement?id=' +
+            ${currCourse.courseId}}">create
+                announcement</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container row pt-3">
+        <div class="col-sm-4">
+            <h4>Information</h4>
+
+            <h5>Meetings</h5>
+            <ul th:each="meeting : ${meetings}">
+                <li th:text="${meeting.getMeetingDate()} + ' at ' + ${meeting.getAddress()}">meeting
+                </li>
+            </ul>
+
+            <h5>Participants</h5>
+            <ul th:each="participant : ${currCourse.getParticipants()}">
+                <li th:text="${participant.firstname} + ' ' + ${participant.surname}">participant
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-8">
+            <h4>Announcements</h4>
+
+            <div class="card" th:each="announcement : ${currCourse.announcements}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${announcement.title}">title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"
+                        th:text="${announcement.publishingDate}">date</h6>
 
 
-<ul th:if="${!currUserRole.name().equals('ROLE_USER')}">
-    <a th:href="@{'/courses/createAnnouncement?id=' + ${currCourse.courseId}}">create announcement</a>
-</ul>
+                    <div th:switch="${announcement.content.length() >= 170}">
+                        <p th:case="${true}"class="card-text"
+                           th:text="${announcement.content.substring(1, 170)} + ' ...'">
+                        </p>
 
-<h3>Information</h3>
+                        <p th:case="*" th:text="${announcement.content}"></p>
+                    </div>
 
-<h4>Host</h4>
-<p th:text="${currCourse.host.firstname} + ${currCourse.host.surname}"></p>
+                    <a href="#" class="card-link">See full announcment</a>
 
-<h4>Meetings</h4>
-<ul th:each="meeting : ${meetings}">
-    <li th:text="${meeting.getMeetingDate()} + ${meeting.getAddress()}">meeting</li>
-</ul>
+                </div>
+            </div>
+        </div>
 
-<h4>Participants</h4>
-<ul th:each="participant : ${currCourse.getParticipants()}">
-    <li th:text="${participant.surname}">surname</li>
-    <li th:text="${participant.firstname}">firstname</li>
-</ul>
+    </div>
 
-<h3>Announcements</h3>
-
-<ul th:each="announcement : ${currCourse.announcements}">
-    <li th:text="${announcement.content}">content</li>
-</ul>
-
+<!--    <div th:replace="fragments/footer_bootstrap :: footer_bootstrap"></div>-->
 
 </body>
 </html>

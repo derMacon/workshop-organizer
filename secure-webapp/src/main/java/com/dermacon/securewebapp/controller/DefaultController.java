@@ -42,6 +42,12 @@ public class DefaultController {
         model.addAttribute("selectedDomain", "home");
 
         return "index";
+//        return "bootstrapTest";
+    }
+
+    @RequestMapping("/noSecurity")
+    public String ns() {
+        return "bootstrapTest";
     }
 
     /**

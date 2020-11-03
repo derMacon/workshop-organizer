@@ -45,10 +45,10 @@ CREATE TABLE course
 CREATE TABLE announcement
 (
     announcement_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(5000)   NOT NULL,
-    content VARCHAR(5000)   NOT NULL,
+    title           VARCHAR(5000)   NOT NULL,
+    content         VARCHAR(5000)   NOT NULL,
     publishing_date DATE            NOT NULL,
-    course_id INT(6) UNSIGNED NOT NULL,
+    course_id       INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (course_id) REFERENCES course (course_id)
 );
 
@@ -70,7 +70,7 @@ INSERT INTO user (user_id, username, password, role)
 VALUES (2, "manager", "p", "ROLE_MANAGER");
 
 INSERT INTO user (user_id, username, password, role)
-VALUES (3, "user", "p", "ROLE_USER");
+VALUES (3, "silas", "hoffmann1706", "ROLE_USER");
 
 
 INSERT INTO person (person_id, firstname, surname, email, user_id)
@@ -85,7 +85,10 @@ VALUES (102, "firstname3", "surname3", "workshop1234@gmx.de", 3);
 
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,
                     max_participant_count)
-VALUES (200, 100, "course1", "summary 1", "description course 1", 5);
+VALUES (200, 100, "course1",
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc",
+        5);
 
 INSERT INTO course (course_id, host_id, course_name, course_summary, course_description,
                     max_participant_count)
@@ -114,5 +117,10 @@ VALUES (401, "title 2", "test content 2", '2018-01-12', 200);
 
 INSERT INTO announcement(announcement_id, title, content, publishing_date, course_id)
 VALUES (402, "title 3", "test content 3", '2018-01-12', 201);
+
+INSERT INTO announcement(announcement_id, title, content, publishing_date, course_id)
+VALUES (404, "title 4",
+        "met, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, ",
+        '2018-01-12', 200);
 
 
