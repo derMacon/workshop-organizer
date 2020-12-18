@@ -69,8 +69,26 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
 
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/courses/}">Kursübersicht</a>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle nav-link"
+                           data-toggle="dropdown"
+                           role="button"
+                           th:href="@{/courses/}">
+                           Kursübersicht <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu bg-dark navbar-dark">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/enrolledCourses}">Belegte
+                                    Kurse</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/allCourses}">Kurs-Suche</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/createdCourses}">Erstellte
+                                    Kurse</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/admin/}">Adminbereich</a>

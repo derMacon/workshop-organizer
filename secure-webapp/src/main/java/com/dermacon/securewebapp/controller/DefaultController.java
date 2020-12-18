@@ -27,7 +27,6 @@ public class DefaultController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        System.out.println(personService.getLoggedInPerson());
         model.addAttribute("loggedInPerson", personService.getLoggedInPerson());
         return "index";
     }
