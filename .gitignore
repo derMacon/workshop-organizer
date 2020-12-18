@@ -19,12 +19,40 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# virtual machine crash logs, see
+# http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# tex - temp files
+*.aux
+*.lbf
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.lof
+*.bbl
+*.blg
 
+# IDE
+*/.idea/
+*.iml
+*.swp
+*/img_temp/
+*/META-INF/
+*/lastDocs/
+*/target/
 
+# maven
+*/.mvn/
+*/mvnw*
+*/mvnw.cmd
 
 # own stuff
 *.log
+*.log.*
+data_set.sql # private information
 

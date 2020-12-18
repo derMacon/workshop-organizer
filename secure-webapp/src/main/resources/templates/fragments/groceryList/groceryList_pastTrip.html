@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+<div>
+
+    <h3>Letzter Einkauf
+            <small class="text-muted"
+                   th:text="${' ' + #dates.format(dateLastPurchase, 'dd.MM.yyyy')}"></small>
+    </h3>
+
+    <div class="table-responsive-sm table-hover ">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Produkt</th>
+                <th>Menge</th>
+                <th>Zimmer</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:if="${oldItems.empty}">
+                <td colspan="3"> Keine Produkte in der Einkaufsliste!</td>
+            </tr>
+
+            <tr th:each="item : ${oldItems}">
+                <td style="text-align:center;"><input type="checkbox" disabled="disabled" checked/>
+                </td>
+                <td><span th:text="${item.itemName}"> item name </span></td>
+                <td style="text-align:center;"><span th:text="${item.itemCount}"> item count </span>
+                </td>
+                <td><span
+                        th:text="${item.destination.roomDescription} + ' (' + ${item.destination.level} + '. OG)'"> flatmate name
+                </span>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

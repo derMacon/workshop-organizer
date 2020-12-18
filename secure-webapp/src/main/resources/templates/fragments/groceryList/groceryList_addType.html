@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<div>
+
+    <h3 class="pl-2">Default hinzufügen:</h3>
+
+    <form action="#" id="categoryContainer" method="post" th:action="@{/groceryList/addNewPreset}"
+          th:object="${new_preset}" th:placeholder="Produkt">
+
+        <div class="d-flex flex-row rounded shadow text-white">
+
+            <input id="presetName"
+                   th:field="*{presetName}"
+                   th:placeholder="Produkt"
+                   type="text"
+                   class="form-control mr-1 ml-1"
+            /><br/>
+
+            <select class="form-control mr-1 ml-1"
+                    th:field="*{supplyCategory}">
+                <option value="">Kategorie</option>
+                <option th:each="category : ${available_categories}"
+                        th:value="${category.name()}"
+                        th:text="${category.getCategoryName()}"></option>
+            </select>
+
+            <button class="btn btn-default mr-1 ml-1" type="submit" value="add">
+                Hinzufügen
+            </button>
+
+        </div>
+
+    </form>
+
+
+</div>
+
+</body>
+</html>

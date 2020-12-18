@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+<div>
+
+    <h3>Aktueller Einkauf:</h3>
+
+    <div class="table-responsive-sm table-hover ">
+
+
+        <form action="#" method="post" th:action="@{/groceryList/processForm}"
+              th:object="${selectedItems}">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Produkt</th>
+                    <th>Menge</th>
+                    <th>Zimmer</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:if="${newItems.empty}">
+                    <td colspan="4"> Keine Produkte in der Einkaufsliste!</td>
+                </tr>
+
+                <tr th:each="item : ${newItems}">
+                    <td style="text-align:center;"><input th:field="*{checkedItems}"
+                                                          th:value="${item.itemId}"
+                                                          type="checkbox"/></td>
+                    <td><span th:text="${item.itemName}"> item name </span></td>
+
+                    <td style="text-align:center;"><span th:text="${item.itemCount}"> item count </span>
+                    </td>
+
+                    <td><span
+                            th:text="${item.destination.roomDescription} + ' (' + ${item.destination.level} + '. OG)'"> flatmate name
+                    </span>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="d-flex justify-content-center border-top border-bottom">
+                <input class="btn btn-link text-dark"
+                       type="submit" name="update"
+                       value="Einkaufen"/>
+                <input class="btn btn-link text-dark"
+                       type="submit" name="remove"
+                       value="Entfernen"/>
+                <input class="btn btn-link text-dark"
+                       type="submit" name="updateAll"
+                       value="Alles einkaufen"/>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+</html>

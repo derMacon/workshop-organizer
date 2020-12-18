@@ -1,0 +1,30 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="header sticky-footer sticky--top js-header">
+
+    <div class="grid" id="headerDiv">
+
+        <nav class="navigation">
+            <ul class="navigation__list navigation__list--inline">
+
+                <li class="navigation__item">
+                    <a th:class="${#strings.equals(selectedDomain, 'groceryList')} ? 'is-active' : ''"
+                        th:href="@{/groceryList}">Einkaufsliste</a>
+                </li>
+
+                <li class="navigation__item">
+                    <a
+                        th:href="@{/groceryList/admin}">Verwaltung</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+
+</header>
+
+</body>
+</html>
