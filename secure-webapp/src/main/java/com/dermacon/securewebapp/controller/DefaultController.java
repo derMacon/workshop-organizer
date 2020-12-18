@@ -28,12 +28,12 @@ public class DefaultController {
         return "index";
     }
 
-    @ModelAttribute
-    public void addAttributes(Model model) {
-        List<User> users = (List<User>) userRepository.findAll();
-
-        model.addAttribute("users", users);
-    }
+//    @ModelAttribute
+//    public void addAttributes(Model model) {
+//        List<User> users = (List<User>) userRepository.findAll();
+//
+//        model.addAttribute("users", users);
+//    }
 
     /**
      * https://stackoverflow.com/questions/20848312/how-to-correctly-logout-user-in-spring-security
