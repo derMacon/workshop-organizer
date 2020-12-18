@@ -25,7 +25,7 @@ public class DefaultController {
 
     @RequestMapping("/")
     public String index() {
-        return "redirect:/groceryList/";
+        return "index";
     }
 
     @ModelAttribute
