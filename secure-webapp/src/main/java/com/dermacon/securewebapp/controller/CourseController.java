@@ -18,8 +18,8 @@ import java.util.function.Supplier;
 @RequestMapping("courses")
 public class CourseController extends ModelAttributeProvider {
 
-    private final static String SPECIFIC_PATH = "/fragments/courses/specific/specificCourse";
-    private final static String OVERVIEW_PATH = "/fragments/courses/overview/";
+    private final static String SPECIFIC_PATH = "/courses/specific/specificCourse";
+    private final static String OVERVIEW_PATH = "/courses/overview/";
     private final static Logger LOGGER = Logger.getLogger(CourseController.class.getName());
 
     @Autowired
@@ -34,30 +34,28 @@ public class CourseController extends ModelAttributeProvider {
 
     /* ---------- Courses overview ---------- */
 
-
-    @RequestMapping(value = {"/", "/allCourses"})
+    @RequestMapping(value = {"/", "/all"})
     public String showAllCourses(Model model) {
-        return showCoursesOverview(model, courseService::allCourses);
+        return showCoursesOverview(model, courseService.allCourses());
     }
 
-    @RequestMapping(path = "/enrolledCourses")
+    @RequestMapping(path = "/enrolled")
     public String showEnrolledCourses(Model model) {
-        return showCoursesOverview(model, courseService::enrolledCourses);
+        return showCoursesOverview(model, personService.getLoggedInPerson().getCourses());
     }
 
-    @RequestMapping(path = "/createdCourses")
+    @RequestMapping(path = "/created")
     public String showCreatedCourses(Model model) {
-        return showCoursesOverview(model, courseService::createdCourses);
+        return showCoursesOverview(model, courseService.createdCourses());
     }
 
-    private String showCoursesOverview(Model model, Supplier<Iterable<Course>> supplier) {
-        model.addAttribute("specifiedCourses", supplier.get());
+    private String showCoursesOverview(Model model, Iterable<Course> courses) {
+        model.addAttribute("specifiedCourses", courses);
         return OVERVIEW_PATH + "coursesOverview";
     }
 
 
     /* ---------- specific course information ---------- */
-
 
     @RequestMapping(path = "/specific")
     public String showSpecificCourse(Model model, @RequestParam long id) {

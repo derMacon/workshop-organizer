@@ -11,9 +11,6 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-//    @Autowired
-//    private CourseP
-
     @Autowired
     private PersonService personService;
 
@@ -23,11 +20,6 @@ public class CourseService {
 
     public Iterable<Course> allCourses() {
         return courseRepository.findAll();
-    }
-
-    public Iterable<Course> enrolledCourses() {
-//        courseRepository.find
-        return null;
     }
 
     public Iterable<Course> createdCourses() {

@@ -80,6 +80,14 @@ public class Person {
         this.user = user;
     }
 
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
