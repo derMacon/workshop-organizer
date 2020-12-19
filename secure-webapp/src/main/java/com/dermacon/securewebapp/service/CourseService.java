@@ -17,13 +17,25 @@ public class CourseService {
     @Autowired
     private PersonService personService;
 
-    public Iterable<Course> getAllCourses() {
+    public Course getCourse(long id) {
+        return courseRepository.findByCourseId(id);
+    }
+
+    public Iterable<Course> allCourses() {
         return courseRepository.findAll();
     }
 
     public Iterable<Course> enrolledCourses() {
 //        courseRepository.find
         return null;
+    }
+
+    public Iterable<Course> createdCourses() {
+        return null;
+    }
+
+    public boolean currUserIsEnrolled(Course course) {
+        return course.getParticipants().contains(personService.getLoggedInPerson());
     }
 
 }

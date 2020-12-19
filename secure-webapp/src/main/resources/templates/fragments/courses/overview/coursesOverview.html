@@ -4,10 +4,10 @@
     <meta charset="UTF-8"/>
     <title>Spring Boot Thymeleaf - Bootstrap WebJars</title>
 
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-          crossorigin="anonymous">
+          rel="stylesheet">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course : ${allCourses}">
+            <tr th:each="course : ${specifiedCourses}">
                 <td><a th:href="@{'/courses/specific?id=' + ${course.courseId}}"
                        th:text="${course.courseName}">Name </a></td>
                 <td><span th:text="${course.host.firstname}"> Host </span></td>
