@@ -1,0 +1,33 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<h4>Announcements</h4>
+
+<div class="card" th:each="announcement : ${currCourse.announcements}">
+    <div class="card-body">
+        <h5 class="card-title" th:text="${announcement.title}">title</h5>
+        <h6 class="card-subtitle mb-2 text-muted"
+            th:text="${announcement.publishingDate}">date</h6>
+
+
+        <div th:switch="${announcement.content.length() >= 170}">
+            <p th:case="${true}"class="card-text"
+               th:text="${announcement.content.substring(1, 170)} + ' ...'">
+            </p>
+
+            <p th:case="*" th:text="${announcement.content}"></p>
+        </div>
+
+        <a href="#" class="card-link">See full announcment</a>
+
+    </div>
+</div>
+
+</body>
+</html>

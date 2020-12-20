@@ -7,10 +7,12 @@
 </head>
 <body>
 
-<h5>Participants</h5>
-<ul th:each="participant : ${currCourse.getParticipants()}">
-    <li th:text="${participant.firstname} + ' ' + ${participant.surname}">participant</li>
-</ul>
+<form class="btn-group">
+
+    <a class="btn btn-secondary"
+       th:href="@{'/manager/removeCourse?id=' + ${currCourse.courseId}}">
+        Close Course
+    </a>
 
 </body>
 </html>

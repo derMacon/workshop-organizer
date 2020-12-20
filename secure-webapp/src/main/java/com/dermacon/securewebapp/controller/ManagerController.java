@@ -23,6 +23,12 @@ public class ManagerController {
     @Autowired
     private CourseService courseService;
 
+
+    @RequestMapping("/")
+    public String root() {
+        return "redirect:/courses/created";
+    }
+
     @RequestMapping("/createCourse")
     public String createCoursePage_get(Model model) {
         // course instance that will be filled in form
@@ -46,15 +52,16 @@ public class ManagerController {
     }
 
 
-    @PostMapping("/removeCourse")
+    @RequestMapping("/removeCourse")
     public String removeCoursePage_post(@RequestParam long id, Model model) {
+        System.out.println("hier");
         try {
             courseService.removeCourse(id);
         } catch (NonExistentCourseException e) {
             model.addAttribute("errorCode", e.getErrorCode());
             return "error/error";
         }
-        return "redirect:/";
+        return "redirect:/courses/created";
     }
 
 
