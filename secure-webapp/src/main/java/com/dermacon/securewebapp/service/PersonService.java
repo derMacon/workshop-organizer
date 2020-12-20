@@ -1,6 +1,5 @@
 package com.dermacon.securewebapp.service;
 
-import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
@@ -11,8 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -61,16 +58,16 @@ public class PersonService {
      * list of hosts to pick from while creating new course
      * @return list of hosts to pick from while creating new course
      */
-    public Iterable<Person> getPossibleHosts() {
-        Set<User> users = userRepository.findAllByRole(UserRole.ROLE_ADMIN);
-        users.addAll(userRepository.findAllByRole(UserRole.ROLE_MANAGER));
-
-        // list of hosts to pick from while creating new course
-        Iterable<Person> possible_hosts = users.stream()
-                .map(personRepository::findByUser)
-                .collect(Collectors.toList());
-
-        return possible_hosts;
-    }
+//    public Iterable<Person> getPossibleHosts() {
+//        Set<User> users = userRepository.findAllByRole(UserRole.ROLE_ADMIN);
+//        users.addAll(userRepository.findAllByRole(UserRole.ROLE_MANAGER));
+//
+//        // list of hosts to pick from while creating new course
+//        Iterable<Person> possible_hosts = users.stream()
+//                .map(personRepository::findByUser)
+//                .collect(Collectors.toList());
+//
+//        return possible_hosts;
+//    }
 
 }

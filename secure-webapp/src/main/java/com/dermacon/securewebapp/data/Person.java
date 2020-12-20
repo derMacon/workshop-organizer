@@ -1,5 +1,8 @@
 package com.dermacon.securewebapp.data;
 
+import com.dermacon.securewebapp.data.Course;
+import com.dermacon.securewebapp.data.User;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -75,6 +78,14 @@ public class Person {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

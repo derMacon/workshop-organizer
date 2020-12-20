@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
-        <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>
+    <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
@@ -30,10 +30,10 @@
                th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">
                 dropout</a>
 
-            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"
-               th:href="@{'/courses/createAnnouncement?id=' +
-            ${currCourse.courseId}}">create
-                announcement</a>
+<!--            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"-->
+<!--               th:href="@{'/courses/createAnnouncement?id=' +-->
+<!--            ${currCourse.courseId}}">create-->
+<!--                announcement</a>-->
         </div>
     </div>
 
@@ -82,7 +82,7 @@
 
     </div>
 
-<!--    <div th:replace="fragments/footer_bootstrap :: footer_bootstrap"></div>-->
+    <!--    <div th:replace="fragments/footer_bootstrap :: footer_bootstrap"></div>-->
 
 </body>
 </html>

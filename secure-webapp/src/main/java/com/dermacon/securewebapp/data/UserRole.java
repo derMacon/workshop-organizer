@@ -1,17 +1,25 @@
 package com.dermacon.securewebapp.data;
 
+import com.dermacon.securewebapp.security.user.ApplicationUserPermission;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.dermacon.securewebapp.security.user.ApplicationUserPermission.*;
+
 public enum UserRole {
-    ROLE_USER("user"),
-    ROLE_ADMIN("admin"),
-    ROLE_MANAGER("manager");
+    ROLE_USER(COURSE_READ),
+    ROLE_MANAGER(COURSE_READ, COURSE_WRITE),
+    ROLE_ADMIN(COURSE_READ, COURSE_WRITE, PERSON_READ, PERSON_WRITE);
 
-    private final String roleName;
+    private final Set<ApplicationUserPermission> permissions;
 
-    UserRole(String roleName) {
-        this.roleName = roleName;
+    UserRole(ApplicationUserPermission... permissions) {
+        this.permissions = new HashSet<>(Arrays.asList(permissions));
     }
 
-    public String getRoleName() {
-        return roleName;
+    public Set<ApplicationUserPermission> getPermissions() {
+        return permissions;
     }
 }

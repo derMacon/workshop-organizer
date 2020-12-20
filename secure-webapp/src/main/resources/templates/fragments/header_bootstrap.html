@@ -1,3 +1,52 @@
+<!--&lt;!&ndash;source: https://codepen.io/marcobiedermann/pen/gReMQy&ndash;&gt;-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <title>title</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:fragment="header_bootstrap">-->
+<!--    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">-->
+<!--        <div class="container pl-4">-->
+<!--            <a class="navbar-brand" th:href="@{/}">Einkaufsliste</a>-->
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse"-->
+<!--                    data-target="#collapsibleNavbar">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+<!--            <div class="collapse navbar-collapse" id="collapsibleNavbar navbarText">-->
+<!--                <ul class="navbar-nav mr-auto">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/groceryList/admin/}">Verwaltung</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/}">Help <i class="fa fa-question-circle"></i></a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul class="navbar-nav">-->
+<!--                    <li class="nav-item">-->
+<!--                    <a class="nav-link"-->
+<!--                          th:text="${loggedInPerson.firstname} + ' ' + ${loggedInPerson.surname}"></a>-->
+<!--                    </li>-->
+
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/logout}">Logout</a>-->
+<!--                    </li>-->
+
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/}">Help <i class="fa fa-question-circle"></i></a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
@@ -10,22 +59,68 @@
 <div th:fragment="header_bootstrap">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container pl-4">
-            <a class="navbar-brand" th:href="@{/}">Home</a>
+
+            <a class="navbar-brand" th:href="@{/}">Startseite</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle nav-link"
+                           data-toggle="dropdown"
+                           role="button"
+                           th:href="@{/courses/}">
+                           Kursübersicht <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu bg-dark navbar-dark">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/enrolled}">
+                                    My Enrolled Courses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/all}">All Courses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/created}">My Created
+                                    Courses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/courses/created}">Creator
+                                Overview</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/}">Admin Area</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/manager/createCourse}">Create Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/help/}">Help <i
+                                class="fa fa-question-circle"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/info/}">Contact Information</a>
+                    </li>
+                </ul>
+
                 <ul class="navbar-nav">
+
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/courses}">Workshops</a>
+                        <a class="nav-link"
+                           th:text="${loggedInPerson?.firstname} + ' ' + ${loggedInPerson?.surname}"></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/createWorkshop}">Create Workshop</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/logout}">Logout</a>
                     </li>
+
                 </ul>
             </div>
         </div>
