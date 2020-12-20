@@ -76,11 +76,11 @@ public class WebSecurityConfig {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/noSecurity", "/css/**").permitAll()
-                    .antMatchers("/test").hasRole("ADMIN")
+                    .antMatchers("/help", "/css/**").permitAll()
                     .antMatchers("/courses/all").hasAnyRole("USER", "MANAGER", "ADMIN")
                     .antMatchers("/courses/enrolled").hasAnyRole("USER", "MANAGER")
                     .antMatchers("/courses/created").hasRole("MANAGER")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/css/**").permitAll()
                     .anyRequest()
                     .authenticated()

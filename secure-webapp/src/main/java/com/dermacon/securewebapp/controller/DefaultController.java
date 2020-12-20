@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.dermacon.securewebapp.data.ErrorCode.ACCESS_DENIED;
+import static com.dermacon.securewebapp.exception.ErrorCode.ACCESS_DENIED;
 
 @Controller
 public class DefaultController extends ModelAttributeProvider {
@@ -35,12 +35,13 @@ public class DefaultController extends ModelAttributeProvider {
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+        System.out.println("logout");
         return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
 
     @RequestMapping("/accessDenied")
     public String accessDenied(Model model) {
-        model.addAttribute("error", ACCESS_DENIED);
+        model.addAttribute("errorCode", ACCESS_DENIED);
         return "error/error";
     }
 

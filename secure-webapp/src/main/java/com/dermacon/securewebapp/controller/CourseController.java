@@ -60,6 +60,7 @@ public class CourseController extends ModelAttributeProvider {
     @RequestMapping(path = "/specific")
     public String showSpecificCourse(Model model, @RequestParam long id) {
         Course course = courseService.getCourse(id);
+
         model.addAttribute("currCourse", course);
         model.addAttribute("isEnrolled", courseService.currUserIsEnrolled(course));
         model.addAttribute("meetings", meetingService.getAllMeetings(course));
