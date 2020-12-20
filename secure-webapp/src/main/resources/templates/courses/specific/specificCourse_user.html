@@ -13,24 +13,8 @@
 <div class="container p-3">
 
     <div class="container">
-
         <div th:include="courses/specific/fragments/content"></div>
-
-        <div class="btn-group">
-            <a th:if="${!isEnrolled}" class="btn btn-secondary"
-               th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}}">
-                enrollment
-            </a>
-
-            <a th:if="${isEnrolled}" class="btn btn-secondary"
-               th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">
-                dropout</a>
-
-<!--            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"-->
-<!--               th:href="@{'/courses/createAnnouncement?id=' +-->
-<!--            ${currCourse.courseId}}">create-->
-<!--                announcement</a>-->
-        </div>
+        <div th:include="courses/specific/fragments/main_actions_user"></div>
     </div>
 
     <hr>
@@ -39,17 +23,9 @@
         <div class="col-sm-4">
             <h4>Information</h4>
 
-            <h5>Meetings</h5>
-            <ul th:each="meeting : ${meetings}">
-                <li th:text="${meeting.getMeetingDate()} + ' at ' + ${meeting.getAddress()}">meeting
-                </li>
-            </ul>
+            <div th:include="courses/specific/fragments/meetings_view"></div>
+            <div th:include="courses/specific/fragments/view_participants"></div>
 
-            <h5>Participants</h5>
-            <ul th:each="participant : ${currCourse.getParticipants()}">
-                <li th:text="${participant.firstname} + ' ' + ${participant.surname}">participant
-                </li>
-            </ul>
         </div>
 
         <div class="col-sm-8">
