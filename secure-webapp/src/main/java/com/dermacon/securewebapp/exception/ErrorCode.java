@@ -9,6 +9,10 @@ public enum ErrorCode {
     DUPLICATE_COURSE(
             "Duplicate Course",
             "Manager tried to create a course with a name that already exists"
+    ),
+    NON_EXISTENT_COURSE(
+        "Non existent course",
+            "Course does not exist"
     );
 
     private final String title;

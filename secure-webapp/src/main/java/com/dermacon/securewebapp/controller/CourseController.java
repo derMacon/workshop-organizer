@@ -1,6 +1,8 @@
 package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Course;
+import com.dermacon.securewebapp.data.Person;
+import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.service.CourseService;
 import com.dermacon.securewebapp.service.MeetingService;
 import com.dermacon.securewebapp.service.PersonService;
@@ -18,7 +20,7 @@ import java.util.function.Supplier;
 @RequestMapping("courses")
 public class CourseController extends ModelAttributeProvider {
 
-    private final static String SPECIFIC_PATH = "/courses/specific/specificCourse";
+    private final static String SPECIFIC_PATH = "/courses/specific/";
     private final static String OVERVIEW_PATH = "/courses/overview/";
     private final static Logger LOGGER = Logger.getLogger(CourseController.class.getName());
 
@@ -65,7 +67,11 @@ public class CourseController extends ModelAttributeProvider {
         model.addAttribute("isEnrolled", courseService.currUserIsEnrolled(course));
         model.addAttribute("meetings", meetingService.getAllMeetings(course));
 
-        return SPECIFIC_PATH;
+        // if the person created the course or the person is an admin
+        return courseService.loggedInPersonCanEditCourse(course)
+                ? SPECIFIC_PATH + "specificCourse_manager"
+                : SPECIFIC_PATH + "specificCourse_user";
     }
+
 
 }

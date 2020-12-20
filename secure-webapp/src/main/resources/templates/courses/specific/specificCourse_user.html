@@ -13,12 +13,8 @@
 <div class="container p-3">
 
     <div class="container">
-        <h4 th:text="${currCourse.getCourseName()}"> Specific Course</h4>
-        <p><em
-                th:text="'by ' + ${currCourse.host.firstname} + ' ' + ${currCourse.host.surname}"></em>
-        </p>
-        <p class="text-justify" th:text="${currCourse.getCourseSummary()}"></p>
-        <p class="text-justify" th:text="${currCourse.getCourseDescription()}"></p>
+
+        <div th:include="courses/specific/fragments/content"></div>
 
         <div class="btn-group">
             <a th:if="${!isEnrolled}" class="btn btn-secondary"

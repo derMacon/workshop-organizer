@@ -1,0 +1,18 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+    <h4 th:text="${currCourse.getCourseName()}"> Specific Course</h4>
+    <p><em
+            th:text="'by ' + ${currCourse.host.firstname} + ' ' + ${currCourse.host.surname}"></em>
+    </p>
+    <p class="text-justify" th:text="${currCourse.getCourseSummary()}"></p>
+    <p class="text-justify" th:text="${currCourse.getCourseDescription()}"></p>
+
+</body>
+</html>
