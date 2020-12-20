@@ -10,6 +10,10 @@ public enum ErrorCode {
             "Duplicate Course",
             "Manager tried to create a course with a name that already exists"
     ),
+    USER_ALREADY_ENROLLED(
+            "User already enrolled",
+            "User is already enrolled in the course and cannot be added a second time"
+    ),
     NON_EXISTENT_COURSE(
         "Non existent course",
             "Course does not exist"

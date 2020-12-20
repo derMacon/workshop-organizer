@@ -9,12 +9,12 @@
 
 <div class="btn-group">
     <a th:if="${!isEnrolled}" class="btn btn-secondary"
-       th:href="@{'/courses/enroll?id=' + ${currCourse.courseId}}">
+       th:href="@{'/courses/enroll?courseId=' + ${currCourse.courseId}}">
         enrollment
     </a>
 
     <a th:if="${isEnrolled}" class="btn btn-secondary"
-       th:href="@{'/courses/dropout?id=' + ${currCourse.courseId}}">
+       th:href="@{'/courses/dropout?courseId=' + ${currCourse.courseId}}">
         dropout</a>
 
     <!--            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"-->

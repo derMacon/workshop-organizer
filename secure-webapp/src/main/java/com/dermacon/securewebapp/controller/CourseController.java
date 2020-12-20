@@ -3,6 +3,9 @@ package com.dermacon.securewebapp.controller;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.NonExistentCourseException;
+import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
 import com.dermacon.securewebapp.service.CourseService;
 import com.dermacon.securewebapp.service.MeetingService;
 import com.dermacon.securewebapp.service.PersonService;
@@ -13,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.function.Supplier;
 
 @Controller
 @RequestMapping("courses")
@@ -71,6 +72,34 @@ public class CourseController extends ModelAttributeProvider {
         return courseService.loggedInPersonCanEditCourse(course)
                 ? SPECIFIC_PATH + "specificCourse_manager"
                 : SPECIFIC_PATH + "specificCourse_user";
+    }
+
+
+
+    /* ---------- user related methods ---------- */
+
+    @RequestMapping(path = "/enroll")
+    public String enrollLoggedInUser(@RequestParam long courseId, Model model) {
+        try {
+            courseService.enrollLoggedInPerson(courseId);
+        } catch (ErrorCodeException e) {
+            // todo log this
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+        return "redirect:/courses/specific?id=" + courseId;
+    }
+
+    @RequestMapping(path = "/dropout")
+    public String dropoutLoggedInUser(@RequestParam long courseId, Model model) {
+        try {
+            courseService.dropoutLoggedInPerson(courseId);
+        } catch (ErrorCodeException e) {
+            // todo log this
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+        return "redirect:/courses/all";
     }
 
 

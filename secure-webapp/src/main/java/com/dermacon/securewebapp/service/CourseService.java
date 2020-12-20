@@ -7,6 +7,7 @@ import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
+import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class CourseService {
 
 
 
-    /* ---------- creating stuff ---------- */
+    /* ---------- course entities (add / delete) ---------- */
 
     public void createCourse(FormCourseInfo courseInfo) throws DuplicateCourseException {
         // todo move this to repository
@@ -69,6 +70,21 @@ public class CourseService {
         courseRepository.save(newCourse);
     }
 
+    public void removeCourse(long id) throws NonExistentCourseException {
+        Course course = courseRepository.findByCourseId(id);
+        if (course == null) {
+            throw new NonExistentCourseException();
+        }
+        // first delete all foreign key references
+        course.setHost(null);
+        // todo maybe delete announcements???
+        course.setAnnouncements(null);
+        course.setParticipants(null);
+        courseRepository.delete(course);
+    }
+
+
+    /* ---------- person information ---------- */
 
     /**
      * Checks if the person created the course or the person is an admin
@@ -82,15 +98,32 @@ public class CourseService {
     }
 
 
-    public void removeCourse(long id) throws NonExistentCourseException {
-        Course course = courseRepository.findByCourseId(id);
+    /* ---------- person information ---------- */
+
+    public void enrollLoggedInPerson(long courseId) throws NonExistentCourseException, UserAlreadyEnrolledException {
+        Course course = courseRepository.findByCourseId(courseId);
         if (course == null) {
             throw new NonExistentCourseException();
         }
-        course.setHost(null);
-        course.setAnnouncements(null);
-        course.setParticipants(null);
-        courseRepository.delete(course);
+
+        Person person = personService.getLoggedInPerson();
+        if (course.getParticipants().contains(person)) {
+            throw new UserAlreadyEnrolledException();
+        }
+
+        // todo
+
     }
+
+    public void dropoutLoggedInPerson(long courseId) throws NonExistentCourseException {
+        Course course = courseRepository.findByCourseId(courseId);
+        if (course == null) {
+            throw new NonExistentCourseException();
+        }
+
+        // todo
+
+    }
+
 
 }

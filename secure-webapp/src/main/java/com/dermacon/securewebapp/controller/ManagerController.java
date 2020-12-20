@@ -3,6 +3,7 @@ package com.dermacon.securewebapp.controller;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class ManagerController {
         System.out.println("hier");
         try {
             courseService.removeCourse(id);
-        } catch (NonExistentCourseException e) {
+        } catch (ErrorCodeException e) {
             model.addAttribute("errorCode", e.getErrorCode());
             return "error/error";
         }
