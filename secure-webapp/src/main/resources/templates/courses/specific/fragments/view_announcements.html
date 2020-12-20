@@ -9,6 +9,10 @@
 
 <h4>Announcements</h4>
 
+<ul th:if="${currCourse.announcements.empty}">
+    <li>No announcement yet</li>
+</ul>
+
 <div class="card" th:each="announcement : ${currCourse.announcements}">
     <div class="card-body">
         <h5 class="card-title" th:text="${announcement.title}">title</h5>

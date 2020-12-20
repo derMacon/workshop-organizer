@@ -8,8 +8,15 @@
 <body>
 
 <h5>Participants</h5>
+
+<ul th:if="${currCourse.getParticipants().empty}">
+    <li>No participants enrolled</li>
+</ul>
+
 <ul th:each="participant : ${currCourse.getParticipants()}">
+
     <li th:text="${participant.firstname} + ' ' + ${participant.surname}">participant</li>
+
 </ul>
 
 </body>
