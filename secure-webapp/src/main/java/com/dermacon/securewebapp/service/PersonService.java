@@ -7,10 +7,13 @@ import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+
+import static com.dermacon.securewebapp.data.UserRole.ROLE_ANONYMOUS;
 
 @Service
 public class PersonService {
@@ -40,17 +43,21 @@ public class PersonService {
      * @return the currently logged in user
      */
     public Person getLoggedInPerson() {
-        return personRepository.findByUser(getLoggedInUser());
+        try {
+            return personRepository.findByUser(getLoggedInUser());
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public User getLoggedInUser() {
-        // for some reason the id is always 0
-        String username = ((User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal()).getUsername();
+            // for some reason the id is always 0
+            String username = ((User) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal()).getUsername();
 
-        return userRepository.findByUsername(username);
+            return userRepository.findByUsername(username);
     }
 
     public Iterable<Person> getAllPersons() {

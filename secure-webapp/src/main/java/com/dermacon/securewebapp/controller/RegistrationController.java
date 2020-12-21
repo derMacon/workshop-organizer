@@ -2,9 +2,12 @@ package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
+import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
 import com.dermacon.securewebapp.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +19,8 @@ import javax.mail.MessagingException;
  * @author MukulJaiswal
  *
  */
-@RestController
+@Controller
+@RequestMapping("registration")
 public class RegistrationController {
 
     @Autowired
@@ -24,6 +28,14 @@ public class RegistrationController {
 
     @Autowired
     private PersonRepository personRepository;
+
+
+    @RequestMapping(value={"/", "/signup"})
+    public String showSignupView(Model model) {
+        System.out.println("ist da");
+        model.addAttribute("signupInfo", new FormSignupInfo());
+        return "registration/registration";
+    }
 
     /**
      *
