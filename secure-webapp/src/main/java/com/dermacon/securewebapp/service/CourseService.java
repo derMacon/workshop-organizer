@@ -2,12 +2,15 @@ package com.dermacon.securewebapp.service;
 
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
+import com.dermacon.securewebapp.data.FormAnnouncementInfo;
 import com.dermacon.securewebapp.data.FormCourseInfo;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
+import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +25,18 @@ public class CourseService {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private AnnouncementService announcementService;
+
 
     /* ---------- information for the displaying data ---------- */
 
-    public Course getCourse(long id) {
-        return courseRepository.findByCourseId(id);
+    public Course getCourse(long courseId) throws NonExistentCourseException {
+        Course course = courseRepository.findByCourseId(courseId);
+        if (course == null) {
+            throw new NonExistentCourseException();
+        }
+        return courseRepository.findByCourseId(courseId);
     }
 
     public Iterable<Course> allCourses() {
@@ -100,30 +110,50 @@ public class CourseService {
 
     /* ---------- person information ---------- */
 
-    public void enrollLoggedInPerson(long courseId) throws NonExistentCourseException, UserAlreadyEnrolledException {
-        Course course = courseRepository.findByCourseId(courseId);
-        if (course == null) {
-            throw new NonExistentCourseException();
-        }
+    /**
+     * Enroll logged in person in a given course
+     *
+     * @param courseId id of the course
+     * @throws NonExistentCourseException the specified course does not exist
+     * @throws UserAlreadyEnrolledException the person is already enrolled in the course
+     * @throws HostEnrollOwnCourseException the person has created the course
+     */
+    public void enrollLoggedInPerson(long courseId) throws NonExistentCourseException, UserAlreadyEnrolledException, HostEnrollOwnCourseException {
+        Course course = getCourse(courseId);
 
-        Person person = personService.getLoggedInPerson();
-        if (course.getParticipants().contains(person)) {
+        Person newParticipant = personService.getLoggedInPerson();
+        if (course.getParticipants().contains(newParticipant)) {
             throw new UserAlreadyEnrolledException();
         }
 
-        // todo
-
-    }
-
-    public void dropoutLoggedInPerson(long courseId) throws NonExistentCourseException {
-        Course course = courseRepository.findByCourseId(courseId);
-        if (course == null) {
-            throw new NonExistentCourseException();
+        if (course.getHost().equals(newParticipant)) {
+            throw new HostEnrollOwnCourseException();
         }
 
-        // todo
-
+        course.addNewParticipant(newParticipant);
+        courseRepository.save(course);
+//        mailService.sendGreeting(newParticipant, course);
     }
 
+    public void dropoutLoggedInPerson(long courseId) throws NonExistentCourseException, UserNotEnrolledAtDropoutException {
+        Course course = getCourse(courseId);
+
+        Person participant = personService.getLoggedInPerson();
+        if (!currUserIsEnrolled(course)) {
+            throw new UserNotEnrolledAtDropoutException();
+        }
+
+        course.removeParticipant(participant);
+        courseRepository.save(course);
+//        mailService.sendDropoutConfirmation(participant, course);
+    }
+
+
+    /* ---------- announcements ---------- */
+
+    public void createAnnouncement(FormAnnouncementInfo announcementInfo, long courseId) throws NonExistentCourseException {
+        Course course = getCourse(courseId);
+        announcementService.createNewAnnouncement(course, announcementInfo);
+    }
 
 }

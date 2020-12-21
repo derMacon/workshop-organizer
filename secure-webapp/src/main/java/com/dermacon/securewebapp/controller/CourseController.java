@@ -62,7 +62,14 @@ public class CourseController extends ModelAttributeProvider {
 
     @RequestMapping(path = "/specific")
     public String showSpecificCourse(Model model, @RequestParam long id) {
-        Course course = courseService.getCourse(id);
+        Course course = null;
+
+        try {
+            course = courseService.getCourse(id);
+        } catch (NonExistentCourseException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
 
         model.addAttribute("currCourse", course);
         model.addAttribute("isEnrolled", courseService.currUserIsEnrolled(course));
@@ -73,7 +80,6 @@ public class CourseController extends ModelAttributeProvider {
                 ? SPECIFIC_PATH + "specificCourse_manager"
                 : SPECIFIC_PATH + "specificCourse_user";
     }
-
 
 
     /* ---------- user related methods ---------- */
@@ -101,6 +107,5 @@ public class CourseController extends ModelAttributeProvider {
         }
         return "redirect:/courses/all";
     }
-
 
 }
