@@ -86,13 +86,10 @@ public class CourseService {
     public void removeCourse(long id) throws NonExistentCourseException {
         Course course = getCourse(id);
         // first delete all foreign key references
-//        course.setHost(null);
-        // todo maybe delete announcements???
-//        course.setParticipants(null);
-//        courseRepository.deleteByCourseId(id);
-//        Set<Announcement> announcements = course.getAnnouncements();
-//        course.setAnnouncements(null);
-//        announcementService.deleteAnnouncements(announcements);
+        course.setHost(null);
+        course.setParticipants(null);
+        Set<Announcement> announcements = course.getAnnouncements();
+        announcementService.deleteAnnouncements(announcements);
         courseRepository.delete(course);
     }
 

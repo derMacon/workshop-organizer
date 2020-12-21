@@ -54,10 +54,7 @@ public class AnnouncementService {
     }
 
     public void deleteAnnouncements(Set<Announcement> announcements) {
-        for (Announcement announcement : announcements) {
-            announcement.setCourse(null);
-            announcementRepository.delete(announcement);
-        }
+        announcements.stream().forEach(this::deleteAnnouncement);
     }
 
     public void deleteAnnouncement(long id) throws AnnouncementNonExistentException {
@@ -65,7 +62,10 @@ public class AnnouncementService {
         if (!announcement_opt.isPresent()) {
             throw new AnnouncementNonExistentException();
         }
-        Announcement announcement = announcement_opt.get();
+        deleteAnnouncement(announcement_opt.get());
+    }
+
+    public void deleteAnnouncement(Announcement announcement) {
         announcement.setCourse(null);
         announcementRepository.delete(announcement);
     }

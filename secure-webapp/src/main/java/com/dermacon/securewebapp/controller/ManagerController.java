@@ -70,7 +70,7 @@ public class ManagerController {
     }
 
 
-    /* ---------- create / remove entity ---------- */
+    /* ---------- create / remove announcement entity ---------- */
 
     @RequestMapping("/createAnnouncement")
     public String createNewAnnouncement_get(Model model, @RequestParam long courseId) {
