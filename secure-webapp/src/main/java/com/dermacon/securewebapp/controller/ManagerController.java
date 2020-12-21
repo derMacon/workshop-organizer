@@ -1,15 +1,12 @@
 package com.dermacon.securewebapp.controller;
 
-import com.dermacon.securewebapp.data.Announcement;
-import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.FormAnnouncementInfo;
-import com.dermacon.securewebapp.data.FormCourseInfo;
+import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
-import com.dermacon.securewebapp.service.AnnouncementService;
 import com.dermacon.securewebapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp.data;
+package com.dermacon.securewebapp.data.formInput;
 
 public class FormAnnouncementInfo {
     private String title;
