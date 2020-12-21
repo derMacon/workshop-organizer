@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
+
+<div class="container p-3">
+
+    <div class="container">
+        <div th:include="courses/specific/fragments/view_content"></div>
+        <div th:include="courses/specific/fragments/actions_manager_content"></div>
+    </div>
+
+    <hr>
+
+    <div class="container row pt-3">
+        <div class="col-sm-4">
+
+            <h4>Information</h4>
+
+            <div th:include="courses/specific/fragments/view_meetings"></div>
+            <div th:include="courses/specific/fragments/actions_manager_meetings"></div>
+
+            <div th:include="courses/specific/fragments/view_participants"></div>
+            <div th:include="courses/specific/fragments/actions_manager_participants"></div>
+
+        </div>
+
+        <div class="col-sm-8">
+
+            <div th:include="courses/specific/fragments/view_announcements"></div>
+            <div th:include="courses/specific/fragments/actions_manager_announcements"></div>
+
+        </div>
+
+    </div>
+
+    <!--    <div th:replace="fragments/footer_bootstrap :: footer_bootstrap"></div>-->
+
+</body>
+</html>

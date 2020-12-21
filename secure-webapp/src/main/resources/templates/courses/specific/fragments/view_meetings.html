@@ -1,0 +1,22 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<h5>Meetings</h5>
+
+<ul th:if="${meetings.empty}">
+    <li>No meetings set</li>
+</ul>
+
+<ul th:each="meeting : ${meetings}">
+    <li th:text="${meeting.getMeetingDate()} + ' at ' + ${meeting.getAddress()}">meeting
+    </li>
+</ul>
+
+</body>
+</html>

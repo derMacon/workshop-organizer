@@ -1,8 +1,13 @@
 package com.dermacon.securewebapp.controller;
 
+import com.dermacon.securewebapp.data.Announcement;
+import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
+import com.dermacon.securewebapp.data.FormAnnouncementInfo;
 import com.dermacon.securewebapp.data.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import static com.dermacon.securewebapp.exception.ErrorCode.ACCESS_DENIED;
-import static com.dermacon.securewebapp.exception.ErrorCode.DUPLICATE_COURSE;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("manager")
@@ -20,6 +24,14 @@ public class ManagerController {
 
     @Autowired
     private CourseService courseService;
+
+    @RequestMapping("/")
+    public String root() {
+        return "redirect:/courses/created";
+    }
+
+
+    /* ---------- create / remove entity ---------- */
 
     @RequestMapping("/createCourse")
     public String createCoursePage_get(Model model) {
@@ -35,12 +47,57 @@ public class ManagerController {
             courseService.createCourse(formInput);
         } catch (DuplicateCourseException e) {
             // todo logger
-            System.out.println(DUPLICATE_COURSE.toString());
-            model.addAttribute("errorCode", DUPLICATE_COURSE);
+            System.out.println(e.getErrorCode());
+            model.addAttribute("errorCode", e.getErrorCode());
             return "error/error";
         }
         // todo pop up / alert showing everything is fine
         return "redirect:/manager/createCourse";
+    }
+
+
+    @RequestMapping("/removeCourse")
+    public String removeCoursePage_post(@RequestParam long id, Model model) {
+        System.out.println("hier");
+        try {
+            courseService.removeCourse(id);
+        } catch (ErrorCodeException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+        return "redirect:/courses/created";
+    }
+
+
+    /* ---------- create / remove entity ---------- */
+
+    @RequestMapping("/createAnnouncement")
+    public String createNewAnnouncement_get(Model model, @RequestParam long courseId) {
+        Course course = null;
+        try {
+            course = courseService.getCourse(courseId);
+        } catch (NonExistentCourseException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+
+        // todo implement as pop up
+        model.addAttribute("currCourse", course);
+        model.addAttribute("inputAnnouncement", new FormAnnouncementInfo());
+        return "courses/announcements/view_create_announcement";
+    }
+
+    @RequestMapping(value = "/createAnnouncement", method = RequestMethod.POST)
+    public String createNewAnnouncement_post(@ModelAttribute(value="inputAnnouncement") FormAnnouncementInfo announcementInfo,
+                                             @RequestParam long courseId, Model model) {
+        try {
+            courseService.createAnnouncement(announcementInfo, courseId);
+        } catch (NonExistentCourseException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+
+        return "redirect:/courses/specific?id=" + courseId;
     }
 
 }

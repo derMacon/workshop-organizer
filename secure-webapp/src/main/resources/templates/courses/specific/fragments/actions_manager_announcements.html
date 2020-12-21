@@ -1,0 +1,23 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<form class="btn-group">
+
+    <a class="btn btn-secondary"
+       th:href="@{'/manager/createAnnouncement?courseId=' + ${currCourse.courseId}}">
+        Create Announcement
+    </a>
+
+    <a class="btn btn-secondary"
+       th:href="@{'/manager/editAnnouncement?courseId=' + ${currCourse.courseId}}">
+        Edit Announcements
+    </a>
+
+</body>
+</html>

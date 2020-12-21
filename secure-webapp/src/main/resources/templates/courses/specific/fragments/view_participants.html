@@ -1,0 +1,23 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<h5>Participants</h5>
+
+<ul th:if="${currCourse.getParticipants().empty}">
+    <li>No participants enrolled</li>
+</ul>
+
+<ul th:each="participant : ${currCourse.getParticipants()}">
+
+    <li th:text="${participant.firstname} + ' ' + ${participant.surname}">participant</li>
+
+</ul>
+
+</body>
+</html>

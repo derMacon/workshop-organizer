@@ -1,0 +1,27 @@
+<!--source: https://codepen.io/marcobiedermann/pen/gReMQy-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+
+<div class="btn-group">
+    <a th:if="${!isEnrolled}" class="btn btn-secondary"
+       th:href="@{'/courses/enroll?courseId=' + ${currCourse.courseId}}">
+        enrollment
+    </a>
+
+    <a th:if="${isEnrolled}" class="btn btn-secondary"
+       th:href="@{'/courses/dropout?courseId=' + ${currCourse.courseId}}">
+        dropout</a>
+
+    <!--            <a th:if="${!currUserRole.name().equals('ROLE_USER')}" class="btn btn-dark"-->
+    <!--               th:href="@{'/courses/createAnnouncement?id=' +-->
+    <!--            ${currCourse.courseId}}">create-->
+    <!--                announcement</a>-->
+</div>
+
+</body>
+</html>

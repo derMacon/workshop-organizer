@@ -20,21 +20,35 @@
 
 <div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
 
-<main class="main">
-    <div class="grid" id="groceryListView">
+<div class="container pt-5">
 
-        <div align="center" th:switch="${errorCode == null}">
-            <p th:case="${true}">error - something went wrong. To return to the main page click
-                <a th:href="@{/}">here</a></p>
-            <div th:case="*" >
-                <h3 th:text="${errorCode.getTitle()}">error</h3>
-                <p th:text="${errorCode.getDescription()}">error</p>
-                <p>To return to the main page click <a th:href="@{/}">here</a></p>
-            </div>
-        </div>
 
-    </div>
-</main>
+    <h3>Create Announcement:</h3>
+
+    <form action="#" method="post"
+          th:action="@{/manager/createAnnouncement?courseId=} + ${currCourse.courseId}"
+          th:object="${inputAnnouncement}"
+          th:placeholder="Workshop">
+
+        <input th:field="*{title}"
+               th:value="${inputAnnouncement.title}"
+               th:placeholder="title"
+               type="text"/>
+
+        <input th:field="*{content}"
+               th:value="${inputAnnouncement.content}"
+               th:placeholder="summary"
+               type="text"/>
+
+        <button type="submit" value="add">
+            create announcement
+        </button>
+
+    </form>
+
+</div>
+
+<!--<div th:insert="fragments/footer :: footer"></div>-->
 
 <!--Needed for animated header-->
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -42,6 +56,6 @@
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.js}"></script>
 
-
 </body>
 </html>
+
