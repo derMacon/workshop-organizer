@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CourseService {
@@ -48,6 +51,14 @@ public class CourseService {
 
     public Iterable<Course> createdCourses() {
         return courseRepository.findAllByHost(personService.getLoggedInPerson());
+    }
+
+    public Iterable<Person> getAllCreators() {
+        Stream<Course> stream = StreamSupport.stream(
+                courseRepository.findAll().spliterator(),
+                false
+        );
+        return stream.map(Course::getHost).collect(Collectors.toSet());
     }
 
     public boolean currUserIsEnrolled(Course course) {

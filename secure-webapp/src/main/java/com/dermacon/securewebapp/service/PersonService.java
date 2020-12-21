@@ -53,7 +53,9 @@ public class PersonService {
         return userRepository.findByUsername(username);
     }
 
-
+    public Iterable<Person> getAllPersons() {
+        return personRepository.findAll();
+    }
 
     // todo check if needed
     /**

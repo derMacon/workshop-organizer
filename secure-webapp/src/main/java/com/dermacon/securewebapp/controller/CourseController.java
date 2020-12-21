@@ -57,6 +57,11 @@ public class CourseController extends ModelAttributeProvider {
         return OVERVIEW_PATH + "coursesOverview";
     }
 
+    @RequestMapping(path = "/creators")
+    public String showCreatorOverview(Model model){
+        model.addAttribute("creators", courseService.getAllCreators());
+        return OVERVIEW_PATH + "creatorOverview";
+    }
 
     /* ---------- specific course information ---------- */
 

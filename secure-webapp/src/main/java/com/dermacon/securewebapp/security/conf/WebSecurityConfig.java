@@ -80,6 +80,7 @@ public class WebSecurityConfig {
                     .antMatchers("/courses/all").hasAnyRole("USER", "MANAGER", "ADMIN")
                     .antMatchers("/courses/enrolled").hasAnyRole("USER", "MANAGER")
                     .antMatchers("/courses/created").hasRole("MANAGER")
+                    .antMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/css/**").permitAll()
                     .anyRequest()
