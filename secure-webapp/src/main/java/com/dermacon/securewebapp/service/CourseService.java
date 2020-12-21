@@ -1,11 +1,13 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.FormAnnouncementInfo;
 import com.dermacon.securewebapp.data.FormCourseInfo;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
+import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class CourseService {
@@ -81,15 +84,15 @@ public class CourseService {
     }
 
     public void removeCourse(long id) throws NonExistentCourseException {
-        Course course = courseRepository.findByCourseId(id);
-        if (course == null) {
-            throw new NonExistentCourseException();
-        }
+        Course course = getCourse(id);
         // first delete all foreign key references
-        course.setHost(null);
+//        course.setHost(null);
         // todo maybe delete announcements???
-        course.setAnnouncements(null);
-        course.setParticipants(null);
+//        course.setParticipants(null);
+//        courseRepository.deleteByCourseId(id);
+//        Set<Announcement> announcements = course.getAnnouncements();
+//        course.setAnnouncements(null);
+//        announcementService.deleteAnnouncements(announcements);
         courseRepository.delete(course);
     }
 
@@ -154,6 +157,10 @@ public class CourseService {
     public void createAnnouncement(FormAnnouncementInfo announcementInfo, long courseId) throws NonExistentCourseException {
         Course course = getCourse(courseId);
         announcementService.createNewAnnouncement(course, announcementInfo);
+    }
+
+    public void deleteAnnouncement(long announcementId) throws AnnouncementNonExistentException {
+        announcementService.deleteAnnouncement(announcementId);
     }
 
 }

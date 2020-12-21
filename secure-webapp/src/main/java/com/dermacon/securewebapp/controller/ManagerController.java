@@ -5,9 +5,11 @@ import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.FormAnnouncementInfo;
 import com.dermacon.securewebapp.data.FormCourseInfo;
+import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
+import com.dermacon.securewebapp.service.AnnouncementService;
 import com.dermacon.securewebapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,7 +60,6 @@ public class ManagerController {
 
     @RequestMapping("/removeCourse")
     public String removeCoursePage_post(@RequestParam long id, Model model) {
-        System.out.println("hier");
         try {
             courseService.removeCourse(id);
         } catch (ErrorCodeException e) {
@@ -98,6 +99,17 @@ public class ManagerController {
         }
 
         return "redirect:/courses/specific?id=" + courseId;
+    }
+
+    @RequestMapping("/deleteAnnouncement")
+    public String deleteSpecificAnnouncement(Model model, @RequestParam long announcementId) {
+        try {
+            courseService.deleteAnnouncement(announcementId);
+        } catch (AnnouncementNonExistentException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+        return "redirect:/courses/";
     }
 
 }

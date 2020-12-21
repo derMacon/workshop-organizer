@@ -22,6 +22,10 @@ public enum ErrorCode {
             "Host tried to enroll in own course",
             "A user who created a course cannot enroll in the same course"
     ),
+    ANNOUNCEMENT_NONEXISTENT(
+            "Delete non existent Announcement",
+            "User tried to delete an announcement which does not exist"
+    ),
     NON_EXISTENT_COURSE(
         "Non existent course",
             "Course does not exist"
