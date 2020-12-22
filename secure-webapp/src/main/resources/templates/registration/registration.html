@@ -21,7 +21,44 @@
 <div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
 
 <div class="container pt-5">
-    <p>test test</p>
+
+    <h3>Signup</h3>
+
+    <form action="#" method="post"
+          th:action="@{/registration/signup}"
+          th:object="${signupInfo}"
+          th:placeholder="Course">
+
+        <input th:field="*{email}"
+               th:value="${signupInfo.email}"
+               th:placeholder="email"
+               type="text"/>
+
+        <input th:field="*{username}"
+               th:value="${signupInfo.username}"
+               th:placeholder="username"
+               type="text"/>
+
+        <input th:field="*{password}"
+               th:value="${signupInfo.password}"
+               th:placeholder="password"
+               type="text"/>
+
+        <input th:field="*{firstname}"
+               th:value="${signupInfo.firstname}"
+               th:placeholder="firstname"
+               type="text"/>
+
+        <input th:field="*{surname}"
+               th:value="${signupInfo.surname}"
+               th:placeholder="surname"
+               type="text"/>
+
+        </select>
+
+        <button type="submit" value="add">
+            register
+        </button>
 </div>
 
 <!--<div th:insert="fragments/footer :: footer"></div>-->

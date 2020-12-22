@@ -6,23 +6,35 @@ import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
+import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
 import static com.dermacon.securewebapp.data.UserRole.ROLE_ANONYMOUS;
+import static com.dermacon.securewebapp.data.UserRole.ROLE_USER;
 
 @Service
 public class PersonService {
 
     @Autowired
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Checks if the currently logged in user has at least one of
@@ -62,6 +74,38 @@ public class PersonService {
 
     public Iterable<Person> getAllPersons() {
         return personRepository.findAll();
+    }
+
+    public void register(FormSignupInfo signupInfo) throws ErrorCodeException {
+        if (personRepository.findByEmail(signupInfo.getEmail()) != null) {
+            throw new EmailAlreadyExistsException();
+        }
+
+        if (userRepository.findByUsername(signupInfo.getUsername()) != null) {
+            throw new UsernameAlreadyExistsException();
+        }
+
+        // todo use builder / factory
+        User user = new User(
+                signupInfo.getUsername(),
+                passwordEncoder.encode(signupInfo.getPassword()),
+                ROLE_USER
+        );
+
+        userRepository.save(user);
+        user = userRepository.findByUsername(user.getUsername());
+
+        // todo use builder / factory
+        Person person = new Person(
+                signupInfo.getFirstname(),
+                signupInfo.getSurname(),
+                signupInfo.getEmail(),
+                user
+        );
+
+
+        personRepository.save(person);
+        mailService.sendAccountConfirmation(person);
     }
 
     // todo check if needed

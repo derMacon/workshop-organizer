@@ -3,13 +3,16 @@ package com.dermacon.securewebapp.controller;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.service.MailService;
+import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 
@@ -29,13 +32,30 @@ public class RegistrationController {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonService personService;
+
 
     @RequestMapping(value={"/", "/signup"})
-    public String showSignupView(Model model) {
-        System.out.println("ist da");
+    public String signup_get(Model model) {
         model.addAttribute("signupInfo", new FormSignupInfo());
         return "registration/registration";
     }
+
+
+    @PostMapping(value={"/", "/signup"})
+    public String signup_post(@ModelAttribute("signupInfo") FormSignupInfo formSignupInfo,
+                              Model model) {
+        try {
+            personService.register(formSignupInfo);
+        } catch (ErrorCodeException e) {
+            model.addAttribute("errorCode", e.getErrorCode());
+            return "error/error";
+        }
+        return "redirect:/";
+    }
+
+
 
     /**
      *
