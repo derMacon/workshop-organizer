@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
-    <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>
+
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
+<!--    <link th:rel=stylesheet th:href="@{/css/bootstrap_style.css}"/>-->
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
@@ -20,12 +22,20 @@
     <hr>
 
     <div class="container row pt-3">
-        <div class="col-sm-4">
-            <h4>Information</h4>
 
-            <div th:include="courses/specific/fragments/view_meetings"></div>
-            <div th:include="courses/specific/fragments/view_participants"></div>
+        <h4>Information</h4>
 
+        <div class="col-sm-4 border rounded borderbox">
+<!--            <div class="col-sm-4 pl-4 pr-4 pt-3 pb-3 border rounded borderbox">-->
+
+            <ul>
+                <li>Next Meeting: </li>
+                <li>Participants </li>
+            </ul>
+
+
+<!--            <div th:insert="courses/specific/fragments/view_meetings" :: body></div>-->
+<!--            <div th:insert="courses/specific/fragments/view_participants" :: body></div>-->
         </div>
 
         <div class="col-sm-8">
