@@ -76,7 +76,7 @@ public class WebSecurityConfig {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/help", "/css/**").permitAll()
+                    .antMatchers("/help", "/registration/**", "/css/**").permitAll()
                     .antMatchers("/courses/all").hasAnyRole("USER", "MANAGER", "ADMIN")
                     .antMatchers("/courses/enrolled").hasAnyRole("USER", "MANAGER")
                     .antMatchers("/courses/created").hasRole("MANAGER")

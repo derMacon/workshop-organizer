@@ -9,6 +9,7 @@ import java.util.Set;
 import static com.dermacon.securewebapp.security.user.ApplicationUserPermission.*;
 
 public enum UserRole {
+    ROLE_ANONYMOUS(),
     ROLE_USER(COURSE_READ),
     ROLE_MANAGER(COURSE_READ, COURSE_WRITE),
     ROLE_ADMIN(COURSE_READ, COURSE_WRITE, PERSON_READ, PERSON_WRITE);

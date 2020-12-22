@@ -8,12 +8,12 @@
 <body>
 
 <div class="btn-group">
-    <a th:if="${!isEnrolled}" class="btn btn-secondary"
+    <a th:if="${!isEnrolled}" class="btn btn-outline-dark"
        th:href="@{'/courses/enroll?courseId=' + ${currCourse.courseId}}">
         enrollment
     </a>
 
-    <a th:if="${isEnrolled}" class="btn btn-secondary"
+    <a th:if="${isEnrolled}" class="btn btn-outline-dark"
        th:href="@{'/courses/dropout?courseId=' + ${currCourse.courseId}}">
         dropout</a>
 

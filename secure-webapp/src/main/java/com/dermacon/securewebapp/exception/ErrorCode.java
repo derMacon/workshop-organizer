@@ -6,6 +6,14 @@ public enum ErrorCode {
             "Access Denied",
             "User does not have the permission to access this resource"
     ),
+    EMAIL_ALREADY_EXISTS(
+            "Email already in user",
+            "User cannot register twice with the same email"
+    ),
+    USERNAME_ALREADY_EXISTS(
+            "Username already in use",
+            "The given username at the registration is already in use"
+    ),
     DUPLICATE_COURSE(
             "Duplicate Course",
             "Manager tried to create a course with a name that already exists"

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Admin</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+<div th:replace="fragments/header_bootstrap :: header_bootstrap"></div>
+
+<div class="container pt-5">
+
+    <h3>Signup</h3>
+
+    <form action="#" method="post"
+          th:action="@{/registration/signup}"
+          th:object="${signupInfo}"
+          th:placeholder="Course">
+
+        <input th:field="*{email}"
+               th:value="${signupInfo.email}"
+               th:placeholder="email"
+               type="text"/>
+
+        <input th:field="*{username}"
+               th:value="${signupInfo.username}"
+               th:placeholder="username"
+               type="text"/>
+
+        <input th:field="*{password}"
+               th:value="${signupInfo.password}"
+               th:placeholder="password"
+               type="text"/>
+
+        <input th:field="*{firstname}"
+               th:value="${signupInfo.firstname}"
+               th:placeholder="firstname"
+               type="text"/>
+
+        <input th:field="*{surname}"
+               th:value="${signupInfo.surname}"
+               th:placeholder="surname"
+               type="text"/>
+
+        </select>
+
+        <button type="submit" value="add">
+            register
+        </button>
+</div>
+
+<!--<div th:insert="fragments/footer :: footer"></div>-->
+
+<!--Needed for animated header-->
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.js}"></script>
+
+</body>
+</html>
+

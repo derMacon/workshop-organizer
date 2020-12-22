@@ -41,6 +41,27 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
+
+    public void sendAccountConfirmation(Person person) {
+        System.out.println("send conf: " + person);
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(person.getEmail());
+        mail.setSubject("Registration Confirmation");
+        mail.setText("You can now login to the website with the provided data.");
+
+//        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        // todo uncomment
+        javaMailSender.send(mail);
+    }
+
+
+
+
+
+
+
+
     /**
      * Send greeting mail to person who entered a course
      * @param person person new to the course

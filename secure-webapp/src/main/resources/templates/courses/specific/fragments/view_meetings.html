@@ -7,16 +7,20 @@
 </head>
 <body>
 
-<h5>Meetings</h5>
 
-<ul th:if="${meetings.empty}">
-    <li>No meetings set</li>
-</ul>
 
-<ul th:each="meeting : ${meetings}">
-    <li th:text="${meeting.getMeetingDate()} + ' at ' + ${meeting.getAddress()}">meeting
-    </li>
-</ul>
+    <h5>Meetings</h5>
+
+    <ul th:if="${meetings.empty}">
+        <li>No meetings set</li>
+    </ul>
+
+    <ul th:each="meeting : ${meetings}">
+        <li th:text="${meeting.getMeetingDate()} + ' at ' + ${meeting.getAddress()}">meeting
+        </li>
+    </ul>
+
+</div>
 
 </body>
 </html>
