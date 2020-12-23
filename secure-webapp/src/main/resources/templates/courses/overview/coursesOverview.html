@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>Spring Boot Thymeleaf - Bootstrap WebJars</title>
 
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style_bs.css}"/>
+
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
     <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
@@ -16,10 +18,10 @@
 
 <div class="container pt-5">
 
-    <h1>Courses</h1>
+    <h3>Courses</h3>
 
     <div class="table-responsive-sm table-hover ">
-        <table class="table">
+        <table class="table w-75">
             <thead>
             <tr>
                 <th> Name</th>
