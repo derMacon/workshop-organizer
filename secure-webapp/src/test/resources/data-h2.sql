@@ -18,3 +18,13 @@ create table if not exists persistent_logins
 );
 
 
+create table if not exists person
+(
+    person_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(500)    NOT NULL,
+    surname   VARCHAR(500)    NOT NULL,
+    email     VARCHAR(500)    NOT NULL,
+    user_id   INT(6) UNSIGNED NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
+);
+

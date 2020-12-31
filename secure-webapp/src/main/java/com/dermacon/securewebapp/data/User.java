@@ -27,6 +27,38 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    public static class Builder {
+        private String username;
+        private String password;
+        private UserRole role;
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder role(UserRole role) {
+            this.role = role;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+
+    }
+
+    private User(Builder b) {
+        this.username = b.username;
+        this.password = b.password;
+        this.role = b.role;
+    }
+
     public User() {}
 
     public User(String username, String password, UserRole role) {
@@ -34,6 +66,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
 
     public long getUserId() {
         return userId;
@@ -65,6 +98,25 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (username != null ? !username.equals(user.username) : user.username != null)
+            return false;
+        return role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
     }
 
     @Override

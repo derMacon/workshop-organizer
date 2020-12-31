@@ -85,27 +85,22 @@ public class PersonService {
             throw new UsernameAlreadyExistsException();
         }
 
-        // todo use builder / factory
-        User user = new User(
-                signupInfo.getUsername(),
-                passwordEncoder.encode(signupInfo.getPassword()),
-                ROLE_USER
-        );
+        User user = new User.Builder()
+                .username(signupInfo.getUsername())
+                .password(passwordEncoder.encode(signupInfo.getPassword()))
+                .role(ROLE_USER)
+                .build();
 
-        userRepository.save(user);
-        user = userRepository.findByUsername(user.getUsername());
-
-        // todo use builder / factory
-        Person person = new Person(
-                signupInfo.getFirstname(),
-                signupInfo.getSurname(),
-                signupInfo.getEmail(),
-                user
-        );
+        Person person = new Person.Builder()
+                .email(signupInfo.getEmail())
+                .firstname(signupInfo.getFirstname())
+                .surname(signupInfo.getSurname())
+                .user(user)
+                .build();
 
 
         personRepository.save(person);
-        mailService.sendAccountConfirmation(person);
+//        mailService.sendAccountConfirmation(person);
     }
 
     // todo check if needed
@@ -124,5 +119,13 @@ public class PersonService {
 //
 //        return possible_hosts;
 //    }
+
+    @Autowired
+    private TestService testService;
+
+    public void testDelegatedService() {
+        testService.test();
+    }
+
 
 }

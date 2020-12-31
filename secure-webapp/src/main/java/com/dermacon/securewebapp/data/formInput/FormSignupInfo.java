@@ -8,15 +8,54 @@ public class FormSignupInfo {
     private String firstname;
     private String surname;
 
-    public FormSignupInfo() {
+
+    public static class Builder {
+
+        private String email;
+        private String username;
+        private String password;
+        private String firstname;
+        private String surname;
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder firstname(String firstname) {
+            this.firstname = firstname;
+            return this;
+        }
+
+        public Builder surname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public FormSignupInfo build() {
+            return new FormSignupInfo(this);
+        }
+
     }
 
-    public FormSignupInfo(String email, String username, String password, String firstname, String surname) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.surname = surname;
+    public FormSignupInfo() {}
+
+    private FormSignupInfo(Builder b) {
+        this.email = b.email;
+        this.username = b.username;
+        this.password = b.password;
+        this.firstname = b.firstname;
+        this.surname = b.surname;
     }
 
     public String getEmail() {
