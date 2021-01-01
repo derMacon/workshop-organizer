@@ -48,10 +48,4 @@ public class SamplePersonUtils {
                 .build();
     }
 
-    private <T> List<T> toList(Iterable<T> it) {
-        List<T> out = new ArrayList<>();
-        it.forEach(out::add);
-        return out;
-    }
-
 }
