@@ -80,6 +80,18 @@ public class Announcement {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Announcement other = (Announcement) o;
+        return this.title.toLowerCase().equals(other.title.toLowerCase())
+                && this.content.toLowerCase().equals(other.content.toLowerCase())
+                && this.publishingDate.equals(other.publishingDate)
+                && this.course.equals(other.course);
+    }
+
+    @Override
     public String toString() {
         return "Announcement{" +
                 "announcementId=" + announcementId +

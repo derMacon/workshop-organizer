@@ -1,22 +1,29 @@
 package com.dermacon.securewebapp.utils;
 
-import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
-
-import java.util.Set;
+import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
 
 public class SampleCourseUtils {
 
     private final static int SAMPLE_MAX_PARTICIPANT_CNT = 5;
 
-    public static Course createSampleCourse_empty(int hostId, int courseId) {
-        Person host = SamplePersonUtils.createSamplePerson(hostId);
+    public static Course createSampleCourse_empty(int hostSeed, int courseSeed) {
+        Person host = SamplePersonUtils.createSamplePerson(hostSeed);
         return new Course.Builder()
                 .host(host)
-                .courseName("course" + courseId)
-                .courseSummary("summary" + courseId)
-                .courseDescription("description" + courseId)
+                .courseName("course" + courseSeed)
+                .courseSummary("summary" + courseSeed)
+                .courseDescription("description" + courseSeed)
+                .maxParticipantCount(SAMPLE_MAX_PARTICIPANT_CNT)
+                .build();
+    }
+
+    public static FormCourseInfo createSampleFormInput(int seed) {
+        return new FormCourseInfo.Builder()
+                .courseName("course" + seed)
+                .courseSummary("summary" + seed)
+                .courseDescription("description" + seed)
                 .maxParticipantCount(SAMPLE_MAX_PARTICIPANT_CNT)
                 .build();
     }

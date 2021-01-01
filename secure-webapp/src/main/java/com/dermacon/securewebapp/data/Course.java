@@ -45,12 +45,12 @@ public class Course {
     public static class Builder {
 
         private Person host;
-        private Set<Announcement> announcements;
         private String courseName;
         private String courseSummary;
         private String courseDescription;
         private int maxParticipantCount;
-        private Set<Person> participants;
+        private Set<Announcement> announcements = new HashSet<>();
+        private Set<Person> participants = new HashSet<>();
 
         public Builder host(Person host) {
             this.host = host;
@@ -188,6 +188,40 @@ public class Course {
     public void removeParticipant(Person person) {
         this.participants.remove(person);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Course other = (Course) o;
+        return this.host.equals(other.host)
+                && setsEqual(this.announcements, other.announcements)
+                && this.courseName.toLowerCase().equals(other.courseName.toLowerCase())
+                && this.courseSummary.toLowerCase().equals(other.courseSummary.toLowerCase()) && courseDescription.toLowerCase().equals(other.courseDescription.toLowerCase())
+                && this.maxParticipantCount == other.maxParticipantCount
+                && setsEqual(this.participants, other.participants);
+    }
+
+    /**
+     * Nullpointer safe check if the sets are equal
+     * @param fstSet first set to check
+     * @param sndSet second set to check
+     * @param <T> Type of the set elements
+     * @return true the sets carry the same amount and instances of elements
+     */
+    private <T> boolean setsEqual(Set<T> fstSet, Set<T> sndSet) {
+        if (fstSet == null) {
+            return sndSet == null;
+        }
+        if (sndSet == null) {
+            return fstSet == null;
+        }
+
+        return fstSet.size() == sndSet.size()
+                && fstSet.containsAll(sndSet);
+    }
+
 
     @Override
     public String toString() {

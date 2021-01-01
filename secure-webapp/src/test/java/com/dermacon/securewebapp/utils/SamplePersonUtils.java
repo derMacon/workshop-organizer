@@ -34,7 +34,6 @@ public class SamplePersonUtils {
         return createSampleFormSignupInfo(createSamplePerson(id));
     }
 
-
     public static FormSignupInfo createSampleFormSignupInfo(Person person) {
         return new FormSignupInfo.Builder()
                 .email(person.getEmail())

@@ -100,7 +100,6 @@ class PersonServiceTest {
 
         assertNotNull(personRepository.findByEmail(signupInfo_valid.getEmail()));
 
-
         ErrorCodeException thrown = assertThrows(
                 EmailAlreadyExistsException.class,
                 () -> personService.register(signupInfo_invalid),
@@ -141,6 +140,5 @@ class PersonServiceTest {
 
         verify(mailService, times(1)).sendAccountConfirmation(isA(Person.class));
     }
-
 
 }

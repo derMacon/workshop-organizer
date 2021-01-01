@@ -136,7 +136,6 @@ public class Person {
         this.courses = courses;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,28 +147,27 @@ public class Person {
                 && this.surname.equals(other.surname)
                 && this.email.equals(other.email)
                 && this.user.equals(other.user)
-                && coursesEqual(this.courses, other.courses);
+                && setsEqual(this.courses, other.courses);
     }
 
-    private boolean coursesEqual(Set<Course> thisCourse, Set<Course> otherCourse) {
-        if (thisCourse == null) {
-            return otherCourse == null;
+    /**
+     * Nullpointer safe check if the sets are equal
+     * @param fstSet first set to check
+     * @param sndSet second set to check
+     * @param <T> Type of the set elements
+     * @return true the sets carry the same amount and instances of elements
+     */
+    private <T> boolean setsEqual(Set<T> fstSet, Set<T> sndSet) {
+        if (fstSet == null) {
+            return sndSet == null;
         }
-        if (otherCourse == null) {
-            return thisCourse == null;
+        if (sndSet == null) {
+            return fstSet == null;
         }
 
-        boolean out = thisCourse.size() == otherCourse.size();
-        Iterator<Course> this_iterator = thisCourse.iterator();
-
-        while (out && this_iterator.hasNext()) {
-            out = otherCourse.contains(this_iterator.next());
-        }
-
-        return out;
+        return fstSet.size() == sndSet.size()
+                && fstSet.containsAll(sndSet);
     }
-
-
 
     @Override
     public int hashCode() {
