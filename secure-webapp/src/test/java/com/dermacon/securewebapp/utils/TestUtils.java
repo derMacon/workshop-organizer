@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp;
+package com.dermacon.securewebapp.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;

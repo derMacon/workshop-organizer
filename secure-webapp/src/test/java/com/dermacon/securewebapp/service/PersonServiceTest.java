@@ -1,31 +1,27 @@
 package com.dermacon.securewebapp.service;
 
-import com.dermacon.securewebapp.SamplePersonUtils;
-import com.dermacon.securewebapp.TestUtils;
+import com.dermacon.securewebapp.utils.SamplePersonUtils;
+import com.dermacon.securewebapp.utils.TestUtils;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
-import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 // drop database before each test
@@ -42,6 +38,8 @@ class PersonServiceTest {
     @Autowired
     private UserRepository userRepository;
 
+    @MockBean
+    private MailService mailService;
 
 
     @Test
@@ -88,17 +86,60 @@ class PersonServiceTest {
 
     @Test
     public void test_registration_invalid_emailInUse() throws ErrorCodeException {
+        assertEquals(0, userRepository.count());
+        assertEquals(0, personRepository.count());
 
+        FormSignupInfo signupInfo_valid = SamplePersonUtils.createSampleFormSignupInfo(0);
+        FormSignupInfo signupInfo_invalid = SamplePersonUtils.createSampleFormSignupInfo(1);
+        signupInfo_invalid.setEmail(signupInfo_valid.getEmail());
+
+        personService.register(signupInfo_valid);
+
+        assertEquals(1, userRepository.count());
+        assertEquals(1, personRepository.count());
+
+        assertNotNull(personRepository.findByEmail(signupInfo_valid.getEmail()));
+
+
+        ErrorCodeException thrown = assertThrows(
+                EmailAlreadyExistsException.class,
+                () -> personService.register(signupInfo_invalid),
+                "Expected to throw EmailAlreadyExistsException, but didn't"
+        );
     }
 
     @Test
-    public void test() {
-//        FormSignupInfo signupInfo = new FormSignupInfo.Builder()
-//                .email()
-//                .build();
+    public void test_registration_invalid_usernameInUse() throws ErrorCodeException {
+        assertEquals(0, userRepository.count());
+        assertEquals(0, personRepository.count());
 
-//        personService.testDelegatedService();
-//        verify(testService, times(1)).test();
+        FormSignupInfo signupInfo_valid = SamplePersonUtils.createSampleFormSignupInfo(0);
+        FormSignupInfo signupInfo_invalid = SamplePersonUtils.createSampleFormSignupInfo(1);
+        signupInfo_invalid.setUsername(signupInfo_valid.getUsername());
+
+        personService.register(signupInfo_valid);
+
+        assertEquals(1, userRepository.count());
+        assertEquals(1, personRepository.count());
+
+        assertNotNull(personRepository.findByEmail(signupInfo_valid.getEmail()));
+
+
+        ErrorCodeException thrown = assertThrows(
+                UsernameAlreadyExistsException.class,
+                () -> personService.register(signupInfo_invalid),
+                "Expected to throw EmailAlreadyExistsException, but didn't"
+        );
+    }
+
+    @Test
+    public void test_registration_mailService_userGetsNotified() throws ErrorCodeException {
+        doNothing().when(mailService).sendAccountConfirmation(isA(Person.class));
+
+        FormSignupInfo signupInfo = SamplePersonUtils.createSampleFormSignupInfo(0);
+        personService.register(signupInfo);
+
+        verify(mailService, times(1)).sendAccountConfirmation(isA(Person.class));
     }
 
 

@@ -1,12 +1,9 @@
-package com.dermacon.securewebapp;
+package com.dermacon.securewebapp.utils;
 
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SamplePersonUtils {
 

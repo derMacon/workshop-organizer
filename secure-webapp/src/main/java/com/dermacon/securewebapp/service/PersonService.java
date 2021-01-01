@@ -100,7 +100,7 @@ public class PersonService {
 
 
         personRepository.save(person);
-//        mailService.sendAccountConfirmation(person);
+        mailService.sendAccountConfirmation(person);
     }
 
     // todo check if needed
@@ -119,13 +119,5 @@ public class PersonService {
 //
 //        return possible_hosts;
 //    }
-
-    @Autowired
-    private TestService testService;
-
-    public void testDelegatedService() {
-        testService.test();
-    }
-
 
 }

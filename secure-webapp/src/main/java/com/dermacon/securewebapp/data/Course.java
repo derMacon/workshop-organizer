@@ -41,6 +41,68 @@ public class Course {
     )
     private Set<Person> participants;
 
+
+    public static class Builder {
+
+        private Person host;
+        private Set<Announcement> announcements;
+        private String courseName;
+        private String courseSummary;
+        private String courseDescription;
+        private int maxParticipantCount;
+        private Set<Person> participants;
+
+        public Builder host(Person host) {
+            this.host = host;
+            return this;
+        }
+
+        public Builder announcements(Set<Announcement> announcements) {
+            this.announcements = announcements;
+            return this;
+        }
+
+        public Builder courseName(String courseName) {
+            this.courseName = courseName;
+            return this;
+        }
+
+        public Builder courseSummary(String courseSummary) {
+            this.courseSummary = courseSummary;
+            return this;
+        }
+
+        public Builder courseDescription(String courseDescription) {
+            this.courseDescription = courseDescription;
+            return this;
+        }
+
+        public Builder maxParticipantCount(int maxParticipantCount) {
+            this.maxParticipantCount = maxParticipantCount;
+            return this;
+        }
+
+        public Builder participants(Set<Person> participants) {
+            this.participants = participants;
+            return this;
+        }
+
+        public Course build() {
+            return new Course(this);
+        }
+
+    }
+
+    private Course(Builder b) {
+        this.host = b.host;
+        this.announcements = b.announcements;
+        this.courseName = b.courseName;
+        this.courseSummary = b.courseSummary;
+        this.courseDescription = b.courseDescription;
+        this.maxParticipantCount = b.maxParticipantCount;
+        this.participants = b.participants;
+    }
+
     public Course() {
         this.participants = new HashSet<>();
     }
