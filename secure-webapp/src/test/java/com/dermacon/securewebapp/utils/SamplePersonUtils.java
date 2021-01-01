@@ -12,9 +12,9 @@ public class SamplePersonUtils {
     private static final String SAMPLE_PASSWORD_ENCODED =
             "$2a$10$1JT96p9Nge3K7mjkLqKmDO0o5t/wvb2SCGIQGDEApkOIy0MP1vkze";
 
-    public static User createSampleUser(int id) {
+    public static User createSampleUser(int seed) {
         return new User.Builder()
-                .username("user" + id)
+                .username("user" + seed)
                 .password(SAMPLE_PASSWORD_ENCODED)
                 .role(UserRole.ROLE_USER)
                 .build();

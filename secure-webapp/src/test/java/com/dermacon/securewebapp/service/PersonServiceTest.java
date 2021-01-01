@@ -10,6 +10,7 @@ import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
 import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;
+import javassist.tools.rmi.Sample;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -140,5 +141,17 @@ class PersonServiceTest {
 
         verify(mailService, times(1)).sendAccountConfirmation(isA(Person.class));
     }
+
+//    @Test
+//    public void test_loggedInPerson_noPersonForUser() {
+//        // todo find out how to inject personRepository without an Annotation
+//        PersonService personService = mock(PersonService.class);
+//        int seed = 0;
+//        User currLoggedInUser = SamplePersonUtils.createSampleUser(seed);
+//        doReturn(currLoggedInUser).when(personService).getLoggedInUser();
+//        when(personService.getLoggedInPerson()).thenCallRealMethod();
+//
+//        assertNull(personService.getLoggedInPerson());
+//    }
 
 }
