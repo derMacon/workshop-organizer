@@ -85,10 +85,18 @@ public class Announcement {
         if (o == null || getClass() != o.getClass()) return false;
 
         Announcement other = (Announcement) o;
-        return this.title.toLowerCase().equals(other.title.toLowerCase())
-                && this.content.toLowerCase().equals(other.content.toLowerCase())
+        return this.title.equalsIgnoreCase(other.title)
+                && this.content.equalsIgnoreCase(other.content)
                 && this.publishingDate.equals(other.publishingDate)
                 && this.course.equals(other.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return title.hashCode()
+                * content.hashCode()
+                * publishingDate.hashCode()
+                * course.hashCode();
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
-import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
+import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
 import com.dermacon.securewebapp.utils.SampleCourseUtils;
 import com.dermacon.securewebapp.utils.SamplePersonUtils;
 import com.dermacon.securewebapp.utils.TestUtils;
@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 // drop database before each test
@@ -325,8 +327,8 @@ class CourseServiceTest {
     @Test
     public void test_enrollLoggedInPerson_validUser() throws ErrorCodeException {
         int user_seed = 0;
-        int host_seed = 0;
-        int course_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
 
         Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -347,20 +349,229 @@ class CourseServiceTest {
         assertTrue(course.getParticipants().contains(currLoggedInPerson));
     }
 
+
     @Test
-    public void test_enrollLoggedInPerson_invalidCourse() throws ErrorCodeException {
+    public void test_enrollLoggedInPerson_validManager() throws ErrorCodeException {
         int user_seed = 0;
-        int host_seed = 0;
-        int course_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertTrue(course.getParticipants().isEmpty());
+        courseService.enrollLoggedInPerson(course.getCourseId());
+
+        assertEquals(1, course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+
+        assertEquals(1, courseRepository.count());
+        Course db_course = courseRepository.findAll().iterator().next();
+        assertEquals(1, db_course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+    }
+
+    @Test
+    public void test_enrollLoggedInPerson_validAdmin() throws ErrorCodeException {
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleAdminPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertTrue(course.getParticipants().isEmpty());
+        courseService.enrollLoggedInPerson(course.getCourseId());
+
+        assertEquals(1, course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+
+        assertEquals(1, courseRepository.count());
+        Course db_course = courseRepository.findAll().iterator().next();
+        assertEquals(1, db_course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+    }
+
+    @Test
+    public void test_enrollLoggedInPerson_invalidCourse() {
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertEquals(0, courseRepository.count());
+
+        int wrongId = 42;
+        ErrorCodeException thrown = assertThrows(
+                NonExistentCourseException.class,
+                () -> courseService.enrollLoggedInPerson(wrongId),
+                "Expected to throw NonExistentCourseException, but didn't"
+        );
+
+        assertEquals(0, courseRepository.count());
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+        assertEquals(1, courseRepository.count());
+
+        thrown = assertThrows(
+                NonExistentCourseException.class,
+                () -> courseService.enrollLoggedInPerson(wrongId),
+                "Expected to throw NonExistentCourseException, but didn't"
+        );
+
+        assertEquals(1, courseRepository.count());
+    }
+
+    @Test
+    public void test_enrollLoggedInPerson_invalidHostEnrollInOwnCourse() {
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertEquals(0, courseRepository.count());
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertEquals(currLoggedInPerson, course.getHost());
+
+        ErrorCodeException thrown = assertThrows(
+                HostEnrollOwnCourseException.class,
+                () -> courseService.enrollLoggedInPerson(course.getCourseId()),
+                "Expected to throw HostEnrollOwnCourseException, but didn't"
+        );
+
+    }
+
+    @Test
+    public void test_enrollLoggedInPerson_validMailNotification() throws ErrorCodeException {
+        doNothing().when(mailService).sendGreeting(isA(Person.class), isA(Course.class));
+
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
 
         Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
         doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
 
         Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
 
         courseService.enrollLoggedInPerson(course.getCourseId());
+
+        verify(mailService, times(1))
+                .sendGreeting(isA(Person.class), isA(Course.class));
     }
 
 
+    // ---------- dropoutLoggedInPerson ---------- //
+
+    @Test
+    public void test_dropoutLoggedInPerson_validUser() throws ErrorCodeException {
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        course.getParticipants().add(currLoggedInPerson);
+        courseRepository.save(course);
+
+        assertEquals(1, course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+
+        courseService.dropoutLoggedInPerson(course.getCourseId());
+
+        assertEquals(0, course.getParticipants().size());
+        assertFalse(course.getParticipants().contains(currLoggedInPerson));
+        assertEquals(0, courseRepository.count());
+    }
+
+    @Test
+    public void test_dropoutLoggedInPerson_invalidCourse() {
+        int user_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertEquals(0, courseRepository.count());
+
+        int wrongId = 42;
+        assertThrows(
+                NonExistentCourseException.class,
+                () -> courseService.dropoutLoggedInPerson(wrongId),
+                "Expected to throw NonExistentCourseException, but didn't"
+        );
+
+        assertEquals(0, courseRepository.count());
+    }
+
+    @Test
+    public void test_dropoutLoggedInPerson_invalid_UserNotEnrolled() {
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertEquals(0, course.getParticipants().size());
+        assertFalse(course.getParticipants().contains(currLoggedInPerson));
+
+        assertThrows(
+                UserNotEnrolledAtDropoutException.class,
+                () -> courseService.dropoutLoggedInPerson(course.getCourseId()),
+                "Expected to throw UserNotEnrolledAtDropoutException, but didn't"
+        );
+
+        assertEquals(0, course.getParticipants().size());
+        assertFalse(course.getParticipants().contains(currLoggedInPerson));
+    }
+
+    @Test
+    public void test_dropoutLoggedInPerson_invalid_HostNotEnrolled() {
+        int host_seed = 1;
+        int course_seed = 2;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertEquals(0, course.getParticipants().size());
+        assertFalse(course.getParticipants().contains(currLoggedInPerson));
+
+        assertThrows(
+                UserNotEnrolledAtDropoutException.class,
+                () -> courseService.dropoutLoggedInPerson(course.getCourseId()),
+                "Expected to throw UserNotEnrolledAtDropoutException, but didn't"
+        );
+
+        assertEquals(0, course.getParticipants().size());
+        assertFalse(course.getParticipants().contains(currLoggedInPerson));
+    }
 }

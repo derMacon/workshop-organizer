@@ -36,6 +36,9 @@ public class CourseService {
     @Autowired
     private AnnouncementService announcementService;
 
+    @Autowired
+    private MailService mailService;
+
 
     /* ---------- information for the displaying data ---------- */
 
@@ -151,7 +154,7 @@ public class CourseService {
 
         course.addNewParticipant(newParticipant);
         courseRepository.save(course);
-//        mailService.sendGreeting(newParticipant, course);
+        mailService.sendGreeting(newParticipant, course);
     }
 
     public void dropoutLoggedInPerson(long courseId) throws NonExistentCourseException, UserNotEnrolledAtDropoutException {
@@ -164,7 +167,7 @@ public class CourseService {
 
         course.removeParticipant(participant);
         courseRepository.save(course);
-//        mailService.sendDropoutConfirmation(participant, course);
+        mailService.sendDropoutConfirmation(participant, course);
     }
 
 

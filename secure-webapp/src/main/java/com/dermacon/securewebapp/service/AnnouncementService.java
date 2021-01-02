@@ -19,12 +19,6 @@ public class AnnouncementService {
     @Autowired
     private AnnouncementRepository announcementRepository;
 
-//    public void removeAll(Set<Announcement> announcements) {
-//        // todo exception when non existent
-//        announcementRepository.deleteAll(announcements);
-//    }
-
-
     /* ---------- announcements ---------- */
 
     public void createNewAnnouncement(Course course, FormAnnouncementInfo info) {
