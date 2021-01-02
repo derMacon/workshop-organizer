@@ -9,9 +9,11 @@ import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
+import com.dermacon.securewebapp.exception.UserCantCreateCourseException;
 import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,7 +71,10 @@ public class CourseService {
 
     /* ---------- course entities (add / delete) ---------- */
 
-    public void createCourse(FormCourseInfo courseInfo) throws DuplicateCourseException {
+    public void createCourse(FormCourseInfo courseInfo) throws ErrorCodeException {
+        if (!loggedInPersonCanCreateCourse()) {
+            throw new UserCantCreateCourseException();
+        }
         // todo move this to repository
         boolean exists = false;
         String inputCourseName = courseInfo.getCourseName().toLowerCase();
@@ -114,6 +119,11 @@ public class CourseService {
         UserRole role = personService.getLoggedInUser().getRole();
         Person person = personService.getLoggedInPerson();
         return role == UserRole.ROLE_ADMIN || course.getHost().equals(person);
+    }
+
+    public boolean loggedInPersonCanCreateCourse() {
+        UserRole role = personService.getLoggedInUser().getRole();
+        return role == UserRole.ROLE_ADMIN || role == UserRole.ROLE_MANAGER;
     }
 
 

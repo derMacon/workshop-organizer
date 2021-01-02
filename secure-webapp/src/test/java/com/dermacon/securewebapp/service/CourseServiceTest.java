@@ -3,15 +3,16 @@ package com.dermacon.securewebapp.service;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.Person;
+import com.dermacon.securewebapp.data.PersonRepository;
+import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
-import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.utils.SampleCourseUtils;
 import com.dermacon.securewebapp.utils.SamplePersonUtils;
 import com.dermacon.securewebapp.utils.TestUtils;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,14 +20,13 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
@@ -40,6 +40,12 @@ class CourseServiceTest {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @MockBean
     private MailService mailService;
@@ -67,12 +73,13 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_valid_createCourse() throws DuplicateCourseException {
+    public void test_valid_createCourse() throws ErrorCodeException {
         int hostSeed = 0;
         int fst_courseSeed = 0;
         int snd_courseSeed = 1;
-        Person currLoggedInPerson = SamplePersonUtils.createSamplePerson(hostSeed);
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(hostSeed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
 
         // first course
         FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(fst_courseSeed);
@@ -81,7 +88,8 @@ class CourseServiceTest {
         assertEquals(1, courseRepository.count());
 
         Course createdCourse = courseService.allCourses().iterator().next();
-        assertEquals(SampleCourseUtils.createSampleCourse_empty(0, 0), createdCourse);
+        Course expCourse = SampleCourseUtils.createSampleCourse_empty(hostSeed, fst_courseSeed);
+        assertEquals(expCourse, createdCourse);
 
         // second course - same information but different course name (valid)
         FormCourseInfo formInput_copy = SampleCourseUtils.createSampleFormInput(fst_courseSeed);
@@ -118,9 +126,10 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_invalid_createCourse_duplicate() throws DuplicateCourseException {
-        Person currLoggedInPerson = SamplePersonUtils.createSamplePerson(0);
+    public void test_invalid_createCourse_duplicate() throws ErrorCodeException {
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(0);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
 
         // complete copy
         FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(0);
@@ -138,21 +147,93 @@ class CourseServiceTest {
         FormCourseInfo tmp = SampleCourseUtils.createSampleFormInput(0);
         FormCourseInfo formInput2 = SampleCourseUtils.createSampleFormInput(1);
         formInput2.setCourseName(tmp.getCourseName());
-        courseService.createCourse(formInput2);
 
         ErrorCodeException thrown2 = assertThrows(
                 DuplicateCourseException.class,
                 () -> courseService.createCourse(formInput2),
                 "Expected to throw DuplicateCourseException, but didn't"
         );
-
     }
-
 
     @Test
-    public void test_valid_getCourse() {
-        Course course = SampleCourseUtils.createSampleCourse_empty(0, 0);
+    public void test_valid_remove_single() throws ErrorCodeException {
+        int host_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
 
+        FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(0);
+        courseService.createCourse(formInput);
+
+        assertEquals(1, courseRepository.count());
+        Course course = courseRepository.findByCourseName(formInput.getCourseName());
+        courseService.removeCourse(course.getCourseId());
+        assertEquals(0, courseRepository.count());
+        assertNull(courseRepository.findByCourseName(formInput.getCourseName()));
     }
+
+    @Test
+    public void test_valid_remove_multiple() throws ErrorCodeException {
+        int host_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        List<FormCourseInfo> formInputs = new ArrayList<>();
+        for (int i = 1; i < 5; i++) {
+            FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(i);
+            formInputs.add(formInput);
+            courseService.createCourse(formInput);
+        }
+
+        Iterator<FormCourseInfo> it = formInputs.iterator();
+        for (int i = 1; i < 5; i++) {
+            assertEquals(5 - i, courseRepository.count());
+            FormCourseInfo currInfoObj = it.next();
+            Course course = courseRepository.findByCourseName(currInfoObj.getCourseName());
+            courseService.removeCourse(course.getCourseId());
+            assertEquals(5 - i - 1, courseRepository.count());
+            assertNull(courseRepository.findByCourseName(currInfoObj.getCourseName()));
+        }
+    }
+
+    @Test
+    public void test_invalid_remove() throws ErrorCodeException {
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(0);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        // empty db
+        long wrongId = 42;
+        assertNull(courseRepository.findByCourseId(wrongId));
+
+        ErrorCodeException thrown = assertThrows(
+                NonExistentCourseException.class,
+                () -> courseService.removeCourse(wrongId),
+                "Expected to throw NonExistentCourseException, but didn't"
+        );
+
+        // courses in db
+        for (int i = 1; i < 5; i++) {
+            FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(i);
+            courseService.createCourse(formInput);
+        }
+
+        assertNull(courseRepository.findByCourseId(wrongId));
+
+        ErrorCodeException thrown2 = assertThrows(
+                NonExistentCourseException.class,
+                () -> courseService.removeCourse(wrongId),
+                "Expected to throw NonExistentCourseException, but didn't"
+        );
+    }
+
+    @Test
+    public void test_loggedInPersonCanEditCourse_invalid() {
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(0);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+//        courseService.loggedInPersonCanEditCourse()
+    }
+
 
 }

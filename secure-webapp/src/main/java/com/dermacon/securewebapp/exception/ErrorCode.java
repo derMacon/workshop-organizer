@@ -34,6 +34,10 @@ public enum ErrorCode {
             "Delete non existent Announcement",
             "User tried to delete an announcement which does not exist"
     ),
+    USER_CANT_CREATE_COURSE(
+        "User with wrong privileges",
+            "The logged in User is a standard user who cannot create a course"
+    ),
     NON_EXISTENT_COURSE(
         "Non existent course",
             "Course does not exist"

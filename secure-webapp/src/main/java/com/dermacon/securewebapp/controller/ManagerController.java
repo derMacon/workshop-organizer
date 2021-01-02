@@ -44,7 +44,7 @@ public class ManagerController {
                                         Model model) {
         try {
             courseService.createCourse(formInput);
-        } catch (DuplicateCourseException e) {
+        } catch (ErrorCodeException e) {
             // todo logger
             System.out.println(e.getErrorCode());
             model.addAttribute("errorCode", e.getErrorCode());

@@ -10,7 +10,6 @@ import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
 import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;
-import javassist.tools.rmi.Sample;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +45,7 @@ class PersonServiceTest {
     @Test
     public void test_registration_valid_emptyDB() throws ErrorCodeException {
         User user = SamplePersonUtils.createSampleUser(0);
-        Person person = SamplePersonUtils.createSamplePerson(0);
+        Person person = SamplePersonUtils.createSampleUserPerson(0);
         FormSignupInfo signupInfo = SamplePersonUtils.createSampleFormSignupInfo(person);
 
         assertEquals(0, userRepository.count());
@@ -70,7 +69,7 @@ class PersonServiceTest {
         Set<User> compareSet_user = new HashSet<>();
 
         for (int i = 1; i < 5; i++) {
-            compareSet_person.add(SamplePersonUtils.createSamplePerson(i));
+            compareSet_person.add(SamplePersonUtils.createSampleUserPerson(i));
             compareSet_user.add(SamplePersonUtils.createSampleUser(i));
 
             FormSignupInfo signupInfo = SamplePersonUtils.createSampleFormSignupInfo(i);

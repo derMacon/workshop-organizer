@@ -20,7 +20,23 @@ public class SamplePersonUtils {
                 .build();
     }
 
-    public static Person createSamplePerson(int id) {
+    public static User createSampleManager(int seed) {
+        return new User.Builder()
+                .username("user" + seed)
+                .password(SAMPLE_PASSWORD_ENCODED)
+                .role(UserRole.ROLE_MANAGER)
+                .build();
+    }
+
+    public static User createSampleAdmin(int seed) {
+        return new User.Builder()
+                .username("user" + seed)
+                .password(SAMPLE_PASSWORD_ENCODED)
+                .role(UserRole.ROLE_ADMIN)
+                .build();
+    }
+
+    public static Person createSampleUserPerson(int id) {
         User user = createSampleUser(id);
         return new Person.Builder()
                 .email("mail" + id + "@mail.com")
@@ -30,8 +46,28 @@ public class SamplePersonUtils {
                 .build();
     }
 
+    public static Person createSampleManagerPerson(int id) {
+        User user = createSampleManager(id);
+        return new Person.Builder()
+                .email("mail" + id + "@mail.com")
+                .firstname("firstname" + id)
+                .surname("surname" + id)
+                .user(user)
+                .build();
+    }
+
+    public static Person createSampleAdminPerson(int id) {
+        User user = createSampleAdmin(id);
+        return new Person.Builder()
+                .email("mail" + id + "@mail.com")
+                .firstname("firstname" + id)
+                .surname("surname" + id)
+                .user(user)
+                .build();
+    }
+
     public static FormSignupInfo createSampleFormSignupInfo(int id) {
-        return createSampleFormSignupInfo(createSamplePerson(id));
+        return createSampleFormSignupInfo(createSampleUserPerson(id));
     }
 
     public static FormSignupInfo createSampleFormSignupInfo(Person person) {
