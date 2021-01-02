@@ -81,16 +81,14 @@ public class CourseService {
             throw new DuplicateCourseException();
         }
 
-        // todo builder
-        Course newCourse = new Course(
-                personService.getLoggedInPerson(),
-                new HashSet<>(),
-                courseInfo.getCourseName(),
-                courseInfo.getCourseSummary(),
-                courseInfo.getCourseDescription(),
-                courseInfo.getMaxParticipantCount(),
-                new HashSet<>()
-        );
+        Course newCourse = new Course.Builder()
+                .host(personService.getLoggedInPerson())
+                .courseName(courseInfo.getCourseName())
+                .courseSummary(courseInfo.getCourseSummary())
+                .courseDescription(courseInfo.getCourseDescription())
+                .maxParticipantCount(courseInfo.getMaxParticipantCount())
+                .build();
+
         courseRepository.save(newCourse);
     }
 

@@ -5,6 +5,8 @@ import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.utils.SampleCourseUtils;
 import com.dermacon.securewebapp.utils.SamplePersonUtils;
 import com.dermacon.securewebapp.utils.TestUtils;
@@ -17,7 +19,9 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import javax.transaction.Transactional;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,16 +68,84 @@ class CourseServiceTest {
 
     @Test
     public void test_valid_createCourse() throws DuplicateCourseException {
-        Person currLoggedInPerson = SamplePersonUtils.createSamplePerson(0);
+        int hostSeed = 0;
+        int fst_courseSeed = 0;
+        int snd_courseSeed = 1;
+        Person currLoggedInPerson = SamplePersonUtils.createSamplePerson(hostSeed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
 
-        FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(0);
+        // first course
+        FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(fst_courseSeed);
         assertEquals(0, courseRepository.count());
         courseService.createCourse(formInput);
         assertEquals(1, courseRepository.count());
 
         Course createdCourse = courseService.allCourses().iterator().next();
         assertEquals(SampleCourseUtils.createSampleCourse_empty(0, 0), createdCourse);
+
+        // second course - same information but different course name (valid)
+        FormCourseInfo formInput_copy = SampleCourseUtils.createSampleFormInput(fst_courseSeed);
+        FormCourseInfo tmp = SampleCourseUtils.createSampleFormInput(snd_courseSeed);
+        formInput_copy.setCourseName(tmp.getCourseName());
+        assertEquals(1, courseRepository.count());
+        courseService.createCourse(formInput_copy);
+        assertEquals(2, courseRepository.count());
+
+        Set<Course> actual_courses = TestUtils.toSet(courseService.allCourses());
+
+
+        Course c1 = SampleCourseUtils.createSampleCourse_empty(hostSeed,fst_courseSeed);
+        Course c2 = SampleCourseUtils.createSampleCourse_empty(hostSeed,fst_courseSeed);
+        Course ctmp = SampleCourseUtils.createSampleCourse_empty(hostSeed, snd_courseSeed);
+        c2.setCourseName(ctmp.getCourseName());
+
+        assertEquals(actual_courses.size(), 2);
+
+        Iterator<Course> it = actual_courses.iterator();
+
+        Course cit1 = it.next();
+        boolean b1 = cit1.equals(c1);
+        boolean b2 = cit1.equals(c2);
+        assertTrue(b1 || b2);
+
+        Course cit2 = it.next();
+        boolean b3 = cit2.equals(c1);
+        boolean b4 = cit2.equals(c2);
+        assertTrue(b3 || b4);
+
+        // for some reason it's not possible to create an expected set of courses
+        // and test via .containsAll(), no idea why :(
+    }
+
+    @Test
+    public void test_invalid_createCourse_duplicate() throws DuplicateCourseException {
+        Person currLoggedInPerson = SamplePersonUtils.createSamplePerson(0);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+
+        // complete copy
+        FormCourseInfo formInput = SampleCourseUtils.createSampleFormInput(0);
+        courseService.createCourse(formInput);
+
+        ErrorCodeException thrown = assertThrows(
+                DuplicateCourseException.class,
+                () -> courseService.createCourse(formInput),
+                "Expected to throw DuplicateCourseException, but didn't"
+        );
+
+        assertEquals(1, courseRepository.count());
+
+        // completely new course - but same name
+        FormCourseInfo tmp = SampleCourseUtils.createSampleFormInput(0);
+        FormCourseInfo formInput2 = SampleCourseUtils.createSampleFormInput(1);
+        formInput2.setCourseName(tmp.getCourseName());
+        courseService.createCourse(formInput2);
+
+        ErrorCodeException thrown2 = assertThrows(
+                DuplicateCourseException.class,
+                () -> courseService.createCourse(formInput2),
+                "Expected to throw DuplicateCourseException, but didn't"
+        );
+
     }
 
 

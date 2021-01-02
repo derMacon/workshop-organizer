@@ -198,7 +198,8 @@ public class Course {
         return this.host.equals(other.host)
                 && setsEqual(this.announcements, other.announcements)
                 && this.courseName.toLowerCase().equals(other.courseName.toLowerCase())
-                && this.courseSummary.toLowerCase().equals(other.courseSummary.toLowerCase()) && courseDescription.toLowerCase().equals(other.courseDescription.toLowerCase())
+                && this.courseSummary.toLowerCase().equals(other.courseSummary.toLowerCase())
+                && courseDescription.toLowerCase().equals(other.courseDescription.toLowerCase())
                 && this.maxParticipantCount == other.maxParticipantCount
                 && setsEqual(this.participants, other.participants);
     }
