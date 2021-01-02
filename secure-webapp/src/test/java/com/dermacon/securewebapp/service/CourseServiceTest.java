@@ -8,7 +8,9 @@ import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
+import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
+import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
 import com.dermacon.securewebapp.utils.SampleCourseUtils;
 import com.dermacon.securewebapp.utils.SamplePersonUtils;
 import com.dermacon.securewebapp.utils.TestUtils;
@@ -229,10 +231,135 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanEditCourse_invalid() {
-        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(0);
+    public void test_loggedInPersonCanEditCourse_validManager() {
+        int host_seed = 0;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
-//        courseService.loggedInPersonCanEditCourse()
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+
+        assertTrue(courseService.loggedInPersonCanEditCourse(course));
+    }
+
+    @Test
+    public void test_loggedInPersonCanEditCourse_validAdmin() {
+        int admin_seed = 0;
+        int host_seed = 1;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleAdminPerson(admin_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+
+        assertTrue(courseService.loggedInPersonCanEditCourse(course));
+    }
+
+    @Test
+    public void test_loggedInPersonCanEditCourse_invalidUser() {
+        int user_seed = 0;
+        int host_seed = 1;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+
+        assertFalse(courseService.loggedInPersonCanEditCourse(course));
+    }
+
+    @Test
+    public void test_loggedInPersonCanEditCourse_invalidHost() {
+        int host_seed = 0;
+        int otherHost_seed = 1;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(otherHost_seed, course_seed);
+
+        assertFalse(courseService.loggedInPersonCanEditCourse(course));
+    }
+
+    @Test
+    public void test_loggedInPersonCanCreateCourse_validManager() {
+        int host_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertTrue(courseService.loggedInPersonCanCreateCourse());
+    }
+
+    @Test
+    public void test_loggedInPersonCanCreateCourse_validAdmin() {
+        int host_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertTrue(courseService.loggedInPersonCanCreateCourse());
+    }
+
+    @Test
+    public void test_loggedInPersonCanCreateCourse_invalidUser() {
+        int user_seed = 0;
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        assertFalse(courseService.loggedInPersonCanCreateCourse());
+    }
+
+
+    // ---------- enrollLoggedInPerson ---------- //
+
+    @Test
+    public void test_enrollLoggedInPerson_validUser() throws ErrorCodeException {
+        int user_seed = 0;
+        int host_seed = 0;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+        courseRepository.save(course);
+
+        assertTrue(course.getParticipants().isEmpty());
+        courseService.enrollLoggedInPerson(course.getCourseId());
+
+        assertEquals(1, course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+
+        assertEquals(1, courseRepository.count());
+        Course db_course = courseRepository.findAll().iterator().next();
+        assertEquals(1, db_course.getParticipants().size());
+        assertTrue(course.getParticipants().contains(currLoggedInPerson));
+    }
+
+    @Test
+    public void test_enrollLoggedInPerson_invalidCourse() throws ErrorCodeException {
+        int user_seed = 0;
+        int host_seed = 0;
+        int course_seed = 0;
+
+        Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
+        doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
+        doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
+
+        Course course = SampleCourseUtils.createSampleCourse_empty(host_seed, course_seed);
+
+        courseService.enrollLoggedInPerson(course.getCourseId());
     }
 
 
