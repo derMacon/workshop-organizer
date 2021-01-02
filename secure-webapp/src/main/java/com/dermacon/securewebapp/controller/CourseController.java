@@ -1,11 +1,8 @@
 package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.Person;
-import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
-import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
 import com.dermacon.securewebapp.service.CourseService;
 import com.dermacon.securewebapp.service.MeetingService;
 import com.dermacon.securewebapp.service.PersonService;
@@ -21,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("courses")
 public class CourseController extends ModelAttributeProvider {
 
-    private final static String SPECIFIC_PATH = "/courses/specific/";
-    private final static String OVERVIEW_PATH = "/courses/overview/";
-    private final static Logger LOGGER = Logger.getLogger(CourseController.class.getName());
+    private static final String SPECIFIC_PATH = "/courses/specific/";
+    private static final String OVERVIEW_PATH = "/courses/overview/";
+    private static final Logger LOGGER = Logger.getLogger(CourseController.class.getName());
 
     @Autowired
     private CourseService courseService;

@@ -2,7 +2,7 @@ package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
-import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.data.form_input.FormSignupInfo;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.service.MailService;
 import com.dermacon.securewebapp.service.PersonService;

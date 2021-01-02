@@ -3,8 +3,8 @@ package com.dermacon.securewebapp.service;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
-import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
@@ -18,7 +18,6 @@ import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -78,14 +77,9 @@ public class CourseService {
         if (!loggedInPersonCanCreateCourse()) {
             throw new UserCantCreateCourseException();
         }
-        // todo move this to repository
-        boolean exists = false;
-        String inputCourseName = courseInfo.getCourseName().toLowerCase();
-        for (Course course : courseRepository.findAll()) {
-            exists = exists || course.getCourseName().toLowerCase().equals(inputCourseName);
-        }
 
-        if (exists) {
+        String inputCourseName = courseInfo.getCourseName();
+        if (courseRepository.existsByCourseNameIgnoreCase(inputCourseName)) {
             throw new DuplicateCourseException();
         }
 

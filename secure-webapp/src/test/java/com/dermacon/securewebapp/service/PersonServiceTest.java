@@ -6,7 +6,7 @@ import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
-import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.data.form_input.FormSignupInfo;
 import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;

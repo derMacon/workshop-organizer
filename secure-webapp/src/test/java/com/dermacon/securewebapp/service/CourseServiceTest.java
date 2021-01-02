@@ -5,7 +5,7 @@ import com.dermacon.securewebapp.data.CourseRepository;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.UserRepository;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
@@ -502,7 +502,7 @@ class CourseServiceTest {
 
         assertEquals(0, course.getParticipants().size());
         assertFalse(course.getParticipants().contains(currLoggedInPerson));
-        assertEquals(0, courseRepository.count());
+        assertEquals(1, courseRepository.count());
     }
 
     @Test

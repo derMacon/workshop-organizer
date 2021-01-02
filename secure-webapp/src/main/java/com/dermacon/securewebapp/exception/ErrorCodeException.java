@@ -1,22 +1,21 @@
 package com.dermacon.securewebapp.exception;
 
-import com.dermacon.securewebapp.SecureWebappApplication;
 import org.apache.log4j.Logger;
 
 public abstract class ErrorCodeException extends Exception {
 
-    private static Logger log = Logger.getLogger(ErrorCodeException.class.getName());
+    private static final Logger log = Logger.getLogger(ErrorCodeException.class.getName());
 
-    protected final ErrorCode error_code;
+    protected final ErrorCode errorCode;
 
-    public ErrorCodeException(ErrorCode errorCode) {
+    protected ErrorCodeException(ErrorCode errorCode) {
         super(errorCode.toString());
-        this.error_code = errorCode;
+        this.errorCode = errorCode;
         log.fatal(errorCode);
     }
 
     public ErrorCode getErrorCode() {
-        return error_code;
+        return errorCode;
     }
 
 }

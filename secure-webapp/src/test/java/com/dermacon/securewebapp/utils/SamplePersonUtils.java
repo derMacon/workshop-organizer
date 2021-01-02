@@ -3,7 +3,7 @@ package com.dermacon.securewebapp.utils;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRole;
-import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.data.form_input.FormSignupInfo;
 
 public class SamplePersonUtils {
 

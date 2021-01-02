@@ -2,7 +2,7 @@ package com.dermacon.securewebapp.utils;
 
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 
 public class SampleCourseUtils {
 

@@ -197,11 +197,22 @@ public class Course {
         Course other = (Course) o;
         return this.host.equals(other.host)
                 && setsEqual(this.announcements, other.announcements)
-                && this.courseName.toLowerCase().equals(other.courseName.toLowerCase())
-                && this.courseSummary.toLowerCase().equals(other.courseSummary.toLowerCase())
-                && courseDescription.toLowerCase().equals(other.courseDescription.toLowerCase())
+                && this.courseName.equalsIgnoreCase(other.courseName)
+                && this.courseSummary.equalsIgnoreCase(other.courseSummary)
+                && this.courseDescription.equalsIgnoreCase(other.courseDescription)
                 && this.maxParticipantCount == other.maxParticipantCount
                 && setsEqual(this.participants, other.participants);
+    }
+
+    @Override
+    public int hashCode() {
+        return host.hashCode()
+                * announcements.hashCode()
+                * courseName.hashCode()
+                * courseSummary.hashCode()
+                * courseDescription.hashCode()
+                * maxParticipantCount
+                * participants.hashCode();
     }
 
     /**

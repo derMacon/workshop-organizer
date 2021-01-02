@@ -16,11 +16,6 @@ public class AuthenticatedUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        String[] values = this.userRole.stream().map(Objects::toString).toArray(String[]::new);
-//        return AuthorityUtils.createAuthorityList(values);
-
-//        return AuthorityUtils.createAuthorityList("ROLE_USER");
-
         return AuthorityUtils.createAuthorityList(this.getRole().name());
     }
 

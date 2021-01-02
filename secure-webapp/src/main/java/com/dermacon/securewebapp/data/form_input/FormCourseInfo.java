@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp.data.formInput;
+package com.dermacon.securewebapp.data.form_input;
 
 /**
  * Simple POJO that will be filled with the necessary information in the thymeleaf template for

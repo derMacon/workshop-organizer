@@ -1,10 +1,9 @@
 package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
-import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.service.CourseService;
