@@ -52,6 +52,7 @@ hs_err_pid*
 */mvnw.cmd
 
 # own stuff
+log/
 *.log
 *.log.*
 data_set.sql # private information
