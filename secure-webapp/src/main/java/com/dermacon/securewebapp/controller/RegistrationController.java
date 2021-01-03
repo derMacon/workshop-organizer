@@ -2,10 +2,11 @@ package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
-import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.data.form_input.FormSignupInfo;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.service.MailService;
 import com.dermacon.securewebapp.service.PersonService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import javax.mail.MessagingException;
 @Controller
 @RequestMapping("registration")
 public class RegistrationController {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private MailService notificationService;
@@ -72,7 +75,7 @@ public class RegistrationController {
         try {
             notificationService.sendEmail(receiver);
         } catch (MailException mailException) {
-            System.out.println(mailException);
+            log.error(mailException);
         }
         return "Congratulations! Your mail has been send to the user.";
     }

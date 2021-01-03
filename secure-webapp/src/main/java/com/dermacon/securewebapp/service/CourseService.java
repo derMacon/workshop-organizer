@@ -1,22 +1,25 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
-import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.UserRole;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
 import com.dermacon.securewebapp.exception.DuplicateCourseException;
+import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.HostEnrollOwnCourseException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
+import com.dermacon.securewebapp.exception.UserCantCreateCourseException;
 import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +27,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class CourseService {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private CourseRepository courseRepository;
@@ -33,6 +38,9 @@ public class CourseService {
 
     @Autowired
     private AnnouncementService announcementService;
+
+    @Autowired
+    private MailService mailService;
 
 
     /* ---------- information for the displaying data ---------- */
@@ -69,28 +77,24 @@ public class CourseService {
 
     /* ---------- course entities (add / delete) ---------- */
 
-    public void createCourse(FormCourseInfo courseInfo) throws DuplicateCourseException {
-        // todo move this to repository
-        boolean exists = false;
-        String inputCourseName = courseInfo.getCourseName().toLowerCase();
-        for (Course course : courseRepository.findAll()) {
-            exists = exists || course.getCourseName().toLowerCase().equals(inputCourseName);
+    public void createCourse(FormCourseInfo courseInfo) throws ErrorCodeException {
+        if (!loggedInPersonCanCreateCourse()) {
+            throw new UserCantCreateCourseException();
         }
 
-        if (exists) {
+        String inputCourseName = courseInfo.getCourseName();
+        if (courseRepository.existsByCourseNameIgnoreCase(inputCourseName)) {
             throw new DuplicateCourseException();
         }
 
-        // todo builder
-        Course newCourse = new Course(
-                personService.getLoggedInPerson(),
-                new HashSet<>(),
-                courseInfo.getCourseName(),
-                courseInfo.getCourseSummary(),
-                courseInfo.getCourseDescription(),
-                courseInfo.getMaxParticipantCount(),
-                new HashSet<>()
-        );
+        Course newCourse = new Course.Builder()
+                .host(personService.getLoggedInPerson())
+                .courseName(courseInfo.getCourseName())
+                .courseSummary(courseInfo.getCourseSummary())
+                .courseDescription(courseInfo.getCourseDescription())
+                .maxParticipantCount(courseInfo.getMaxParticipantCount())
+                .build();
+
         courseRepository.save(newCourse);
     }
 
@@ -118,6 +122,11 @@ public class CourseService {
         return role == UserRole.ROLE_ADMIN || course.getHost().equals(person);
     }
 
+    public boolean loggedInPersonCanCreateCourse() {
+        UserRole role = personService.getLoggedInUser().getRole();
+        return role == UserRole.ROLE_ADMIN || role == UserRole.ROLE_MANAGER;
+    }
+
 
     /* ---------- person information ---------- */
 
@@ -143,7 +152,7 @@ public class CourseService {
 
         course.addNewParticipant(newParticipant);
         courseRepository.save(course);
-//        mailService.sendGreeting(newParticipant, course);
+        mailService.sendGreeting(newParticipant, course);
     }
 
     public void dropoutLoggedInPerson(long courseId) throws NonExistentCourseException, UserNotEnrolledAtDropoutException {
@@ -156,7 +165,7 @@ public class CourseService {
 
         course.removeParticipant(participant);
         courseRepository.save(course);
-//        mailService.sendDropoutConfirmation(participant, course);
+        mailService.sendDropoutConfirmation(participant, course);
     }
 
 

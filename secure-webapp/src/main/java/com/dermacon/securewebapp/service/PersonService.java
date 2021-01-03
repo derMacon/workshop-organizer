@@ -1,28 +1,29 @@
 package com.dermacon.securewebapp.service;
 
-import com.dermacon.securewebapp.data.Course;
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.PersonRepository;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.data.UserRepository;
 import com.dermacon.securewebapp.data.UserRole;
-import com.dermacon.securewebapp.data.formInput.FormSignupInfo;
+import com.dermacon.securewebapp.data.form_input.FormSignupInfo;
 import com.dermacon.securewebapp.exception.EmailAlreadyExistsException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.UsernameAlreadyExistsException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
-import static com.dermacon.securewebapp.data.UserRole.ROLE_ANONYMOUS;
 import static com.dermacon.securewebapp.data.UserRole.ROLE_USER;
 
 @Service
 public class PersonService {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private PersonRepository personRepository;
@@ -100,7 +101,7 @@ public class PersonService {
 
 
         personRepository.save(person);
-//        mailService.sendAccountConfirmation(person);
+        mailService.sendAccountConfirmation(person);
     }
 
     // todo check if needed
@@ -119,13 +120,5 @@ public class PersonService {
 //
 //        return possible_hosts;
 //    }
-
-    @Autowired
-    private TestService testService;
-
-    public void testDelegatedService() {
-        testService.test();
-    }
-
 
 }

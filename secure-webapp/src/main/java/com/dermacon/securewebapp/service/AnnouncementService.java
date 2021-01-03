@@ -1,29 +1,29 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
-import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 @Service
 public class AnnouncementService {
 
+    private static Logger log = Logger.getLogger(ManagerController.class);
+
     @Autowired
     private AnnouncementRepository announcementRepository;
 
-//    public void removeAll(Set<Announcement> announcements) {
-//        // todo exception when non existent
-//        announcementRepository.deleteAll(announcements);
-//    }
-
+    @Autowired
+    private MailService mailService;
 
     /* ---------- announcements ---------- */
 
@@ -37,10 +37,10 @@ public class AnnouncementService {
         );
 
         // save in database
-        LoggerSingleton.getInstance().info("save announcement: " + announcement.getAnnouncementId());
+        log.info("save announcement: " + announcement.getAnnouncementId());
         announcementRepository.save(announcement);
 
-//        mailService.sendAnnouncement(course.getParticipants(), announcement);
+        mailService.sendAnnouncement(course.getParticipants(), announcement);
     }
 
     public void deleteAnnouncements(Set<Announcement> announcements) {
@@ -48,11 +48,11 @@ public class AnnouncementService {
     }
 
     public void deleteAnnouncement(long id) throws AnnouncementNonExistentException {
-        Optional<Announcement> announcement_opt = announcementRepository.findById(id);
-        if (!announcement_opt.isPresent()) {
+        Optional<Announcement> announcementOpt = announcementRepository.findById(id);
+        if (!announcementOpt.isPresent()) {
             throw new AnnouncementNonExistentException();
         }
-        deleteAnnouncement(announcement_opt.get());
+        deleteAnnouncement(announcementOpt.get());
     }
 
     public void deleteAnnouncement(Announcement announcement) {

@@ -80,6 +80,26 @@ public class Announcement {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Announcement other = (Announcement) o;
+        return this.title.equalsIgnoreCase(other.title)
+                && this.content.equalsIgnoreCase(other.content)
+                && this.publishingDate.equals(other.publishingDate)
+                && this.course.equals(other.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return title.hashCode()
+                * content.hashCode()
+                * publishingDate.hashCode()
+                * course.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "Announcement{" +
                 "announcementId=" + announcementId +

@@ -1,10 +1,9 @@
 package com.dermacon.securewebapp.controller;
 
 import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.formInput.FormAnnouncementInfo;
-import com.dermacon.securewebapp.data.formInput.FormCourseInfo;
+import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
+import com.dermacon.securewebapp.data.form_input.FormCourseInfo;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
-import com.dermacon.securewebapp.exception.DuplicateCourseException;
 import com.dermacon.securewebapp.exception.ErrorCodeException;
 import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.service.CourseService;
@@ -17,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.apache.log4j.Logger;
+
 @Controller
 @RequestMapping("manager")
 public class ManagerController {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private CourseService courseService;
@@ -44,9 +47,7 @@ public class ManagerController {
                                         Model model) {
         try {
             courseService.createCourse(formInput);
-        } catch (DuplicateCourseException e) {
-            // todo logger
-            System.out.println(e.getErrorCode());
+        } catch (ErrorCodeException e) {
             model.addAttribute("errorCode", e.getErrorCode());
             return "error/error";
         }

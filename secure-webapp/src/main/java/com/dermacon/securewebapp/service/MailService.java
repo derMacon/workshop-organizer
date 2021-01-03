@@ -1,11 +1,11 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
-import com.dermacon.securewebapp.logger.LoggerSingleton;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,6 +26,8 @@ import java.util.Set;
 @Service
 public class MailService {
 
+    private static Logger log = Logger.getLogger(ManagerController.class);
+
     /*
      * The Spring Framework provides an easy abstraction for sending email by using
      * the JavaMailSender interface, and Spring Boot provides auto-configuration for
@@ -43,14 +45,14 @@ public class MailService {
 
 
     public void sendAccountConfirmation(Person person) {
-        System.out.println("send conf: " + person);
+        log.info("send conf: " + person);
 
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(person.getEmail());
         mail.setSubject("Registration Confirmation");
         mail.setText("You can now login to the website with the provided data.");
 
-//        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        log.info("sending mail: " + mail.toString());
         // todo uncomment
         javaMailSender.send(mail);
     }
@@ -73,7 +75,7 @@ public class MailService {
         mail.setSubject("Welcome to " + course.getCourseName() + " workshop");
         mail.setText(course.toString());
 
-        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        log.info("sending mail: " + mail.toString());
         // todo uncomment
 //        javaMailSender.send(mail);
     }
@@ -89,7 +91,7 @@ public class MailService {
         mail.setSubject("Confirmation for checkout");
         mail.setText("leaving course:\n" + course.toString());
 
-        LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+        log.info("sending mail: " + mail.toString());
         // todo uncomment
 //        javaMailSender.send(mail);
     }
@@ -106,7 +108,7 @@ public class MailService {
             mail.setSubject("Announcement: " + announcement.getTitle());
             mail.setText(announcement.getContent());
 
-            LoggerSingleton.getInstance().info("sending mail: " + mail.toString());
+            log.info("sending mail: " + mail.toString());
             // todo uncomment
 //        javaMailSender.send(mail);
         }
@@ -127,12 +129,12 @@ public class MailService {
          * object of SimpleMailMessage as a Parameter
          */
 
-        LoggerSingleton.getInstance().info("new mail: " + person);
+        log.info("new mail: " + person);
 
         SimpleMailMessage mail = new SimpleMailMessage();
 
-        mail.setTo("rwl93183@cuoly.com");
-//        mail.setTo(person.getEmail());
+//        mail.setTo("rwl93183@cuoly.com");
+        mail.setTo(person.getEmail());
         mail.setSubject("Testing Mail API");
         mail.setText("Hurray ! You have done that dude...");
 

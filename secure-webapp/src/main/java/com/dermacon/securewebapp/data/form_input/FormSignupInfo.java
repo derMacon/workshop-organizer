@@ -1,4 +1,4 @@
-package com.dermacon.securewebapp.data.formInput;
+package com.dermacon.securewebapp.data.form_input;
 
 public class FormSignupInfo {
 

@@ -1,6 +1,5 @@
 package com.dermacon.securewebapp.controller;
 
-import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
