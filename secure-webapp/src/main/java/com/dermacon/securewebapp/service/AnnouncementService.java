@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
@@ -12,9 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 @Service
 public class AnnouncementService {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private AnnouncementRepository announcementRepository;

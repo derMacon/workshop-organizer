@@ -43,7 +43,7 @@ class PersonServiceTest {
 
 
     @Test
-    public void test_registration_valid_emptyDB() throws ErrorCodeException {
+    void test_registration_valid_emptyDB() throws ErrorCodeException {
         User user = SamplePersonUtils.createSampleUser(0);
         Person person = SamplePersonUtils.createSampleUserPerson(0);
         FormSignupInfo signupInfo = SamplePersonUtils.createSampleFormSignupInfo(person);
@@ -61,7 +61,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void test_registration_valid_filledDB() throws ErrorCodeException {
+    void test_registration_valid_filledDB() throws ErrorCodeException {
         assertEquals(0, userRepository.count());
         assertEquals(0, personRepository.count());
 
@@ -85,7 +85,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void test_registration_invalid_emailInUse() throws ErrorCodeException {
+    void test_registration_invalid_emailInUse() throws ErrorCodeException {
         assertEquals(0, userRepository.count());
         assertEquals(0, personRepository.count());
 
@@ -108,7 +108,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void test_registration_invalid_usernameInUse() throws ErrorCodeException {
+    void test_registration_invalid_usernameInUse() throws ErrorCodeException {
         assertEquals(0, userRepository.count());
         assertEquals(0, personRepository.count());
 
@@ -132,7 +132,7 @@ class PersonServiceTest {
     }
 
     @Test
-    public void test_registration_mailService_userGetsNotified() throws ErrorCodeException {
+    void test_registration_mailService_userGetsNotified() throws ErrorCodeException {
         doNothing().when(mailService).sendAccountConfirmation(isA(Person.class));
 
         FormSignupInfo signupInfo = SamplePersonUtils.createSampleFormSignupInfo(0);

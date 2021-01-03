@@ -58,7 +58,7 @@ class CourseServiceTest {
     private PersonService personService;
 
     @Test
-    public void test_getCourses_valid() {
+    void test_getCourses_valid() {
         assertEquals(0, courseRepository.count());
         Set<Course> compareSet = new HashSet<>();
 
@@ -77,7 +77,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_valid_createCourse() throws ErrorCodeException {
+    void test_valid_createCourse() throws ErrorCodeException {
         int hostSeed = 0;
         int fst_courseSeed = 0;
         int snd_courseSeed = 1;
@@ -130,7 +130,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_invalid_createCourse_duplicate() throws ErrorCodeException {
+    void test_invalid_createCourse_duplicate() throws ErrorCodeException {
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(0);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
         doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
@@ -160,7 +160,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_valid_remove_single() throws ErrorCodeException {
+    void test_valid_remove_single() throws ErrorCodeException {
         int host_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -177,7 +177,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_valid_remove_multiple() throws ErrorCodeException {
+    void test_valid_remove_multiple() throws ErrorCodeException {
         int host_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -202,7 +202,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_invalid_remove() throws ErrorCodeException {
+    void test_invalid_remove() throws ErrorCodeException {
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(0);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
         doReturn(currLoggedInPerson.getUser()).when(personService).getLoggedInUser();
@@ -233,7 +233,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanEditCourse_validManager() {
+    void test_loggedInPersonCanEditCourse_validManager() {
         int host_seed = 0;
         int course_seed = 0;
 
@@ -247,7 +247,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanEditCourse_validAdmin() {
+    void test_loggedInPersonCanEditCourse_validAdmin() {
         int admin_seed = 0;
         int host_seed = 1;
         int course_seed = 0;
@@ -262,7 +262,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanEditCourse_invalidUser() {
+    void test_loggedInPersonCanEditCourse_invalidUser() {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 0;
@@ -277,7 +277,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanEditCourse_invalidHost() {
+    void test_loggedInPersonCanEditCourse_invalidHost() {
         int host_seed = 0;
         int otherHost_seed = 1;
         int course_seed = 0;
@@ -292,7 +292,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanCreateCourse_validManager() {
+    void test_loggedInPersonCanCreateCourse_validManager() {
         int host_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -302,7 +302,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanCreateCourse_validAdmin() {
+    void test_loggedInPersonCanCreateCourse_validAdmin() {
         int host_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleManagerPerson(host_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -312,7 +312,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_loggedInPersonCanCreateCourse_invalidUser() {
+    void test_loggedInPersonCanCreateCourse_invalidUser() {
         int user_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -325,7 +325,7 @@ class CourseServiceTest {
     // ---------- enrollLoggedInPerson ---------- //
 
     @Test
-    public void test_enrollLoggedInPerson_validUser() throws ErrorCodeException {
+    void test_enrollLoggedInPerson_validUser() throws ErrorCodeException {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -351,7 +351,7 @@ class CourseServiceTest {
 
 
     @Test
-    public void test_enrollLoggedInPerson_validManager() throws ErrorCodeException {
+    void test_enrollLoggedInPerson_validManager() throws ErrorCodeException {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -376,7 +376,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_enrollLoggedInPerson_validAdmin() throws ErrorCodeException {
+    void test_enrollLoggedInPerson_validAdmin() throws ErrorCodeException {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -401,7 +401,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_enrollLoggedInPerson_invalidCourse() {
+    void test_enrollLoggedInPerson_invalidCourse() {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -434,7 +434,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_enrollLoggedInPerson_invalidHostEnrollInOwnCourse() {
+    void test_enrollLoggedInPerson_invalidHostEnrollInOwnCourse() {
         int host_seed = 1;
         int course_seed = 2;
 
@@ -458,7 +458,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_enrollLoggedInPerson_validMailNotification() throws ErrorCodeException {
+    void test_enrollLoggedInPerson_validMailNotification() throws ErrorCodeException {
         doNothing().when(mailService).sendGreeting(isA(Person.class), isA(Course.class));
 
         int user_seed = 0;
@@ -482,7 +482,7 @@ class CourseServiceTest {
     // ---------- dropoutLoggedInPerson ---------- //
 
     @Test
-    public void test_dropoutLoggedInPerson_validUser() throws ErrorCodeException {
+    void test_dropoutLoggedInPerson_validUser() throws ErrorCodeException {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -506,7 +506,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_dropoutLoggedInPerson_invalidCourse() {
+    void test_dropoutLoggedInPerson_invalidCourse() {
         int user_seed = 0;
         Person currLoggedInPerson = SamplePersonUtils.createSampleUserPerson(user_seed);
         doReturn(currLoggedInPerson).when(personService).getLoggedInPerson();
@@ -525,7 +525,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_dropoutLoggedInPerson_invalid_UserNotEnrolled() {
+    void test_dropoutLoggedInPerson_invalid_UserNotEnrolled() {
         int user_seed = 0;
         int host_seed = 1;
         int course_seed = 2;
@@ -551,7 +551,7 @@ class CourseServiceTest {
     }
 
     @Test
-    public void test_dropoutLoggedInPerson_invalid_HostNotEnrolled() {
+    void test_dropoutLoggedInPerson_invalid_HostNotEnrolled() {
         int host_seed = 1;
         int course_seed = 2;
 

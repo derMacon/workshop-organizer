@@ -20,7 +20,8 @@ public class CourseController extends ModelAttributeProvider {
 
     private static final String SPECIFIC_PATH = "/courses/specific/";
     private static final String OVERVIEW_PATH = "/courses/overview/";
-    private static final Logger LOGGER = Logger.getLogger(CourseController.class.getName());
+
+    private static Logger log = Logger.getLogger(DefaultController.class);
 
     @Autowired
     private CourseService courseService;

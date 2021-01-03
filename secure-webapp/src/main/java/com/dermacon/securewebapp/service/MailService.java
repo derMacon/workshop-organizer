@@ -1,10 +1,12 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.Person;
 import com.dermacon.securewebapp.data.User;
 import com.dermacon.securewebapp.logger.LoggerSingleton;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
@@ -25,6 +27,8 @@ import java.util.Set;
  */
 @Service
 public class MailService {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     /*
      * The Spring Framework provides an easy abstraction for sending email by using
