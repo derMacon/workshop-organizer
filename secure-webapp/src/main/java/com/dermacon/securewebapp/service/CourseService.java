@@ -1,5 +1,6 @@
 package com.dermacon.securewebapp.service;
 
+import com.dermacon.securewebapp.controller.ManagerController;
 import com.dermacon.securewebapp.data.Announcement;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.CourseRepository;
@@ -15,6 +16,7 @@ import com.dermacon.securewebapp.exception.NonExistentCourseException;
 import com.dermacon.securewebapp.exception.UserAlreadyEnrolledException;
 import com.dermacon.securewebapp.exception.UserCantCreateCourseException;
 import com.dermacon.securewebapp.exception.UserNotEnrolledAtDropoutException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class CourseService {
+
+    private static Logger log = Logger.getLogger(ManagerController.class);
 
     @Autowired
     private CourseRepository courseRepository;

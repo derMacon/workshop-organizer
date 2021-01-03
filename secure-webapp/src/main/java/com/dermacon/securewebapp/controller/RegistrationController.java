@@ -75,7 +75,7 @@ public class RegistrationController {
         try {
             notificationService.sendEmail(receiver);
         } catch (MailException mailException) {
-            System.out.println(mailException);
+            log.error(mailException);
         }
         return "Congratulations! Your mail has been send to the user.";
     }

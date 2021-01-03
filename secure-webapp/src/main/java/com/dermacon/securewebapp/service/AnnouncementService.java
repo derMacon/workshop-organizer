@@ -6,7 +6,6 @@ import com.dermacon.securewebapp.data.AnnouncementRepository;
 import com.dermacon.securewebapp.data.Course;
 import com.dermacon.securewebapp.data.form_input.FormAnnouncementInfo;
 import com.dermacon.securewebapp.exception.AnnouncementNonExistentException;
-import com.dermacon.securewebapp.logger.LoggerSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class AnnouncementService {
         );
 
         // save in database
-        LoggerSingleton.getInstance().info("save announcement: " + announcement.getAnnouncementId());
+        log.info("save announcement: " + announcement.getAnnouncementId());
         announcementRepository.save(announcement);
 
         mailService.sendAnnouncement(course.getParticipants(), announcement);

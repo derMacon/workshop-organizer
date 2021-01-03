@@ -48,8 +48,6 @@ public class ManagerController {
         try {
             courseService.createCourse(formInput);
         } catch (ErrorCodeException e) {
-            // todo logger
-            System.out.println(e.getErrorCode());
             model.addAttribute("errorCode", e.getErrorCode());
             return "error/error";
         }

@@ -12,10 +12,8 @@ public class MeetingService {
     @Autowired
     private MeetingRepository meetingRepository;
 
-
     public Iterable<Meeting> getAllMeetings(Course course) {
         return meetingRepository.findAllByCourse(course);
     }
-
 
 }

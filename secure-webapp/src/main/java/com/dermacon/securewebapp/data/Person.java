@@ -1,8 +1,5 @@
 package com.dermacon.securewebapp.data;
 
-import com.dermacon.securewebapp.data.Course;
-import com.dermacon.securewebapp.data.User;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -76,6 +71,7 @@ public class Person {
         this.surname = b.surname;
         this.email = b.email;
         this.user = b.user;
+        this.courses = b.courses;
     }
 
     public Person() {

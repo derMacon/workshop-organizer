@@ -44,7 +44,7 @@ public class DefaultController extends ModelAttributeProvider {
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        System.out.println("logout");
+        log.info("logout");
         return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
 
