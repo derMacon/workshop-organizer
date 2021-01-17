@@ -38,13 +38,13 @@ hs_err_pid*
 *.blg
 
 # IDE
-*/.idea/
+.idea/
 *.iml
 *.swp
 */img_temp/
 */META-INF/
 */lastDocs/
-*/target/
+target/
 
 # maven
 */.mvn/
