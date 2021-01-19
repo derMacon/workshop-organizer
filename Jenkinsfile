@@ -22,14 +22,13 @@ pipeline {
 
         stage ('Maven Build') {
             steps {
+                sh './inc-mvn-version.sh'
                 sh 'mvn clean package'
             }
             post {
                 success {
                     junit 'target/surefire-reports/**/*.xml' 
-                    sh 'echo "about to push war to git"'
-                    sh 'ls -la ./target/'
-                    sh 'git rev-parse --is-inside-work-tree'
+                    
                 }
             }
         }

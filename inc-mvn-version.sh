@@ -7,7 +7,9 @@ NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
 #only tag if no tag already
 #to publish, need to be logged in to npm, and with clean working directory: `npm login; git stash`
 if [ -z "$NEEDS_TAG" ]; then
+	echo 'no git tag for current commit'
 
+	echo 'generate a new one after incrementing maven version'
 	#increment only if needed
 	mvn --batch-mode release:update-versions versions:set -DremoveSnapshot
 
@@ -18,8 +20,10 @@ if [ -z "$NEEDS_TAG" ]; then
     exec:exec)
 
 	git tag $MVN_VERSION
-	git push --tags
-	git push
+	#git push --tags
+	#git push
+
+	echo 'created new git tag'
 else
   echo "Already a tag on this commit"
 fi

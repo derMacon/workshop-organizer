@@ -37,3 +37,9 @@ create table if not exists person
     user_id   INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
+
+create table test_table
+(
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(500)    NOT NULL
+);
